@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# SvelteKit (shouldn't be here but just in case)
+.svelte-kit/
+
+# Lock files (use root lock)
+bun.lock
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
