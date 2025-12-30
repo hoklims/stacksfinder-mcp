@@ -16,7 +16,8 @@
 	},
 	"files": ["dist", "README.md"],
 	"scripts": {
-		"build": "tsc",
+		"build": "tsc && npm run copy-data",
+		"copy-data": "node -e \"const fs=require('fs');['technology_scores.json','compatibility_matrix.json'].forEach(f=>fs.copyFileSync('src/data/'+f,'dist/data/'+f))\"",
 		"dev": "tsx watch src/index.ts",
 		"start": "node dist/index.js",
 		"test": "vitest",

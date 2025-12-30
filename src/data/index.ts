@@ -10,7 +10,7 @@ const compatibilityData = require('./compatibility_matrix.json') as Compatibilit
 /**
  * Data version - update when syncing from source.
  */
-export const DATA_VERSION = '2024.12.29';
+export const DATA_VERSION = '2025.12.30';
 
 /**
  * Score dimensions.

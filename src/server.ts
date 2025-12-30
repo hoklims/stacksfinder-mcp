@@ -7,6 +7,16 @@ import { analyzeTechToolDefinition, executeAnalyzeTech, AnalyzeTechInputSchema }
 import { compareTechsToolDefinition, executeCompareTechs, CompareTechsInputSchema } from './tools/compare.js';
 import { recommendStackToolDefinition, executeRecommendStack, RecommendStackInputSchema } from './tools/recommend.js';
 import { getBlueprintToolDefinition, executeGetBlueprint, GetBlueprintInputSchema } from './tools/blueprint.js';
+import {
+	setupApiKeyToolDefinition,
+	executeSetupApiKey,
+	SetupApiKeyInputSchema,
+	listApiKeysToolDefinition,
+	executeListApiKeys,
+	revokeApiKeyToolDefinition,
+	executeRevokeApiKey,
+	RevokeApiKeyInputSchema
+} from './tools/api-keys.js';
 import { info, debug } from './utils/logger.js';
 
 /**
@@ -155,7 +165,69 @@ export function createServer(): McpServer {
 		}
 	);
 
-	info('Registered 5 tools: list_technologies, analyze_tech, compare_techs, recommend_stack, get_blueprint');
+	// Register setup_api_key tool (API-based, no auth required)
+	server.registerTool(
+		setupApiKeyToolDefinition.name,
+		{
+			title: 'Setup API Key',
+			description: setupApiKeyToolDefinition.description,
+			inputSchema: {
+				email: z.string().email().describe('Your StacksFinder account email'),
+				password: z.string().min(1).describe('Your StacksFinder account password'),
+				keyName: z.string().max(100).optional().describe('Optional name for the API key')
+			}
+		},
+		async (args) => {
+			debug('setup_api_key called', args.email);
+			const input = SetupApiKeyInputSchema.parse(args);
+			const { text, isError } = await executeSetupApiKey(input);
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
+	// Register list_api_keys tool (API-based, requires API key)
+	server.registerTool(
+		listApiKeysToolDefinition.name,
+		{
+			title: 'List API Keys',
+			description: listApiKeysToolDefinition.description,
+			inputSchema: {}
+		},
+		async () => {
+			debug('list_api_keys called');
+			const { text, isError } = await executeListApiKeys();
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
+	// Register revoke_api_key tool (API-based, requires API key)
+	server.registerTool(
+		revokeApiKeyToolDefinition.name,
+		{
+			title: 'Revoke API Key',
+			description: revokeApiKeyToolDefinition.description,
+			inputSchema: {
+				keyId: z.string().uuid().describe('The UUID of the API key to revoke')
+			}
+		},
+		async (args) => {
+			debug('revoke_api_key called', args.keyId);
+			const input = RevokeApiKeyInputSchema.parse(args);
+			const { text, isError } = await executeRevokeApiKey(input);
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
+	info('Registered 8 tools: list_technologies, analyze_tech, compare_techs, recommend_stack, get_blueprint, setup_api_key, list_api_keys, revoke_api_key');
 
 	return server;
 }
