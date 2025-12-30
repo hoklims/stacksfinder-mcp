@@ -1,6 +1,6 @@
 {
-	"$version": "1.0.0",
-	"$description": "Compatibility scores between technologies (0-100). 0 = hard incompatible, <50 = poor, 50-79 = acceptable, 80+ = good",
+	"$version": "1.1.0",
+	"$description": "Compatibility scores between technologies (0-100). 0 = hard incompatible, <50 = poor, 50-79 = acceptable, 80+ = good. Payments providers are mutually exclusive.",
 	"matrix": {
 		"react": {
 			"nextjs": 100,
@@ -123,12 +123,28 @@
 			"postgres": 100,
 			"vercel": 95,
 			"cloudflare": 90,
-			"railway": 90
+			"railway": 90,
+			"neon": 30
+		},
+		"neon": {
+			"drizzle": 98,
+			"prisma": 95,
+			"postgres": 100,
+			"vercel": 98,
+			"cloudflare": 85,
+			"railway": 90,
+			"sveltekit": 95,
+			"nextjs": 95,
+			"nuxt": 90,
+			"remix": 90,
+			"supabase": 30,
+			"sqlite": 20
 		},
 		"drizzle": {
 			"postgres": 100,
 			"sqlite": 100,
 			"supabase": 90,
+			"neon": 98,
 			"bun": 100,
 			"nodejs": 95
 		},
@@ -136,6 +152,7 @@
 			"postgres": 100,
 			"sqlite": 95,
 			"supabase": 95,
+			"neon": 95,
 			"bun": 70,
 			"nodejs": 100
 		},
@@ -145,7 +162,8 @@
 			"sveltekit": 95,
 			"remix": 90,
 			"postgres": 95,
-			"supabase": 95
+			"supabase": 95,
+			"neon": 98
 		},
 		"cloudflare": {
 			"nextjs": 80,
@@ -163,6 +181,50 @@
 			"postgres": 100,
 			"nodejs": 100,
 			"bun": 95
+		},
+		"stripe": {
+			"nextjs": 95,
+			"sveltekit": 90,
+			"nuxt": 90,
+			"remix": 90,
+			"nodejs": 95,
+			"bun": 90,
+			"paddle": 0,
+			"lemonsqueezy": 0,
+			"gumroad": 0
+		},
+		"paddle": {
+			"nextjs": 90,
+			"sveltekit": 95,
+			"nuxt": 90,
+			"remix": 88,
+			"nodejs": 90,
+			"bun": 90,
+			"stripe": 0,
+			"lemonsqueezy": 0,
+			"gumroad": 0
+		},
+		"lemonsqueezy": {
+			"nextjs": 85,
+			"sveltekit": 85,
+			"nuxt": 85,
+			"remix": 85,
+			"nodejs": 85,
+			"bun": 85,
+			"stripe": 0,
+			"paddle": 0,
+			"gumroad": 0
+		},
+		"gumroad": {
+			"nextjs": 70,
+			"sveltekit": 70,
+			"nuxt": 70,
+			"remix": 70,
+			"nodejs": 70,
+			"bun": 70,
+			"stripe": 0,
+			"paddle": 0,
+			"lemonsqueezy": 0
 		}
 	}
 }

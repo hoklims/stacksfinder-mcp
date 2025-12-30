@@ -40,7 +40,8 @@ export const CATEGORIES = [
 	'database',
 	'orm',
 	'auth',
-	'hosting'
+	'hosting',
+	'payments'
 ] as const;
 export type Category = (typeof CATEGORIES)[number];
 
@@ -130,7 +131,8 @@ export function getTechnologiesGroupedByCategory(): Record<Category, TechInfo[]>
 		database: [],
 		orm: [],
 		auth: [],
-		hosting: []
+		hosting: [],
+		payments: []
 	};
 
 	for (const tech of getAllTechnologies()) {

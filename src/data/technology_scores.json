@@ -1,6 +1,7 @@
 {
-	"$version": "1.0.0",
-	"$description": "Base scores for 20 MVP technologies across 6 criteria",
+	"$version": "1.1.0",
+	"$description": "Base scores for 25 technologies across 6 criteria (added Neon + Payments category)",
+	"$generatedAt": "2025-12-30T03:47:00Z",
 	"technologies": {
 		"react": {
 			"id": "react",
@@ -145,6 +146,17 @@
 				"enterprise": { "perf": 82, "dx": 92, "ecosystem": 78, "maintain": 82, "cost": 60, "compliance": 90 }
 			}
 		},
+		"neon": {
+			"id": "neon",
+			"name": "Neon",
+			"category": "database",
+			"url": "https://neon.tech",
+			"scores": {
+				"default": { "perf": 85, "dx": 97, "ecosystem": 75, "maintain": 72, "cost": 88, "compliance": 93 },
+				"mvp": { "perf": 82, "dx": 100, "ecosystem": 78, "maintain": 72, "cost": 88, "compliance": 93 },
+				"enterprise": { "perf": 85, "dx": 97, "ecosystem": 70, "maintain": 78, "cost": 93, "compliance": 100 }
+			}
+		},
 		"drizzle": {
 			"id": "drizzle",
 			"name": "Drizzle ORM",
@@ -220,6 +232,50 @@
 				"default": { "perf": 85, "dx": 95, "ecosystem": 65, "maintain": 88, "cost": 75, "compliance": 85 },
 				"mvp": { "perf": 85, "dx": 98, "ecosystem": 62, "maintain": 90, "cost": 85, "compliance": 82 },
 				"enterprise": { "perf": 82, "dx": 92, "ecosystem": 68, "maintain": 85, "cost": 65, "compliance": 85 }
+			}
+		},
+		"stripe": {
+			"id": "stripe",
+			"name": "Stripe",
+			"category": "payments",
+			"url": "https://stripe.com",
+			"scores": {
+				"default": { "perf": 97, "dx": 94, "ecosystem": 98, "maintain": 81, "cost": 51, "compliance": 65 },
+				"mvp": { "perf": 94, "dx": 99, "ecosystem": 100, "maintain": 81, "cost": 51, "compliance": 65 },
+				"enterprise": { "perf": 97, "dx": 94, "ecosystem": 93, "maintain": 86, "cost": 56, "compliance": 75 }
+			}
+		},
+		"paddle": {
+			"id": "paddle",
+			"name": "Paddle",
+			"category": "payments",
+			"url": "https://paddle.com",
+			"scores": {
+				"default": { "perf": 95, "dx": 88, "ecosystem": 66, "maintain": 69, "cost": 55, "compliance": 98 },
+				"mvp": { "perf": 92, "dx": 93, "ecosystem": 69, "maintain": 69, "cost": 55, "compliance": 98 },
+				"enterprise": { "perf": 95, "dx": 88, "ecosystem": 61, "maintain": 74, "cost": 60, "compliance": 100 }
+			}
+		},
+		"lemonsqueezy": {
+			"id": "lemonsqueezy",
+			"name": "LemonSqueezy",
+			"category": "payments",
+			"url": "https://lemonsqueezy.com",
+			"scores": {
+				"default": { "perf": 92, "dx": 85, "ecosystem": 58, "maintain": 65, "cost": 58, "compliance": 95 },
+				"mvp": { "perf": 89, "dx": 90, "ecosystem": 61, "maintain": 65, "cost": 58, "compliance": 95 },
+				"enterprise": { "perf": 92, "dx": 85, "ecosystem": 53, "maintain": 70, "cost": 63, "compliance": 100 }
+			}
+		},
+		"gumroad": {
+			"id": "gumroad",
+			"name": "Gumroad",
+			"category": "payments",
+			"url": "https://gumroad.com",
+			"scores": {
+				"default": { "perf": 79, "dx": 60, "ecosystem": 50, "maintain": 68, "cost": 45, "compliance": 80 },
+				"mvp": { "perf": 76, "dx": 65, "ecosystem": 53, "maintain": 68, "cost": 45, "compliance": 80 },
+				"enterprise": { "perf": 79, "dx": 60, "ecosystem": 45, "maintain": 73, "cost": 50, "compliance": 90 }
 			}
 		}
 	}
