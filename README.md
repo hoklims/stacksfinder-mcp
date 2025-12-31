@@ -254,7 +254,7 @@ bun test         # Run tests
 
 - **Website**: [stacksfinder.com](https://stacksfinder.com)
 - **Pricing**: [stacksfinder.com/pricing](https://stacksfinder.com/pricing)
-- **GitHub**: [github.com/hoklims/stacksmith](https://github.com/hoklims/stacksmith)
+- **GitHub**: [github.com/hoklims/stacksfinder-mcp](https://github.com/hoklims/stacksfinder-mcp)
 - **npm**: [@stacksfinder/mcp-server](https://www.npmjs.com/package/@stacksfinder/mcp-server)
 
 ## License
