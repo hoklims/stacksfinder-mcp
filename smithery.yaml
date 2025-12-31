@@ -1,0 +1,16 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      STACKSFINDER_API_KEY:
+        type: string
+        description: "API key for Pro features (optional for free tools)"
+    required: []
+  commandFunction: |-
+    (config) => ({
+      command: "npx",
+      args: ["-y", "@stacksfinder/mcp-server"],
+      env: config.STACKSFINDER_API_KEY ? { STACKSFINDER_API_KEY: config.STACKSFINDER_API_KEY } : {}
+    })
+  exampleConfig: {}
