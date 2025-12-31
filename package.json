@@ -1,6 +1,6 @@
 {
 	"name": "@stacksfinder/mcp-server",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "MCP server for StacksFinder - tech stack recommendations for LLM clients",
 	"type": "module",
 	"bin": {
@@ -45,12 +45,11 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/hoklims/stacksmith",
-		"directory": "packages/mcp-server"
+		"url": "https://github.com/hoklims/stacksfinder-mcp"
 	},
 	"homepage": "https://stacksfinder.com",
 	"bugs": {
-		"url": "https://github.com/hoklims/stacksmith/issues"
+		"url": "https://github.com/hoklims/stacksfinder-mcp/issues"
 	},
 	"author": "StacksFinder <hello@stacksfinder.com>",
 	"publishConfig": {
