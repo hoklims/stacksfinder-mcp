@@ -9,8 +9,8 @@ startCommand:
     required: []
   commandFunction: |-
     (config) => ({
-      command: "npx",
-      args: ["-y", "@stacksfinder/mcp-server"],
+      command: "node",
+      args: ["./dist/index.js"],
       env: config.STACKSFINDER_API_KEY ? { STACKSFINDER_API_KEY: config.STACKSFINDER_API_KEY } : {}
     })
   exampleConfig: {}
