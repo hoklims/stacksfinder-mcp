@@ -3,6 +3,10 @@
 [![npm version](https://img.shields.io/npm/v/@stacksfinder/mcp-server.svg)](https://www.npmjs.com/package/@stacksfinder/mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
+<a href="https://glama.ai/mcp/servers/@hoklims/stacksfinder-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@hoklims/stacksfinder-mcp/badge" alt="StacksFinder MCP server" />
+</a>
+
 MCP (Model Context Protocol) server that brings **deterministic tech stack recommendations** to LLM clients like Claude, Cursor, Windsurf, and other MCP-compatible tools.
 
 **Try it free** — 4 tools work without an account, including a daily demo recommendation.
