@@ -45,7 +45,16 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/stacksfinder/mcp-server"
+		"url": "https://github.com/hoklims/stacksmith",
+		"directory": "packages/mcp-server"
+	},
+	"homepage": "https://stacksfinder.com",
+	"bugs": {
+		"url": "https://github.com/hoklims/stacksmith/issues"
+	},
+	"author": "StacksFinder <hello@stacksfinder.com>",
+	"publishConfig": {
+		"access": "public"
 	},
 	"license": "MIT",
 	"engines": {

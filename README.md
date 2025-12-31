@@ -1,46 +1,31 @@
 # @stacksfinder/mcp-server
 
-MCP (Model Context Protocol) server that exposes StacksFinder's tech stack recommendation capabilities to LLM clients like Claude Desktop, Cursor, and other MCP-compatible tools.
+[![npm version](https://img.shields.io/npm/v/@stacksfinder/mcp-server.svg)](https://www.npmjs.com/package/@stacksfinder/mcp-server)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-## Installation
+MCP (Model Context Protocol) server that brings **deterministic tech stack recommendations** to LLM clients like Claude, Cursor, Windsurf, and other MCP-compatible tools.
 
-### Via npx (recommended)
+**Try it free** — 4 tools work without an account, including a daily demo recommendation.
 
-```bash
-npx @stacksfinder/mcp-server
-```
+## Quick Start
 
-### Global install
-
-```bash
-npm install -g @stacksfinder/mcp-server
-stacksfinder-mcp
-```
-
-### From source
+### Claude Code (CLI)
 
 ```bash
-cd packages/mcp-server
-bun install
-bun run build
-bun run start
+# Add to Claude Code
+claude mcp add stacksfinder npx -y @stacksfinder/mcp-server
+
+# With API key for full features
+claude mcp add-json stacksfinder '{
+  "command": "npx",
+  "args": ["-y", "@stacksfinder/mcp-server"],
+  "env": {"STACKSFINDER_API_KEY": "sk_live_xxx"}
+}'
 ```
-
-## Configuration
-
-### Environment Variables
-
-| Variable | Required | Default | Description |
-|----------|----------|---------|-------------|
-| `STACKSFINDER_API_URL` | No | `https://stacksfinder.com` | API base URL |
-| `STACKSFINDER_API_KEY` | Yes* | - | API key for `recommend_stack` and `get_blueprint` tools |
-| `STACKSFINDER_MCP_DEBUG` | No | `false` | Enable debug logging to stderr |
-
-\* Required only for API-based tools (`recommend_stack`, `get_blueprint`). Local tools (`list_technologies`, `analyze_tech`, `compare_techs`) work without an API key.
 
 ### Claude Desktop
 
-Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS, `%APPDATA%\Claude\claude_desktop_config.json` on Windows):
+Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
 ```json
 {
@@ -56,13 +41,31 @@ Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_
 }
 ```
 
-### Cursor
+### Cursor / Windsurf
 
-Add to `.cursor/mcp.json` in your project root:
+Add to `.cursor/mcp.json` or `.windsurf/mcp.json` in your project root:
 
 ```json
 {
   "mcpServers": {
+    "stacksfinder": {
+      "command": "npx",
+      "args": ["-y", "@stacksfinder/mcp-server"],
+      "env": {
+        "STACKSFINDER_API_KEY": "sk_live_xxx"
+      }
+    }
+  }
+}
+```
+
+### VS Code + Copilot
+
+Add to `.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
     "stacksfinder": {
       "command": "npx",
       "args": ["-y", "@stacksfinder/mcp-server"],
@@ -76,80 +79,120 @@ Add to `.cursor/mcp.json` in your project root:
 
 ## Available Tools
 
-### `list_technologies`
+### Free Tools (no account required)
 
-Lists all available technology IDs. Use this for discovery before calling other tools.
+| Tool | Description |
+|------|-------------|
+| `list_technologies` | List all 30+ tech IDs by category |
+| `analyze_tech` | 6-dimension scores, strengths, weaknesses, compatible techs |
+| `compare_techs` | Side-by-side comparison of 2-4 technologies |
+| `recommend_stack` | **FREE 1x/day** — Full stack recommendation for any project type |
 
-**Input:**
-```json
-{
-  "category": "meta-framework"  // Optional: filter by category
-}
+### Pro Tools (requires API key)
+
+| Tool | Description |
+|------|-------------|
+| `recommend_stack` | Unlimited recommendations with priorities & constraints |
+| `get_blueprint` | Fetch existing blueprint by ID |
+| `create_blueprint` | Generate new blueprint with AI narrative |
+| `setup_api_key` | Authenticate and create API key from MCP |
+| `list_api_keys` | List your API keys |
+| `revoke_api_key` | Revoke an API key |
+
+Get your API key at [stacksfinder.com/pricing](https://stacksfinder.com/pricing)
+
+## Tool Examples
+
+### list_technologies
+
+```
+> list_technologies category="database"
+
+Available databases:
+- postgres (PostgreSQL)
+- sqlite (SQLite)
+- supabase (Supabase)
+- planetscale (PlanetScale)
+- turso (Turso)
+- neon (Neon)
 ```
 
-**Categories:** `frontend`, `backend`, `meta-framework`, `database`, `orm`, `auth`, `hosting`
+### analyze_tech
 
-### `analyze_tech`
+```
+> analyze_tech technology="sveltekit" context="mvp"
 
-Detailed analysis of a single technology with 6-dimension scores.
+## SvelteKit Analysis (MVP Context)
 
-**Input:**
-```json
-{
-  "technology": "nextjs",
-  "context": "mvp"  // Optional: 'default' | 'mvp' | 'enterprise'
-}
+| Dimension | Score | Grade |
+|-----------|-------|-------|
+| Performance | 92 | A |
+| DX | 88 | A |
+| Ecosystem | 72 | B |
+| Maintainability | 85 | A |
+| Cost | 90 | A |
+| Compliance | 75 | B |
+
+**Overall: 84/100 (A)**
+
+Strengths:
+- Compiler-first architecture, tiny bundles
+- Excellent TypeScript support
+- Built-in SSR, SSG, and edge rendering
+
+Weaknesses:
+- Smaller ecosystem than React
+- Fewer enterprise case studies
 ```
 
-**Output includes:**
-- 6-dimension scores (Performance, DX, Ecosystem, Maintainability, Cost, Compliance)
-- Strengths and weaknesses
-- Top 8 compatible technologies
+### compare_techs
 
-### `compare_techs`
+```
+> compare_techs technologies=["nextjs", "sveltekit", "nuxt"]
 
-Side-by-side comparison of 2-4 technologies.
+## Comparison: Next.js vs SvelteKit vs Nuxt
 
-**Input:**
-```json
-{
-  "technologies": ["nextjs", "sveltekit", "nuxt"],
-  "context": "default"  // Optional
-}
+| Tech | Score | Grade |
+|------|-------|-------|
+| Next.js | 82 | A |
+| SvelteKit | 84 | A |
+| Nuxt | 79 | B |
+
+Per-dimension winners:
+- Performance: SvelteKit (+10)
+- DX: SvelteKit (+3)
+- Ecosystem: Next.js (+15)
 ```
 
-**Output includes:**
-- Overall scores with grades
-- Per-dimension winners with margins
-- Compatibility matrix between all pairs
-- Verdict and recommendation
+### recommend_stack (Free Demo)
 
-### `recommend_stack` (requires API key)
+```
+> recommend_stack projectType="saas" scale="mvp"
 
-Recommends an optimal tech stack for a project.
+## Recommended Stack for SaaS (MVP)
 
-**Input:**
-```json
-{
-  "projectType": "saas",
-  "scale": "mvp",  // Optional: 'mvp' | 'startup' | 'growth' | 'enterprise'
-  "priorities": ["time-to-market", "cost-efficiency"],  // Optional, max 3
-  "constraints": ["real-time"]  // Optional
-}
+| Category | Technology | Score | Grade |
+|----------|------------|-------|-------|
+| meta-framework | SvelteKit | 84 | A |
+| database | Supabase | 82 | A |
+| orm | Drizzle | 86 | A |
+| auth | Better Auth | 80 | A |
+| hosting | Vercel | 85 | A |
+| payments | Paddle | 86 | A |
+
+**Confidence**: medium (demo mode)
+
+---
+Want more? Upgrade to Pro for custom priorities, constraints, and AI narratives.
 ```
 
-**Project Types:** `web-app`, `saas`, `api`, `e-commerce`, `content`, `dashboard`, `marketplace`
+## Environment Variables
 
-### `get_blueprint` (requires API key)
-
-Fetches an existing blueprint by ID (generated via StacksFinder web UI).
-
-**Input:**
-```json
-{
-  "blueprintId": "uuid-here"
-}
-```
+| Variable | Required | Default | Description |
+|----------|----------|---------|-------------|
+| `STACKSFINDER_API_KEY` | For Pro tools | - | API key from stacksfinder.com |
+| `STACKSFINDER_API_URL` | No | `https://stacksfinder.com` | API base URL |
+| `STACKSFINDER_MCP_DEBUG` | No | `false` | Enable debug logging |
 
 ## Score Dimensions
 
@@ -157,16 +200,16 @@ All technology scores are measured across 6 dimensions (0-100):
 
 | Dimension | Description |
 |-----------|-------------|
-| Performance (perf) | Runtime speed, bundle size, optimization potential |
-| Developer Experience (dx) | Learning curve, tooling, documentation quality |
-| Ecosystem | Community size, third-party integrations, job market |
-| Maintainability (maintain) | Long-term code health, upgrade path, testing support |
-| Cost Efficiency (cost) | Hosting costs, licensing, operational overhead |
-| Compliance | Security features, audit readiness, enterprise policies |
+| **Performance** | Runtime speed, bundle size, optimization potential |
+| **DX** | Learning curve, tooling, documentation quality |
+| **Ecosystem** | Community size, integrations, job market |
+| **Maintainability** | Long-term code health, upgrade path |
+| **Cost** | Hosting costs, licensing, operational overhead |
+| **Compliance** | Security features, audit readiness |
 
 ## Contexts
 
-Scores can vary by project context:
+Scores vary by project context:
 
 - **default**: General-purpose scores
 - **mvp**: Optimized for speed-to-market, lower cost
@@ -174,39 +217,16 @@ Scores can vary by project context:
 
 ## Error Handling
 
-The server returns structured errors with codes:
-
-| Code | Description |
-|------|-------------|
-| `TECH_NOT_FOUND` | Unknown technology ID (includes suggestions) |
-| `UNAUTHORIZED` | Invalid or missing API key |
-| `RATE_LIMITED` | Too many API requests |
-| `TIMEOUT` | API request timed out |
-| `NOT_FOUND` | Blueprint not found |
-| `INVALID_INPUT` | Invalid input parameters |
-| `API_ERROR` | Unexpected API error |
-| `CONFIG_ERROR` | Missing configuration |
-
-When a technology isn't found, the error includes similar suggestions using Levenshtein distance:
+Structured errors with suggestions:
 
 ```
 **Error (TECH_NOT_FOUND)**: Technology "nexjs" not found.
 **Suggestions**: nextjs, nuxt, nestjs
 ```
 
-## API Protection
-
-The server includes built-in protections for API-based tools:
-
-- **Concurrency limit**: Max 2 simultaneous API requests
-- **TTL cache**: 60-second cache for `recommend_stack` responses
-- **Timeout**: 15-second request timeout
-
 ## Troubleshooting
 
 ### Debug mode
-
-Enable verbose logging:
 
 ```bash
 STACKSFINDER_MCP_DEBUG=true npx @stacksfinder/mcp-server
@@ -214,54 +234,28 @@ STACKSFINDER_MCP_DEBUG=true npx @stacksfinder/mcp-server
 
 ### Common issues
 
-**"API key required"**
-- Set `STACKSFINDER_API_KEY` in your MCP client config
-- Get an API key from https://stacksfinder.com/settings/api
-
-**"Rate limited"**
-- The 60-second cache should prevent most rate limiting
-- Wait and retry, or reduce request frequency
-
-**"Technology not found"**
-- Use `list_technologies` to see available IDs
-- Check suggestions in the error message for typos
-
-**Server not responding**
-- Ensure stdout is not used for logging (we use stderr)
-- Check MCP client logs for connection errors
-
-## Data Version
-
-Local data (technology scores, compatibility matrix) is versioned. The current version is included in all tool outputs:
-
-```
-Data version: 2024.12.29
-```
-
-This ensures reproducibility - same input + same data version = same output.
-
-## SDK Compatibility
-
-This server targets MCP SDK v1.x (`@modelcontextprotocol/sdk@^1.25.1`). The SDK v2 transition is in progress.
+| Issue | Solution |
+|-------|----------|
+| "API key required" | Get key at [stacksfinder.com/pricing](https://stacksfinder.com/pricing) |
+| "Daily limit reached" | Wait 24h or upgrade to Pro |
+| "Technology not found" | Use `list_technologies` to see valid IDs |
 
 ## Development
 
 ```bash
-# Install dependencies
+cd packages/mcp-server
 bun install
-
-# Run in dev mode (with watch)
-bun run dev
-
-# Build
 bun run build
-
-# Run tests
-bun test
-
-# Check data sync with source
-bun run check-data-sync
+bun run dev      # Watch mode
+bun test         # Run tests
 ```
+
+## Links
+
+- **Website**: [stacksfinder.com](https://stacksfinder.com)
+- **Pricing**: [stacksfinder.com/pricing](https://stacksfinder.com/pricing)
+- **GitHub**: [github.com/hoklims/stacksmith](https://github.com/hoklims/stacksmith)
+- **npm**: [@stacksfinder/mcp-server](https://www.npmjs.com/package/@stacksfinder/mcp-server)
 
 ## License
 
