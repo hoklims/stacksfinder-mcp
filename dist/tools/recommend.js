@@ -1,0 +1,135 @@
+import { z } from 'zod';
+import { scoreRequest } from '../utils/api-client.js';
+import { McpError, ErrorCode } from '../utils/errors.js';
+import { debug } from '../utils/logger.js';
+/**
+ * Project types supported by the API.
+ */
+const PROJECT_TYPES = [
+    'web-app',
+    'mobile-app',
+    'api',
+    'desktop',
+    'cli',
+    'library',
+    'e-commerce',
+    'saas',
+    'marketplace'
+];
+/**
+ * Scale options.
+ */
+const SCALES = ['mvp', 'startup', 'growth', 'enterprise'];
+/**
+ * Priority options.
+ */
+const PRIORITIES = [
+    'time-to-market',
+    'scalability',
+    'developer-experience',
+    'cost-efficiency',
+    'performance',
+    'security',
+    'maintainability'
+];
+/**
+ * Input schema for recommend_stack tool.
+ */
+export const RecommendStackInputSchema = z.object({
+    projectType: z.enum(PROJECT_TYPES).describe('Type of project'),
+    scale: z.enum(SCALES).optional().default('mvp').describe('Project scale'),
+    priorities: z
+        .array(z.enum(PRIORITIES))
+        .max(3)
+        .optional()
+        .default([])
+        .describe('Top priorities (max 3)'),
+    constraints: z.array(z.string()).optional().default([]).describe('Project constraints')
+});
+/**
+ * Tool definition for MCP registration.
+ */
+export const recommendStackToolDefinition = {
+    name: 'recommend_stack',
+    description: 'Recommends the best tech stack for a project using real-time scoring with context adjustments. Requires API key.',
+    inputSchema: {
+        type: 'object',
+        properties: {
+            projectType: {
+                type: 'string',
+                enum: PROJECT_TYPES,
+                description: 'Type of project (e.g., saas, web-app, api)'
+            },
+            scale: {
+                type: 'string',
+                enum: SCALES,
+                description: 'Project scale (mvp, startup, growth, enterprise)'
+            },
+            priorities: {
+                type: 'array',
+                items: { type: 'string', enum: PRIORITIES },
+                maxItems: 3,
+                description: 'Top priorities (max 3)'
+            },
+            constraints: {
+                type: 'array',
+                items: { type: 'string' },
+                description: 'Project constraints (e.g., real-time, multi-tenant)'
+            }
+        },
+        required: ['projectType']
+    }
+};
+/**
+ * Format API response for MCP output.
+ */
+function formatResponse(response, projectType, scale) {
+    let text = `## Recommended Stack for ${projectType.replace('-', ' ').replace(/\b\w/g, (c) => c.toUpperCase())} (${scale})
+
+| Category | Technology | Score | Grade |
+|----------|------------|-------|-------|
+`;
+    for (const stack of response.stacks) {
+        text += `| ${stack.category} | ${stack.technology} | ${stack.score} | ${stack.grade} |\n`;
+    }
+    text += `
+**Confidence**: ${response.confidence}`;
+    if (response.requestId) {
+        text += `
+**Request ID**: ${response.requestId}`;
+    }
+    // Include raw JSON for programmatic access
+    text += `
+
+<json>
+${JSON.stringify({ stacks: response.stacks, confidence: response.confidence, inputsNormalized: response.inputsNormalized })}
+</json>`;
+    return text;
+}
+/**
+ * Execute recommend_stack tool.
+ */
+export async function executeRecommendStack(input) {
+    const { projectType, scale = 'mvp', priorities = [], constraints = [] } = input;
+    // Deduplicate priorities
+    const uniquePriorities = [...new Set(priorities)].slice(0, 3);
+    debug('Calling score API', { projectType, scale, priorities: uniquePriorities, constraints });
+    try {
+        const response = await scoreRequest({
+            projectType,
+            scale,
+            priorities: uniquePriorities,
+            constraints
+        });
+        const text = formatResponse(response, projectType, scale);
+        return { text };
+    }
+    catch (err) {
+        if (err instanceof McpError) {
+            return { text: err.toResponseText(), isError: true };
+        }
+        const error = new McpError(ErrorCode.API_ERROR, err instanceof Error ? err.message : 'Failed to get recommendations');
+        return { text: error.toResponseText(), isError: true };
+    }
+}
+//# sourceMappingURL=recommend.js.map

@@ -1,0 +1,62 @@
+{
+	"name": "@stacksfinder/mcp-server",
+	"version": "1.0.0",
+	"description": "MCP server for StacksFinder - tech stack recommendations for LLM clients",
+	"type": "module",
+	"bin": {
+		"stacksfinder-mcp": "./dist/index.js"
+	},
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"files": ["dist", "README.md"],
+	"scripts": {
+		"build": "tsc && npm run copy-data",
+		"copy-data": "node -e \"const fs=require('fs');['technology_scores.json','compatibility_matrix.json'].forEach(f=>fs.copyFileSync('src/data/'+f,'dist/data/'+f))\"",
+		"dev": "tsx watch src/index.ts",
+		"start": "node dist/index.js",
+		"test": "vitest",
+		"test:run": "vitest run",
+		"check-data-sync": "tsx scripts/check-data-sync.ts"
+	},
+	"dependencies": {
+		"@modelcontextprotocol/sdk": "^1.25.1",
+		"zod": "^3.23.0"
+	},
+	"devDependencies": {
+		"@types/node": "^20.0.0",
+		"tsx": "^4.0.0",
+		"typescript": "^5.4.0",
+		"vitest": "^2.0.0"
+	},
+	"keywords": [
+		"mcp",
+		"model-context-protocol",
+		"stacksfinder",
+		"tech-stack",
+		"llm",
+		"claude",
+		"cursor"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/hoklims/stacksfinder-mcp"
+	},
+	"homepage": "https://stacksfinder.com",
+	"bugs": {
+		"url": "https://github.com/hoklims/stacksfinder-mcp/issues"
+	},
+	"author": "StacksFinder <hello@stacksfinder.com>",
+	"publishConfig": {
+		"access": "public"
+	},
+	"license": "MIT",
+	"engines": {
+		"node": ">=18.0.0"
+	}
+}

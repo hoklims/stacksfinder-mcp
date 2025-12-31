@@ -1,0 +1,230 @@
+{
+	"$version": "1.1.0",
+	"$description": "Compatibility scores between technologies (0-100). 0 = hard incompatible, <50 = poor, 50-79 = acceptable, 80+ = good. Payments providers are mutually exclusive.",
+	"matrix": {
+		"react": {
+			"nextjs": 100,
+			"remix": 100,
+			"nuxt": 0,
+			"sveltekit": 0,
+			"drizzle": 95,
+			"prisma": 95
+		},
+		"vue": {
+			"nuxt": 100,
+			"nextjs": 0,
+			"remix": 0,
+			"sveltekit": 0,
+			"drizzle": 90,
+			"prisma": 95
+		},
+		"svelte": {
+			"sveltekit": 100,
+			"nextjs": 0,
+			"remix": 0,
+			"nuxt": 0,
+			"drizzle": 95,
+			"prisma": 90
+		},
+		"solid": {
+			"nextjs": 0,
+			"remix": 0,
+			"nuxt": 0,
+			"sveltekit": 0,
+			"drizzle": 85,
+			"prisma": 85
+		},
+		"nextjs": {
+			"react": 100,
+			"vercel": 100,
+			"cloudflare": 80,
+			"railway": 90,
+			"postgres": 95,
+			"sqlite": 70,
+			"supabase": 95,
+			"drizzle": 95,
+			"prisma": 95,
+			"better-auth": 90,
+			"clerk": 100
+		},
+		"nuxt": {
+			"vue": 100,
+			"vercel": 95,
+			"cloudflare": 85,
+			"railway": 90,
+			"postgres": 95,
+			"sqlite": 80,
+			"supabase": 90,
+			"drizzle": 90,
+			"prisma": 95
+		},
+		"sveltekit": {
+			"svelte": 100,
+			"vercel": 95,
+			"cloudflare": 90,
+			"railway": 90,
+			"postgres": 95,
+			"sqlite": 85,
+			"supabase": 90,
+			"drizzle": 100,
+			"prisma": 85,
+			"better-auth": 95
+		},
+		"remix": {
+			"react": 100,
+			"vercel": 90,
+			"cloudflare": 95,
+			"railway": 90,
+			"postgres": 95,
+			"sqlite": 85,
+			"supabase": 90,
+			"drizzle": 95,
+			"prisma": 90
+		},
+		"nodejs": {
+			"postgres": 95,
+			"sqlite": 90,
+			"supabase": 90,
+			"drizzle": 95,
+			"prisma": 95,
+			"vercel": 90,
+			"cloudflare": 75,
+			"railway": 95
+		},
+		"bun": {
+			"postgres": 90,
+			"sqlite": 95,
+			"supabase": 85,
+			"drizzle": 100,
+			"prisma": 70,
+			"vercel": 80,
+			"cloudflare": 85,
+			"railway": 90,
+			"sveltekit": 100
+		},
+		"postgres": {
+			"drizzle": 100,
+			"prisma": 100,
+			"supabase": 100,
+			"vercel": 95,
+			"cloudflare": 90,
+			"railway": 100
+		},
+		"sqlite": {
+			"drizzle": 100,
+			"prisma": 95,
+			"vercel": 60,
+			"cloudflare": 95,
+			"railway": 80
+		},
+		"supabase": {
+			"drizzle": 90,
+			"prisma": 95,
+			"postgres": 100,
+			"vercel": 95,
+			"cloudflare": 90,
+			"railway": 90,
+			"neon": 30
+		},
+		"neon": {
+			"drizzle": 98,
+			"prisma": 95,
+			"postgres": 100,
+			"vercel": 98,
+			"cloudflare": 85,
+			"railway": 90,
+			"sveltekit": 95,
+			"nextjs": 95,
+			"nuxt": 90,
+			"remix": 90,
+			"supabase": 30,
+			"sqlite": 20
+		},
+		"drizzle": {
+			"postgres": 100,
+			"sqlite": 100,
+			"supabase": 90,
+			"neon": 98,
+			"bun": 100,
+			"nodejs": 95
+		},
+		"prisma": {
+			"postgres": 100,
+			"sqlite": 95,
+			"supabase": 95,
+			"neon": 95,
+			"bun": 70,
+			"nodejs": 100
+		},
+		"vercel": {
+			"nextjs": 100,
+			"nuxt": 95,
+			"sveltekit": 95,
+			"remix": 90,
+			"postgres": 95,
+			"supabase": 95,
+			"neon": 98
+		},
+		"cloudflare": {
+			"nextjs": 80,
+			"nuxt": 85,
+			"sveltekit": 90,
+			"remix": 95,
+			"sqlite": 95,
+			"postgres": 85
+		},
+		"railway": {
+			"nextjs": 90,
+			"nuxt": 90,
+			"sveltekit": 90,
+			"remix": 90,
+			"postgres": 100,
+			"nodejs": 100,
+			"bun": 95
+		},
+		"stripe": {
+			"nextjs": 95,
+			"sveltekit": 90,
+			"nuxt": 90,
+			"remix": 90,
+			"nodejs": 95,
+			"bun": 90,
+			"paddle": 0,
+			"lemonsqueezy": 0,
+			"gumroad": 0
+		},
+		"paddle": {
+			"nextjs": 90,
+			"sveltekit": 95,
+			"nuxt": 90,
+			"remix": 88,
+			"nodejs": 90,
+			"bun": 90,
+			"stripe": 0,
+			"lemonsqueezy": 0,
+			"gumroad": 0
+		},
+		"lemonsqueezy": {
+			"nextjs": 85,
+			"sveltekit": 85,
+			"nuxt": 85,
+			"remix": 85,
+			"nodejs": 85,
+			"bun": 85,
+			"stripe": 0,
+			"paddle": 0,
+			"gumroad": 0
+		},
+		"gumroad": {
+			"nextjs": 70,
+			"sveltekit": 70,
+			"nuxt": 70,
+			"remix": 70,
+			"nodejs": 70,
+			"bun": 70,
+			"stripe": 0,
+			"paddle": 0,
+			"lemonsqueezy": 0
+		}
+	}
+}
