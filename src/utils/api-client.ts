@@ -230,6 +230,73 @@ export async function getBlueprintRequest<T>(blueprintId: string): Promise<T> {
 }
 
 /**
+ * Create blueprint request body.
+ */
+export interface CreateBlueprintRequest {
+	projectName?: string;
+	projectContext: {
+		projectName?: string;
+		projectType: string;
+		projectDescription?: string;
+		scale: string;
+		teamSize?: string;
+		budget?: string;
+		timeline?: string;
+		constraints?: Array<{ type: string; value: string; mandatory?: boolean }>;
+		constraintIds?: string[];
+		priorities?: string[];
+	};
+	source: 'mcp';
+	mcpToolName: string;
+}
+
+/**
+ * Create blueprint response.
+ */
+export interface CreateBlueprintResponse {
+	jobId: string;
+	projectId: string;
+	status: 'pending' | 'running' | 'completed';
+	progress: number;
+	resultRef?: string;
+	_links: {
+		job: string;
+		blueprint: string | null;
+	};
+}
+
+/**
+ * POST to create a new blueprint.
+ * This creates a project and queues a job for blueprint generation.
+ */
+export async function createBlueprintRequest(body: CreateBlueprintRequest): Promise<CreateBlueprintResponse> {
+	return apiRequest<CreateBlueprintResponse>('/api/v1/blueprints', {
+		method: 'POST',
+		body: body as unknown as Record<string, unknown>,
+		timeoutMs: 30000 // 30 second timeout for creation
+	});
+}
+
+/**
+ * Poll job status.
+ */
+export interface JobStatusResponse {
+	id: string;
+	status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
+	progress: number;
+	resultRef?: string;
+	errorCode?: string;
+	errorMessage?: string;
+}
+
+/**
+ * GET job status by ID.
+ */
+export async function getJobStatusRequest(jobId: string): Promise<JobStatusResponse> {
+	return apiRequest<JobStatusResponse>(`/api/v1/jobs/${jobId}`);
+}
+
+/**
  * Clear the score cache (useful for testing).
  */
 export function clearScoreCache(): void {
