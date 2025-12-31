@@ -6,7 +6,19 @@ import { listTechsToolDefinition, executeListTechs, ListTechsInputSchema } from 
 import { analyzeTechToolDefinition, executeAnalyzeTech, AnalyzeTechInputSchema } from './tools/analyze.js';
 import { compareTechsToolDefinition, executeCompareTechs, CompareTechsInputSchema } from './tools/compare.js';
 import { recommendStackToolDefinition, executeRecommendStack, RecommendStackInputSchema } from './tools/recommend.js';
-import { getBlueprintToolDefinition, executeGetBlueprint, GetBlueprintInputSchema } from './tools/blueprint.js';
+import {
+	getBlueprintToolDefinition,
+	executeGetBlueprint,
+	GetBlueprintInputSchema,
+	createBlueprintToolDefinition,
+	executeCreateBlueprint,
+	CreateBlueprintInputSchema
+} from './tools/blueprint.js';
+import {
+	recommendStackDemoToolDefinition,
+	executeRecommendStackDemo,
+	RecommendStackDemoInputSchema
+} from './tools/recommend-demo.js';
 import {
 	setupApiKeyToolDefinition,
 	executeSetupApiKey,
@@ -94,7 +106,41 @@ export function createServer(): McpServer {
 		}
 	);
 
-	// Register recommend_stack tool (API-based)
+	// Register recommend_stack_demo tool (FREE, local scoring, 1/day limit)
+	server.registerTool(
+		recommendStackDemoToolDefinition.name,
+		{
+			title: 'Recommend Stack (Demo)',
+			description: recommendStackDemoToolDefinition.description,
+			inputSchema: {
+				projectType: z
+					.enum([
+						'web-app',
+						'mobile-app',
+						'api',
+						'desktop',
+						'cli',
+						'library',
+						'e-commerce',
+						'saas',
+						'marketplace'
+					])
+					.describe('Type of project'),
+				scale: z.enum(['mvp', 'startup', 'growth', 'enterprise']).optional().describe('Project scale')
+			}
+		},
+		async (args) => {
+			debug('recommend_stack_demo called', args);
+			const input = RecommendStackDemoInputSchema.parse(args);
+			const { text, isError } = executeRecommendStackDemo(input);
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
+	// Register recommend_stack tool (API-based, requires API key)
 	server.registerTool(
 		recommendStackToolDefinition.name,
 		{
@@ -165,6 +211,59 @@ export function createServer(): McpServer {
 		}
 	);
 
+	// Register create_blueprint tool (API-based, requires API key with blueprint:write)
+	server.registerTool(
+		createBlueprintToolDefinition.name,
+		{
+			title: 'Create Blueprint',
+			description: createBlueprintToolDefinition.description,
+			inputSchema: {
+				projectName: z.string().max(100).optional().describe('Project name (optional)'),
+				projectType: z
+					.enum([
+						'web-app',
+						'mobile-app',
+						'api',
+						'desktop',
+						'cli',
+						'library',
+						'e-commerce',
+						'saas',
+						'marketplace'
+					])
+					.describe('Type of project'),
+				scale: z.enum(['mvp', 'startup', 'growth', 'enterprise']).describe('Project scale'),
+				projectDescription: z.string().max(2000).optional().describe('Brief description (optional)'),
+				priorities: z
+					.array(
+						z.enum([
+							'time-to-market',
+							'scalability',
+							'developer-experience',
+							'cost-efficiency',
+							'performance',
+							'security',
+							'maintainability'
+						])
+					)
+					.max(3)
+					.optional()
+					.describe('Top 3 priorities (optional)'),
+				constraints: z.array(z.string()).max(20).optional().describe('Technology constraint IDs (optional)'),
+				waitForCompletion: z.boolean().optional().describe('Wait for completion (default: true)')
+			}
+		},
+		async (args) => {
+			debug('create_blueprint called', args);
+			const input = CreateBlueprintInputSchema.parse(args);
+			const { text, isError } = await executeCreateBlueprint(input);
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
 	// Register setup_api_key tool (API-based, no auth required)
 	server.registerTool(
 		setupApiKeyToolDefinition.name,
@@ -227,7 +326,7 @@ export function createServer(): McpServer {
 		}
 	);
 
-	info('Registered 8 tools: list_technologies, analyze_tech, compare_techs, recommend_stack, get_blueprint, setup_api_key, list_api_keys, revoke_api_key');
+	info('Registered 10 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key');
 
 	return server;
 }

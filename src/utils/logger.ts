@@ -43,9 +43,15 @@ export function info(message: string): void {
 /**
  * Log a warning message to stderr.
  */
-export function warn(message: string): void {
+export function warn(message: string, err?: unknown): void {
 	const timestamp = new Date().toISOString();
-	console.error(`[${timestamp}] [WARN] ${message}`);
+	if (err instanceof Error) {
+		console.error(`[${timestamp}] [WARN] ${message}: ${err.message}`);
+	} else if (err !== undefined) {
+		console.error(`[${timestamp}] [WARN] ${message}:`, err);
+	} else {
+		console.error(`[${timestamp}] [WARN] ${message}`);
+	}
 }
 
 /**
