@@ -1,8 +1,8 @@
 # Smithery configuration for StacksFinder MCP Server
-# Using custom Dockerfile to avoid @anthropic-ai/cli's keytar dependency
+# Using custom Dockerfile with HTTP transport for hosted deployments
 
 startCommand:
-  type: stdio
+  type: http
   configSchema:
     type: object
     properties:
@@ -13,7 +13,7 @@ startCommand:
   commandFunction: |-
     (config) => ({
       command: "node",
-      args: ["dist/index.js"],
+      args: ["dist/http.js"],
       env: {
         STACKSFINDER_API_KEY: config.STACKSFINDER_API_KEY || ""
       }

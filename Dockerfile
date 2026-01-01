@@ -1,5 +1,5 @@
 # Dockerfile for Smithery deployment
-# Builds TypeScript MCP server without native dependencies
+# Builds TypeScript MCP server with HTTP transport (no native dependencies)
 
 FROM node:22-slim
 
@@ -24,5 +24,8 @@ RUN npm prune --omit=dev
 # Set production environment
 ENV NODE_ENV=production
 
-# The start command is defined in smithery.yaml
-CMD ["node", "dist/index.js"]
+# Expose port for HTTP transport
+EXPOSE 3000
+
+# Run HTTP server (start command in smithery.yaml overrides this)
+CMD ["node", "dist/http.js"]
