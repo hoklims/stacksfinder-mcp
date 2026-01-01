@@ -37,7 +37,7 @@ import { info, debug } from './utils/logger.js';
 export function createServer(): McpServer {
 	const server = new McpServer({
 		name: 'stacksfinder',
-		version: '1.0.0'
+		version: '1.0.2'
 	});
 
 	info(`StacksFinder MCP Server v1.0.0 (data version: ${DATA_VERSION})`);
@@ -50,6 +50,11 @@ export function createServer(): McpServer {
 			description: listTechsToolDefinition.description,
 			inputSchema: {
 				category: z.enum(CATEGORIES).optional().describe('Filter by category')
+			},
+			annotations: {
+				readOnlyHint: true,
+				destructiveHint: false,
+				openWorldHint: false
 			}
 		},
 		async (args) => {
@@ -71,6 +76,11 @@ export function createServer(): McpServer {
 			inputSchema: {
 				technology: z.string().min(1).describe('Technology ID to analyze'),
 				context: z.enum(CONTEXTS).optional().describe('Context for scoring')
+			},
+			annotations: {
+				readOnlyHint: true,
+				destructiveHint: false,
+				openWorldHint: false
 			}
 		},
 		async (args) => {
@@ -93,6 +103,11 @@ export function createServer(): McpServer {
 			inputSchema: {
 				technologies: z.array(z.string().min(1)).min(2).max(4).describe('Technologies to compare'),
 				context: z.enum(CONTEXTS).optional().describe('Context for scoring')
+			},
+			annotations: {
+				readOnlyHint: true,
+				destructiveHint: false,
+				openWorldHint: false
 			}
 		},
 		async (args) => {
@@ -127,6 +142,11 @@ export function createServer(): McpServer {
 					])
 					.describe('Type of project'),
 				scale: z.enum(['mvp', 'startup', 'growth', 'enterprise']).optional().describe('Project scale')
+			},
+			annotations: {
+				readOnlyHint: true,
+				destructiveHint: false,
+				openWorldHint: false
 			}
 		},
 		async (args) => {
@@ -177,6 +197,11 @@ export function createServer(): McpServer {
 					.optional()
 					.describe('Top priorities (max 3)'),
 				constraints: z.array(z.string()).optional().describe('Project constraints')
+			},
+			annotations: {
+				readOnlyHint: true,
+				destructiveHint: false,
+				openWorldHint: false
 			}
 		},
 		async (args) => {
@@ -198,6 +223,11 @@ export function createServer(): McpServer {
 			description: getBlueprintToolDefinition.description,
 			inputSchema: {
 				blueprintId: z.string().uuid().describe('Blueprint UUID')
+			},
+			annotations: {
+				readOnlyHint: true,
+				destructiveHint: false,
+				openWorldHint: false
 			}
 		},
 		async (args) => {
@@ -251,6 +281,11 @@ export function createServer(): McpServer {
 					.describe('Top 3 priorities (optional)'),
 				constraints: z.array(z.string()).max(20).optional().describe('Technology constraint IDs (optional)'),
 				waitForCompletion: z.boolean().optional().describe('Wait for completion (default: true)')
+			},
+			annotations: {
+				readOnlyHint: false,
+				destructiveHint: false,
+				openWorldHint: false
 			}
 		},
 		async (args) => {
@@ -274,6 +309,11 @@ export function createServer(): McpServer {
 				email: z.string().email().describe('Your StacksFinder account email'),
 				password: z.string().min(1).describe('Your StacksFinder account password'),
 				keyName: z.string().max(100).optional().describe('Optional name for the API key')
+			},
+			annotations: {
+				readOnlyHint: false,
+				destructiveHint: false,
+				openWorldHint: false
 			}
 		},
 		async (args) => {
@@ -293,7 +333,12 @@ export function createServer(): McpServer {
 		{
 			title: 'List API Keys',
 			description: listApiKeysToolDefinition.description,
-			inputSchema: {}
+			inputSchema: {},
+			annotations: {
+				readOnlyHint: true,
+				destructiveHint: false,
+				openWorldHint: false
+			}
 		},
 		async () => {
 			debug('list_api_keys called');
@@ -313,6 +358,11 @@ export function createServer(): McpServer {
 			description: revokeApiKeyToolDefinition.description,
 			inputSchema: {
 				keyId: z.string().uuid().describe('The UUID of the API key to revoke')
+			},
+			annotations: {
+				readOnlyHint: false,
+				destructiveHint: true,
+				openWorldHint: false
 			}
 		},
 		async (args) => {

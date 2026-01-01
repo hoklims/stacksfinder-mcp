@@ -1,14 +1,25 @@
 # Smithery configuration for StacksFinder MCP Server
 # Using custom Dockerfile with HTTP transport for hosted deployments
 
+name: stacksfinder
+displayName: StacksFinder
+description: "AI-powered tech stack recommendations. Get deterministic, explainable technology choices for your next project - not LLM opinions, but versioned scoring tables."
+icon: "https://stacksfinder.com/images/logo-icon.png"
+homepage: "https://stacksfinder.com"
+repository: "https://github.com/hoklims/stacksfinder-mcp"
+
 startCommand:
   type: http
   configSchema:
     type: object
+    title: "StacksFinder Configuration"
+    description: "Configure your StacksFinder MCP server. Free tools work without API key. Pro+ features require authentication."
     properties:
       STACKSFINDER_API_KEY:
         type: string
-        description: "API key for authenticated features (Pro+ tier). Get one at https://stacksfinder.com/account/api-keys"
+        title: "API Key"
+        description: "API key for Pro+ features (recommend_stack, blueprints, API key management). Get one at https://stacksfinder.com/account/api-keys. Leave empty for free tools only (list_technologies, analyze_tech, compare_techs, recommend_stack_demo)."
+        default: ""
     required: []
   commandFunction: |-
     (config) => ({
