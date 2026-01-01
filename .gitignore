@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Lock files (keep package-lock.json for Smithery Docker build)
+bun.lock
+yarn.lock
+pnpm-lock.yaml
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db

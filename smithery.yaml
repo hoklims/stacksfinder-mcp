@@ -1,1 +1,23 @@
-runtime: "typescript"
+# Smithery configuration for StacksFinder MCP Server
+# Using custom Dockerfile to avoid @anthropic-ai/cli's keytar dependency
+
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      STACKSFINDER_API_KEY:
+        type: string
+        description: "API key for authenticated features (Pro+ tier). Get one at https://stacksfinder.com/account/api-keys"
+    required: []
+  commandFunction: |-
+    (config) => ({
+      command: "node",
+      args: ["dist/index.js"],
+      env: {
+        STACKSFINDER_API_KEY: config.STACKSFINDER_API_KEY || ""
+      }
+    })
+
+build:
+  dockerfile: Dockerfile
