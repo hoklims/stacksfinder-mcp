@@ -1,8 +1,4 @@
 {
-    "name": "stacksfinder-mcp",
-    "description": "Tech stack recommendations for developers",
-    "version": "1.0.2",
-    "author": "hoklims",
-    "license": "MIT",
-    "homepage": "https://stacksfinder.com"
-  }
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "maintainers": ["hoklims"]
+}
