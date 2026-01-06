@@ -254,6 +254,7 @@ bun test         # Run tests
 
 - **Website**: [stacksfinder.com](https://stacksfinder.com)
 - **Pricing**: [stacksfinder.com/pricing](https://stacksfinder.com/pricing)
+- **Discord**: [discord.gg/STs9zYau](https://discord.gg/STs9zYau)
 - **Glama**: [glama.ai/mcp/servers/@stacksfinder/mcp-server](https://glama.ai/mcp/servers/@stacksfinder/mcp-server)
 - **Smithery**: [smithery.ai/server/hoklims/stacksfinder-mcp](https://smithery.ai/server/hoklims/stacksfinder-mcp)
 - **GitHub**: [github.com/hoklims/stacksfinder-mcp](https://github.com/hoklims/stacksfinder-mcp)
