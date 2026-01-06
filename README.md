@@ -254,6 +254,7 @@ bun test         # Run tests
 
 - **Website**: [stacksfinder.com](https://stacksfinder.com)
 - **Pricing**: [stacksfinder.com/pricing](https://stacksfinder.com/pricing)
+- **Glama**: [glama.ai/mcp/servers/@stacksfinder/mcp-server](https://glama.ai/mcp/servers/@stacksfinder/mcp-server)
 - **GitHub**: [github.com/hoklims/stacksfinder-mcp](https://github.com/hoklims/stacksfinder-mcp)
 - **npm**: [@stacksfinder/mcp-server](https://www.npmjs.com/package/@stacksfinder/mcp-server)
 
