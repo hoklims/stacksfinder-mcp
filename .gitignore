@@ -7,8 +7,7 @@ dist/
 # SvelteKit (shouldn't be here but just in case)
 .svelte-kit/
 
-# Lock files (use root lock)
+# Lock files (keep package-lock.json for Smithery deployment)
 bun.lock
-package-lock.json
 yarn.lock
 pnpm-lock.yaml
