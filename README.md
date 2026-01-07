@@ -1,5 +1,6 @@
 # @stacksfinder/mcp-server
 
+[![smithery badge](https://smithery.ai/badge/hoklims/stacksfinder-mcp)](https://smithery.ai/server/hoklims/stacksfinder-mcp)
 [![npm version](https://img.shields.io/npm/v/@stacksfinder/mcp-server.svg)](https://www.npmjs.com/package/@stacksfinder/mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
