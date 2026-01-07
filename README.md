@@ -23,7 +23,7 @@ claude mcp add-json stacksfinder '{
 }'
 ```
 
-### Claude Desktop
+### Claude Code
 
 Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
