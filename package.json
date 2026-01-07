@@ -1,6 +1,6 @@
 {
 	"name": "@stacksfinder/mcp-server",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"description": "MCP server for StacksFinder - tech stack recommendations for LLM clients",
 	"type": "module",
 	"bin": {

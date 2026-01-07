@@ -99,6 +99,17 @@ Add to `.vscode/mcp.json`:
 | `list_api_keys` | List your API keys |
 | `revoke_api_key` | Revoke an API key |
 
+### Audit Tools (requires API key) 🆕
+
+| Tool | Description |
+|------|-------------|
+| `create_audit` | Run technical debt audit on your stack |
+| `get_audit` | Fetch audit report by ID |
+| `list_audits` | List your audit reports |
+| `compare_audits` | Compare two audits to track progress |
+| `get_audit_quota` | Check your remaining audit quota |
+| `get_migration_recommendation` | **NEW** Analyze audit for migration opportunities with builder constraints |
+
 Get your API key at [stacksfinder.com/pricing](https://stacksfinder.com/pricing)
 
 ## Tool Examples
@@ -184,6 +195,55 @@ Per-dimension winners:
 
 ---
 Want more? Upgrade to Pro for custom priorities, constraints, and AI narratives.
+```
+
+### create_audit (Pro)
+
+```
+> create_audit name="Q1 2026 Review" technologies=[{name:"react",version:"18.2.0"},{name:"lodash",version:"4.17.20"},{name:"express",version:"4.17.0"}]
+
+## Audit Report: Q1 2026 Review
+
+**Health Score: 72/100** ⚠️
+
+| Severity | Count |
+|----------|-------|
+| 🔴 Critical | 2 |
+| 🟠 High | 1 |
+| 🟡 Medium | 3 |
+| 🟢 Low | 2 |
+| ℹ️ Info | 5 |
+
+### Critical Findings
+
+**🔴 Security vulnerability in lodash** (lodash 4.17.20)
+CVE-2021-23337 - Prototype pollution vulnerability
+→ Upgrade to lodash 4.17.21 or later
+
+**🔴 Outdated Express version** (express 4.17.0)
+Express 4.17.0 is missing security patches
+→ Upgrade to express 4.21+ for security fixes
+```
+
+### compare_audits (Pro)
+
+```
+> compare_audits baseAuditId="uuid-jan" compareAuditId="uuid-mar"
+
+## Audit Comparison
+
+**Trend: 📈 Improving** (+16 health score)
+
+| Metric | January | March |
+|--------|---------|-------|
+| Health Score | 62 | 78 |
+| Critical | 4 | 1 |
+| High | 6 | 3 |
+
+### Resolved Issues (6)
+- ✅ Critical: lodash vulnerability
+- ✅ High: moment.js deprecation
+- ✅ High: outdated Node version
 ```
 
 ## Environment Variables

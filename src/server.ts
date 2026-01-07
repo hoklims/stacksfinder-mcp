@@ -29,6 +29,25 @@ import {
 	executeRevokeApiKey,
 	RevokeApiKeyInputSchema
 } from './tools/api-keys.js';
+import {
+	createAuditToolDefinition,
+	executeCreateAudit,
+	CreateAuditInputSchema,
+	getAuditToolDefinition,
+	executeGetAudit,
+	GetAuditInputSchema,
+	listAuditsToolDefinition,
+	executeListAudits,
+	ListAuditsInputSchema,
+	compareAuditsToolDefinition,
+	executeCompareAudits,
+	CompareAuditsInputSchema,
+	getAuditQuotaToolDefinition,
+	executeGetAuditQuota,
+	getMigrationRecommendationToolDefinition,
+	executeGetMigrationRecommendation,
+	GetMigrationRecommendationInputSchema
+} from './tools/audit.js';
 import { info, debug } from './utils/logger.js';
 
 /**
@@ -326,7 +345,147 @@ export function createServer(): McpServer {
 		}
 	);
 
-	info('Registered 10 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key');
+	// ========================================================================
+	// AUDIT TOOLS (Technical Debt Analysis)
+	// ========================================================================
+
+	// Register create_audit tool (API-based, requires API key with audit:write)
+	server.registerTool(
+		createAuditToolDefinition.name,
+		{
+			title: 'Create Technical Debt Audit',
+			description: createAuditToolDefinition.description,
+			inputSchema: {
+				name: z.string().min(1).max(200).describe('Name for the audit report'),
+				technologies: z
+					.array(
+						z.object({
+							name: z.string().min(1).describe('Technology name'),
+							version: z.string().optional().describe('Version string'),
+							category: z.string().optional().describe('Category')
+						})
+					)
+					.min(1)
+					.max(50)
+					.describe('Technologies to audit')
+			}
+		},
+		async (args) => {
+			debug('create_audit called', args);
+			const input = CreateAuditInputSchema.parse(args);
+			const { text, isError } = await executeCreateAudit(input);
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
+	// Register get_audit tool (API-based, requires API key with audit:read)
+	server.registerTool(
+		getAuditToolDefinition.name,
+		{
+			title: 'Get Audit Report',
+			description: getAuditToolDefinition.description,
+			inputSchema: {
+				auditId: z.string().uuid().describe('Audit report UUID')
+			}
+		},
+		async (args) => {
+			debug('get_audit called', args);
+			const input = GetAuditInputSchema.parse(args);
+			const { text, isError } = await executeGetAudit(input);
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
+	// Register list_audits tool (API-based, requires API key with audit:read)
+	server.registerTool(
+		listAuditsToolDefinition.name,
+		{
+			title: 'List Audit Reports',
+			description: listAuditsToolDefinition.description,
+			inputSchema: {
+				limit: z.number().min(1).max(50).optional().describe('Max results'),
+				offset: z.number().min(0).optional().describe('Pagination offset')
+			}
+		},
+		async (args) => {
+			debug('list_audits called', args);
+			const input = ListAuditsInputSchema.parse(args);
+			const { text, isError } = await executeListAudits(input);
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
+	// Register compare_audits tool (API-based, requires API key with audit:read)
+	server.registerTool(
+		compareAuditsToolDefinition.name,
+		{
+			title: 'Compare Audit Reports',
+			description: compareAuditsToolDefinition.description,
+			inputSchema: {
+				baseAuditId: z.string().uuid().describe('Base (older) audit ID'),
+				compareAuditId: z.string().uuid().describe('Compare (newer) audit ID')
+			}
+		},
+		async (args) => {
+			debug('compare_audits called', args);
+			const input = CompareAuditsInputSchema.parse(args);
+			const { text, isError } = await executeCompareAudits(input);
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
+	// Register get_audit_quota tool (API-based, requires API key)
+	server.registerTool(
+		getAuditQuotaToolDefinition.name,
+		{
+			title: 'Get Audit Quota',
+			description: getAuditQuotaToolDefinition.description,
+			inputSchema: {}
+		},
+		async () => {
+			debug('get_audit_quota called');
+			const { text, isError } = await executeGetAuditQuota();
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
+	// Register get_migration_recommendation tool (API-based, requires API key with audit:read)
+	server.registerTool(
+		getMigrationRecommendationToolDefinition.name,
+		{
+			title: 'Get Migration Recommendation',
+			description: getMigrationRecommendationToolDefinition.description,
+			inputSchema: {
+				auditId: z.string().uuid().describe('Audit report UUID to analyze for migration')
+			}
+		},
+		async (args) => {
+			debug('get_migration_recommendation called', args);
+			const input = GetMigrationRecommendationInputSchema.parse(args);
+			const { text, isError } = await executeGetMigrationRecommendation(input);
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
+	info('Registered 16 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key, create_audit, get_audit, list_audits, compare_audits, get_audit_quota, get_migration_recommendation');
 
 	return server;
 }
