@@ -99,7 +99,7 @@ Add to `.vscode/mcp.json`:
 | `list_api_keys` | List your API keys |
 | `revoke_api_key` | Revoke an API key |
 
-### Audit Tools (requires API key) 🆕
+### Audit Tools (requires API key)
 
 | Tool | Description |
 |------|-------------|
@@ -204,25 +204,25 @@ Want more? Upgrade to Pro for custom priorities, constraints, and AI narratives.
 
 ## Audit Report: Q1 2026 Review
 
-**Health Score: 72/100** ⚠️
+**Health Score: 72/100** (warning)
 
 | Severity | Count |
 |----------|-------|
-| 🔴 Critical | 2 |
-| 🟠 High | 1 |
-| 🟡 Medium | 3 |
-| 🟢 Low | 2 |
-| ℹ️ Info | 5 |
+| [CRITICAL] | 2 |
+| [HIGH] | 1 |
+| [MEDIUM] | 3 |
+| [LOW] | 2 |
+| [INFO] | 5 |
 
 ### Critical Findings
 
-**🔴 Security vulnerability in lodash** (lodash 4.17.20)
+**[CRITICAL] Security vulnerability in lodash** (lodash 4.17.20)
 CVE-2021-23337 - Prototype pollution vulnerability
-→ Upgrade to lodash 4.17.21 or later
+> Upgrade to lodash 4.17.21 or later
 
-**🔴 Outdated Express version** (express 4.17.0)
+**[CRITICAL] Outdated Express version** (express 4.17.0)
 Express 4.17.0 is missing security patches
-→ Upgrade to express 4.21+ for security fixes
+> Upgrade to express 4.21+ for security fixes
 ```
 
 ### compare_audits (Pro)
@@ -232,7 +232,7 @@ Express 4.17.0 is missing security patches
 
 ## Audit Comparison
 
-**Trend: 📈 Improving** (+16 health score)
+**Trend: Improving** (+16 health score)
 
 | Metric | January | March |
 |--------|---------|-------|
@@ -241,9 +241,9 @@ Express 4.17.0 is missing security patches
 | High | 6 | 3 |
 
 ### Resolved Issues (6)
-- ✅ Critical: lodash vulnerability
-- ✅ High: moment.js deprecation
-- ✅ High: outdated Node version
+- [x] Critical: lodash vulnerability
+- [x] High: moment.js deprecation
+- [x] High: outdated Node version
 ```
 
 ## Environment Variables
