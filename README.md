@@ -6,7 +6,7 @@
 
 MCP (Model Context Protocol) server that brings **deterministic tech stack recommendations** to LLM clients like Claude, Cursor, Windsurf, and other MCP-compatible tools.
 
-**Try it free** — 4 tools work without an account, including a daily demo recommendation.
+**Try it free** — 8 tools work without an account, including a daily demo recommendation and MCP project kit tools.
 
 ## Quick Start
 
@@ -87,7 +87,12 @@ Add to `.vscode/mcp.json`:
 | `list_technologies` | List all 30+ tech IDs by category |
 | `analyze_tech` | 6-dimension scores, strengths, weaknesses, compatible techs |
 | `compare_techs` | Side-by-side comparison of 2-4 technologies |
-| `recommend_stack` | **FREE 1x/day** — Full stack recommendation for any project type |
+| `recommend_stack_demo` | **FREE 1x/day** — Full stack recommendation for any project type |
+| `check_mcp_compatibility` | 🆕 Check conflicts, redundancies, and synergies between MCP servers |
+| `generate_mcp_kit` | 🆕 Generate optimal stack + recommended MCPs from project description |
+| `analyze_repo_mcps` | 🆕 Analyze your repository and recommend relevant MCP servers |
+| `prepare_mcp_installation` | 🆕 Detect MCPs needed and generate `.env-mcp` template |
+| `execute_mcp_installation` | 🆕 Parse `.env-mcp` and generate IDE install commands |
 
 ### Pro Tools (requires API key)
 
@@ -245,6 +250,89 @@ Express 4.17.0 is missing security patches
 - ✅ Critical: lodash vulnerability
 - ✅ High: moment.js deprecation
 - ✅ High: outdated Node version
+```
+
+### check_mcp_compatibility 🆕
+
+```
+> check_mcp_compatibility mcps=["supabase-mcp", "neon-mcp", "prisma-mcp"]
+
+## MCP Compatibility Check
+
+**Health Score: 65/100** (Grade: C)
+
+### ⚠️ Conflicts (1)
+- **supabase-mcp** ↔ **neon-mcp**: Both provide database services
+
+### 🔄 Redundancies (1)
+- **prisma-mcp** + **supabase-mcp**: Supabase has built-in client
+
+### ✅ Synergies (0)
+None detected
+
+### 💡 Suggestions
+- Choose one database provider (Supabase OR Neon)
+- If using Supabase, Prisma may be redundant
+```
+
+### generate_mcp_kit 🆕
+
+```
+> generate_mcp_kit projectDescription="SaaS for project management with Supabase and Stripe"
+
+## Recommended Stack
+
+| Category | Technology | Score |
+|----------|------------|-------|
+| meta-framework | SvelteKit | 84 |
+| database | Supabase | 82 |
+| auth | Better Auth | 80 |
+| payments | Stripe | 96 |
+
+## Recommended MCPs
+
+| MCP | Priority | Why |
+|-----|----------|-----|
+| supabase-mcp | High | Direct database access |
+| stripe-mcp | High | Payment integration |
+| github-mcp | Medium | Version control |
+
+Install all with:
+claude mcp add-json supabase-mcp '{"command":"npx","args":["-y","@supabase/mcp"]}'
+```
+
+### prepare_mcp_installation 🆕
+
+```
+> prepare_mcp_installation
+
+✅ Generated .env-mcp with 5 MCP(s) to install.
+
+📋 Next steps:
+1. Open .env-mcp
+2. Fill in the 3 required environment variable(s)
+3. Set INSTALL_xxx=false for any MCPs you want to skip
+4. Run execute_mcp_installation to install the MCPs
+```
+
+### execute_mcp_installation 🆕
+
+```
+> execute_mcp_installation targetClient="claude-code"
+
+# MCP Installation Summary
+
+- ✅ Ready to install: 3
+- ⏳ Missing credentials: 1
+- ⏭️ Skipped: 1
+
+## Ready to Install
+- ✅ **Supabase MCP** (`supabase-mcp`)
+- ✅ **GitHub MCP** (`github-mcp`)
+- ✅ **Context7 MCP** (`context7-mcp`)
+
+## Installation Command
+claude mcp add-json supabase-mcp '...' && claude mcp add-json github-mcp '...'
 ```
 
 ## Environment Variables

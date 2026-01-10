@@ -9,6 +9,11 @@ import { getBlueprintToolDefinition, executeGetBlueprint, GetBlueprintInputSchem
 import { recommendStackDemoToolDefinition, executeRecommendStackDemo, RecommendStackDemoInputSchema } from './tools/recommend-demo.js';
 import { setupApiKeyToolDefinition, executeSetupApiKey, SetupApiKeyInputSchema, listApiKeysToolDefinition, executeListApiKeys, revokeApiKeyToolDefinition, executeRevokeApiKey, RevokeApiKeyInputSchema } from './tools/api-keys.js';
 import { createAuditToolDefinition, executeCreateAudit, CreateAuditInputSchema, getAuditToolDefinition, executeGetAudit, GetAuditInputSchema, listAuditsToolDefinition, executeListAudits, ListAuditsInputSchema, compareAuditsToolDefinition, executeCompareAudits, CompareAuditsInputSchema, getAuditQuotaToolDefinition, executeGetAuditQuota, getMigrationRecommendationToolDefinition, executeGetMigrationRecommendation, GetMigrationRecommendationInputSchema } from './tools/audit.js';
+import { generateMCPKitTool, generateMCPKit, GenerateMCPKitInputSchema, analyzeRepoMcpsTool, analyzeRepo, AnalyzeRepoMCPsInputSchema, PRIORITIES, PROJECT_TYPES, SCALES } from './tools/project-kit/index.js';
+import { prepareMCPInstallationTool, prepareMCPInstallation } from './tools/project-kit/prepare-installation.js';
+import { executeMCPInstallationTool, executeMCPInstallation } from './tools/project-kit/execute-installation.js';
+import { PrepareMCPInstallationInputSchema, ExecuteMCPInstallationInputSchema } from './tools/project-kit/installation-types.js';
+import { checkCompatibilityToolDefinition, executeCheckCompatibility, CheckCompatibilityInputSchema } from './tools/check-compatibility.js';
 import { info, debug } from './utils/logger.js';
 /**
  * Create and configure the MCP server.
@@ -356,7 +361,297 @@ export function createServer() {
             isError
         };
     });
-    info('Registered 16 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key, create_audit, get_audit, list_audits, compare_audits, get_audit_quota, get_migration_recommendation');
+    // ========================================================================
+    // PROJECT-KIT TOOLS (MCPFinder)
+    // ========================================================================
+    // Register generate_mcp_kit tool (local, no API key required)
+    server.registerTool(generateMCPKitTool.name, {
+        title: 'Generate MCP Kit',
+        description: generateMCPKitTool.description,
+        inputSchema: {
+            projectDescription: z.string().min(50).max(5000).describe('Describe your project (50-5000 chars)'),
+            priorities: z.array(z.enum(PRIORITIES)).max(3).optional().describe('Top priorities (max 3)'),
+            constraints: z.array(z.string()).optional().describe('Tech constraints (e.g., must-use-postgresql)'),
+            projectType: z.enum(PROJECT_TYPES).optional().describe('Project type (if known)'),
+            scale: z.enum(SCALES).optional().describe('Project scale (if known)')
+        }
+    }, async (args) => {
+        debug('generate_mcp_kit called', args);
+        const input = GenerateMCPKitInputSchema.parse(args);
+        const result = generateMCPKit(input);
+        return {
+            content: [{ type: 'text', text: JSON.stringify(result, null, 2) }]
+        };
+    });
+    // Register analyze_repo_mcps tool (local, no API key required)
+    server.registerTool(analyzeRepoMcpsTool.name, {
+        title: 'Analyze Repository MCPs',
+        description: analyzeRepoMcpsTool.description,
+        inputSchema: {
+            includeInstalled: z.boolean().optional().describe('Include already installed MCPs (default: false)'),
+            mcpConfigPath: z.string().optional().describe('Override path to MCP configuration file'),
+            workspaceRoot: z.string().optional().describe('Override workspace root directory (default: current directory)')
+        }
+    }, async (args) => {
+        debug('analyze_repo_mcps called', args);
+        const input = AnalyzeRepoMCPsInputSchema.parse(args);
+        const result = await analyzeRepo(input);
+        // Format as markdown for better readability
+        return {
+            content: [{ type: 'text', text: formatAnalysisResult(result) }]
+        };
+    });
+    // Register prepare_mcp_installation tool (local, no API key required)
+    server.registerTool(prepareMCPInstallationTool.name, {
+        title: 'Prepare MCP Installation',
+        description: prepareMCPInstallationTool.description,
+        inputSchema: {
+            workspaceRoot: z.string().optional().describe('Workspace root directory (default: current directory)'),
+            mcpConfigPath: z.string().optional().describe('Override path to existing MCP configuration file'),
+            includeInstalled: z.boolean().optional().describe('Include already installed MCPs in the preparation (default: false)'),
+            envMcpPath: z.string().optional().describe('Path where .env-mcp will be created (default: .env-mcp in workspaceRoot)')
+        }
+    }, async (args) => {
+        debug('prepare_mcp_installation called', args);
+        const input = PrepareMCPInstallationInputSchema.parse(args);
+        const result = await prepareMCPInstallation(input);
+        return {
+            content: [{ type: 'text', text: result.message + '\n\n' + formatPreparationSummary(result) }]
+        };
+    });
+    // Register execute_mcp_installation tool (local, no API key required)
+    server.registerTool(executeMCPInstallationTool.name, {
+        title: 'Execute MCP Installation',
+        description: executeMCPInstallationTool.description,
+        inputSchema: {
+            envMcpPath: z.string().optional().describe('Path to .env-mcp file (default: .env-mcp in current directory)'),
+            targetClient: z
+                .enum(['claude-code', 'claude-desktop', 'cursor', 'vscode', 'windsurf'])
+                .optional()
+                .describe('Target IDE/client for installation (default: claude-code)'),
+            dryRun: z.boolean().optional().describe('Only generate commands without marking ready to execute (default: false)')
+        }
+    }, async (args) => {
+        debug('execute_mcp_installation called', args);
+        const input = ExecuteMCPInstallationInputSchema.parse(args);
+        const result = await executeMCPInstallation(input);
+        return {
+            content: [{ type: 'text', text: formatExecutionResult(result) }]
+        };
+    });
+    // ========================================================================
+    // COMPATIBILITY TOOL (MCP Conflict Detection)
+    // ========================================================================
+    // Register check_mcp_compatibility tool (local, no API key required)
+    server.registerTool(checkCompatibilityToolDefinition.name, {
+        title: 'Check MCP Compatibility',
+        description: checkCompatibilityToolDefinition.description,
+        inputSchema: {
+            mcps: z
+                .array(z.string().min(1))
+                .min(1)
+                .max(20)
+                .describe('Array of MCP server IDs to check compatibility between')
+        }
+    }, async (args) => {
+        debug('check_mcp_compatibility called', args);
+        const input = CheckCompatibilityInputSchema.parse(args);
+        const { text, data, isError } = executeCheckCompatibility(input);
+        return {
+            content: [
+                { type: 'text', text },
+                { type: 'text', text: `\n---\n\n**Structured Data:**\n\`\`\`json\n${JSON.stringify(data, null, 2)}\n\`\`\`` }
+            ],
+            isError
+        };
+    });
+    info('Registered 21 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key, create_audit, get_audit, list_audits, compare_audits, get_audit_quota, get_migration_recommendation, generate_mcp_kit, analyze_repo_mcps, prepare_mcp_installation, execute_mcp_installation, check_mcp_compatibility');
     return server;
+}
+// ============================================================================
+// HELPER FUNCTIONS
+// ============================================================================
+/**
+ * Format analyze_repo_mcps result as readable markdown.
+ */
+function formatAnalysisResult(result) {
+    const lines = [];
+    lines.push('# Repository Analysis\n');
+    // Detected Stack
+    lines.push('## Detected Technologies\n');
+    const stackItems = [
+        result.detectedStack.frontend &&
+            `- **Frontend**: ${result.detectedStack.frontend.name}${result.detectedStack.frontend.version ? ` (${result.detectedStack.frontend.version})` : ''}`,
+        result.detectedStack.backend &&
+            `- **Backend**: ${result.detectedStack.backend.name}${result.detectedStack.backend.version ? ` (${result.detectedStack.backend.version})` : ''}`,
+        result.detectedStack.database &&
+            `- **Database**: ${result.detectedStack.database.name}${result.detectedStack.database.version ? ` (${result.detectedStack.database.version})` : ''}`,
+        result.detectedStack.orm &&
+            `- **ORM**: ${result.detectedStack.orm.name}${result.detectedStack.orm.version ? ` (${result.detectedStack.orm.version})` : ''}`,
+        result.detectedStack.auth &&
+            `- **Auth**: ${result.detectedStack.auth.name}${result.detectedStack.auth.version ? ` (${result.detectedStack.auth.version})` : ''}`,
+        result.detectedStack.hosting &&
+            `- **Hosting**: ${result.detectedStack.hosting.name}${result.detectedStack.hosting.version ? ` (${result.detectedStack.hosting.version})` : ''}`,
+        result.detectedStack.payments &&
+            `- **Payments**: ${result.detectedStack.payments.name}${result.detectedStack.payments.version ? ` (${result.detectedStack.payments.version})` : ''}`
+    ].filter((item) => Boolean(item));
+    if (stackItems.length > 0) {
+        lines.push(...stackItems);
+    }
+    else {
+        lines.push('_No technologies detected from project files._');
+    }
+    if (result.detectedStack.services.length > 0) {
+        lines.push('\n**Services**:');
+        for (const service of result.detectedStack.services) {
+            lines.push(`- ${service.name}`);
+        }
+    }
+    lines.push('');
+    // Files Analyzed
+    lines.push('## Files Analyzed\n');
+    if (result.metadata.filesAnalyzed.length > 0) {
+        lines.push(result.metadata.filesAnalyzed.map((f) => `- \`${f}\``).join('\n'));
+    }
+    else {
+        lines.push('_No recognized configuration files found._');
+    }
+    lines.push('');
+    // Installed MCPs
+    if (result.installedMcps.length > 0) {
+        lines.push('## Already Installed MCPs\n');
+        lines.push(result.installedMcps.map((m) => `- ${m}`).join('\n'));
+        lines.push('');
+    }
+    // Recommended MCPs
+    lines.push('## Recommended MCPs\n');
+    if (result.recommendedMcps.length === 0) {
+        lines.push('_No additional MCPs recommended. You have everything you need!_');
+    }
+    else {
+        // Group by priority
+        const highPriority = result.recommendedMcps.filter((m) => m.priority === 'high');
+        const mediumPriority = result.recommendedMcps.filter((m) => m.priority === 'medium');
+        const lowPriority = result.recommendedMcps.filter((m) => m.priority === 'low');
+        if (highPriority.length > 0) {
+            lines.push('### High Priority\n');
+            for (const mcp of highPriority) {
+                lines.push(`**${mcp.name}** (\`${mcp.slug}\`)`);
+                lines.push(`- ${mcp.description}`);
+                lines.push(`- _Matched: ${mcp.matchedTech}_`);
+                lines.push('');
+            }
+        }
+        if (mediumPriority.length > 0) {
+            lines.push('### Medium Priority\n');
+            for (const mcp of mediumPriority) {
+                lines.push(`**${mcp.name}** (\`${mcp.slug}\`)`);
+                lines.push(`- ${mcp.description}`);
+                lines.push(`- _Matched: ${mcp.matchedTech}_`);
+                lines.push('');
+            }
+        }
+        if (lowPriority.length > 0) {
+            lines.push('### Low Priority\n');
+            for (const mcp of lowPriority) {
+                lines.push(`**${mcp.name}** (\`${mcp.slug}\`)`);
+                lines.push(`- ${mcp.description}`);
+                lines.push(`- _Matched: ${mcp.matchedTech}_`);
+                lines.push('');
+            }
+        }
+    }
+    // Quick Install
+    if (result.recommendedMcps.length > 0) {
+        lines.push('## Quick Install\n');
+        lines.push('Add to your Claude Desktop config (`claude_desktop_config.json`):\n');
+        lines.push('```json');
+        lines.push(JSON.stringify(result.installConfig.claudeDesktop, null, 2));
+        lines.push('```\n');
+    }
+    // Metadata
+    lines.push(`---\n_Analysis completed: ${result.metadata.analysisDate}_`);
+    return lines.join('\n');
+}
+/**
+ * Format prepare_mcp_installation result summary.
+ */
+function formatPreparationSummary(result) {
+    const lines = [];
+    // MCPs to install grouped by priority
+    if (result.mcpsToInstall.length > 0) {
+        lines.push('## MCPs to Install\n');
+        const highPriority = result.mcpsToInstall.filter((m) => m.priority === 'high');
+        const mediumPriority = result.mcpsToInstall.filter((m) => m.priority === 'medium');
+        const lowPriority = result.mcpsToInstall.filter((m) => m.priority === 'low');
+        if (highPriority.length > 0) {
+            lines.push('### 🔴 High Priority');
+            for (const mcp of highPriority) {
+                const requiredVars = mcp.envVars.filter((v) => v.requirement === 'required').length;
+                lines.push(`- **${mcp.name}** (${requiredVars} required vars)`);
+            }
+            lines.push('');
+        }
+        if (mediumPriority.length > 0) {
+            lines.push('### 🟡 Medium Priority');
+            for (const mcp of mediumPriority) {
+                const requiredVars = mcp.envVars.filter((v) => v.requirement === 'required').length;
+                lines.push(`- **${mcp.name}** (${requiredVars} required vars)`);
+            }
+            lines.push('');
+        }
+        if (lowPriority.length > 0) {
+            lines.push('### 🟢 Low Priority');
+            for (const mcp of lowPriority) {
+                const requiredVars = mcp.envVars.filter((v) => v.requirement === 'required').length;
+                lines.push(`- **${mcp.name}** (${requiredVars} required vars)`);
+            }
+            lines.push('');
+        }
+    }
+    // Already installed
+    if (result.installedMcps.length > 0) {
+        lines.push('## Already Installed');
+        for (const mcp of result.installedMcps) {
+            lines.push(`- ✅ ${mcp}`);
+        }
+        lines.push('');
+    }
+    return lines.join('\n');
+}
+/**
+ * Format execute_mcp_installation result.
+ */
+function formatExecutionResult(result) {
+    const lines = [];
+    lines.push(result.message);
+    lines.push('');
+    // Show aggregate command for Claude Code
+    if (result.aggregateCommand) {
+        lines.push('---\n');
+        lines.push('## Claude Code Installation\n');
+        lines.push('Run this command to install all ready MCPs:\n');
+        lines.push('```bash');
+        lines.push(result.aggregateCommand);
+        lines.push('```\n');
+    }
+    // Show JSON config for other clients
+    if (result.aggregateConfig && !result.aggregateCommand) {
+        lines.push('---\n');
+        lines.push('## JSON Configuration\n');
+        lines.push('Add this to your MCP configuration file:\n');
+        lines.push('```json');
+        lines.push(JSON.stringify(result.aggregateConfig, null, 2));
+        lines.push('```\n');
+    }
+    // Post-install instructions
+    if (result.postInstallInstructions.length > 0) {
+        lines.push('---\n');
+        lines.push('## Post-Installation\n');
+        for (const instruction of result.postInstallInstructions) {
+            lines.push(instruction);
+        }
+    }
+    return lines.join('\n');
 }
 //# sourceMappingURL=server.js.map
