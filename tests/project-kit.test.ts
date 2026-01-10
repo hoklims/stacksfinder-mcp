@@ -4,7 +4,7 @@
  * Tests for the generate_mcp_kit and analyze_repo_mcps tools.
  */
 
-import { describe, it, expect } from 'bun:test';
+import { describe, it, expect } from 'vitest';
 import {
 	matchMCPsForTechnologies,
 	generateInstallConfig,
