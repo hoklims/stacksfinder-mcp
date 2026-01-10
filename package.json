@@ -26,6 +26,7 @@
 	},
 	"dependencies": {
 		"@modelcontextprotocol/sdk": "^1.25.1",
+		"@stacksfinder/mcp-compatibility": "workspace:*",
 		"zod": "^3.23.0"
 	},
 	"devDependencies": {

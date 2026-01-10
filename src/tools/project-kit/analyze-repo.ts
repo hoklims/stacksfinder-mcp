@@ -9,11 +9,25 @@ import * as fs from 'fs/promises';
 import * as path from 'path';
 import * as os from 'os';
 import { z } from 'zod';
-import type { AnalyzeRepoMCPsInput, AnalyzeRepoMCPsOutput } from './types.js';
+import type {
+	AnalyzeRepoMCPsInput,
+	AnalyzeRepoMCPsOutput,
+	MCPCompatibilityResult,
+	ExcludedRecommendation,
+	MCPRecommendation
+} from './types.js';
 import { AnalyzeRepoMCPsInputSchema } from './types.js';
 import { detectStackFromFiles } from './detect-stack.js';
 import { matchMCPsForStack, generateInstallConfig } from './match-mcps.js';
 import { debug, info, error } from '../../utils/logger.js';
+import {
+	initRulesIndex,
+	getAllRules,
+	generateReport,
+	findRule,
+	canonicalizeMcpId,
+	type CompatibilityReport
+} from '@stacksfinder/mcp-compatibility';
 
 // ============================================================================
 // INSTALLED MCP DETECTION
@@ -119,6 +133,54 @@ async function getInstalledMCPs(
 }
 
 // ============================================================================
+// COMPATIBILITY HELPERS
+// ============================================================================
+
+let rulesInitialized = false;
+
+/**
+ * Ensure rules index is initialized.
+ */
+function ensureRulesInitialized(): void {
+	if (!rulesInitialized) {
+		initRulesIndex(getAllRules());
+		rulesInitialized = true;
+	}
+}
+
+/**
+ * Convert CompatibilityReport to MCPCompatibilityResult.
+ */
+function convertToCompatibilityResult(report: CompatibilityReport): MCPCompatibilityResult {
+	return {
+		score: report.summary.score,
+		grade: report.summary.grade,
+		conflicts: report.conflicts.map((c) => ({
+			mcpA: c.rule.mcpA,
+			mcpB: c.rule.mcpB,
+			reason: c.rule.reason,
+			severity: c.rule.severity
+		})),
+		redundancies: report.redundancies.map((r) => ({
+			mcpA: r.rule.mcpA,
+			mcpB: r.rule.mcpB,
+			reason: r.rule.reason,
+			severity: r.rule.severity
+		})),
+		synergies: report.synergies.map((s) => ({
+			mcpA: s.rule.mcpA,
+			mcpB: s.rule.mcpB,
+			reason: s.rule.reason
+		})),
+		suggestions: report.suggestions.map((s) => ({
+			mcp: s.mcp,
+			reason: s.reason,
+			basedOn: s.basedOn
+		}))
+	};
+}
+
+// ============================================================================
 // TOOL IMPLEMENTATION
 // ============================================================================
 
@@ -129,6 +191,9 @@ export async function analyzeRepo(input: AnalyzeRepoMCPsInput): Promise<AnalyzeR
 	const workspaceRoot = input.workspaceRoot || process.cwd();
 
 	info(`Analyzing repository at: ${workspaceRoot}`);
+
+	// Initialize compatibility rules
+	ensureRulesInitialized();
 
 	// Step 1: Detect installed MCPs
 	const installedMcps = await getInstalledMCPs(workspaceRoot, input.mcpConfigPath);
@@ -154,20 +219,69 @@ export async function analyzeRepo(input: AnalyzeRepoMCPsInput): Promise<AnalyzeR
 	info(`Detected stack: ${stackSummary || 'none'}`);
 
 	// Step 3: Match MCPs for detected stack
-	const recommendedMcps = matchMCPsForStack(detectedStack, {
+	const allRecommendedMcps = matchMCPsForStack(detectedStack, {
 		includeInstalled: input.includeInstalled,
 		installedMcps
 	});
 
-	// Step 4: Generate install configs
-	const installConfig = generateInstallConfig(recommendedMcps);
+	// Step 4: Check compatibility between installed MCPs
+	const installedReport = generateReport(installedMcps, getAllRules());
+	const installedCompatibility = convertToCompatibilityResult(installedReport);
 
-	info(`Recommended ${recommendedMcps.length} MCPs`);
+	// Step 5: Check recommendations against installed MCPs for conflicts
+	const excludedRecommendations: ExcludedRecommendation[] = [];
+	const recommendationConflicts: Array<{
+		recommended: string;
+		conflictsWith: string;
+		reason: string;
+	}> = [];
+	const safeRecommendations: MCPRecommendation[] = [];
+
+	for (const rec of allRecommendedMcps) {
+		const canonicalRec = canonicalizeMcpId(rec.slug);
+		let hasConflict = false;
+
+		for (const installed of installedMcps) {
+			const rule = findRule(canonicalRec, installed);
+
+			if (rule && rule.status === 'conflict') {
+				hasConflict = true;
+				excludedRecommendations.push({
+					mcp: rec.slug,
+					reason: rule.reason,
+					conflictsWith: installed
+				});
+				recommendationConflicts.push({
+					recommended: rec.slug,
+					conflictsWith: installed,
+					reason: rule.reason
+				});
+				debug(`Excluded ${rec.slug}: conflicts with installed ${installed}`);
+				break;
+			}
+		}
+
+		if (!hasConflict) {
+			safeRecommendations.push(rec);
+		}
+	}
+
+	info(
+		`Recommended ${safeRecommendations.length} MCPs (${excludedRecommendations.length} excluded due to conflicts)`
+	);
+
+	// Step 6: Generate install configs for safe recommendations only
+	const installConfig = generateInstallConfig(safeRecommendations);
 
 	return {
 		detectedStack,
 		installedMcps,
-		recommendedMcps,
+		recommendedMcps: safeRecommendations,
+		excludedRecommendations,
+		compatibility: {
+			installed: installedCompatibility,
+			recommendationConflicts
+		},
 		installConfig,
 		metadata: {
 			filesAnalyzed,
@@ -308,10 +422,66 @@ function formatAnalysisOutput(result: AnalyzeRepoMCPsOutput): string {
 	}
 	lines.push('');
 
-	// Installed MCPs
+	// Installed MCPs + Compatibility
 	if (result.installedMcps.length > 0) {
 		lines.push('## Already Installed MCPs\n');
 		lines.push(result.installedMcps.map((m) => `- ${m}`).join('\n'));
+		lines.push('');
+
+		// Compatibility Report for installed MCPs
+		const compat = result.compatibility.installed;
+		const gradeEmoji =
+			compat.grade === 'A' ? '🟢' : compat.grade === 'B' ? '🔵' : compat.grade === 'C' ? '🟡' : '🔴';
+
+		lines.push('### Compatibility Check\n');
+		lines.push(`**Health Score**: ${compat.score}/100 (Grade ${compat.grade}) ${gradeEmoji}\n`);
+
+		if (compat.conflicts.length > 0) {
+			lines.push('#### 🔴 Conflicts\n');
+			for (const conflict of compat.conflicts) {
+				const severity = conflict.severity === 'critical' ? '⚠️ Critical' : '⚡ Warning';
+				lines.push(`- **${conflict.mcpA}** ↔ **${conflict.mcpB}** (${severity})`);
+				lines.push(`  - ${conflict.reason}`);
+			}
+			lines.push('');
+		}
+
+		if (compat.redundancies.length > 0) {
+			lines.push('#### 🟡 Redundancies\n');
+			for (const redundancy of compat.redundancies) {
+				lines.push(`- **${redundancy.mcpA}** ↔ **${redundancy.mcpB}**`);
+				lines.push(`  - ${redundancy.reason}`);
+			}
+			lines.push('');
+		}
+
+		if (compat.synergies.length > 0) {
+			lines.push('#### 🔵 Synergies\n');
+			for (const synergy of compat.synergies) {
+				lines.push(`- **${synergy.mcpA}** + **${synergy.mcpB}** ✨`);
+				lines.push(`  - ${synergy.reason}`);
+			}
+			lines.push('');
+		}
+
+		if (compat.suggestions.length > 0) {
+			lines.push('#### 💡 Suggestions\n');
+			for (const suggestion of compat.suggestions) {
+				lines.push(`- Consider adding **${suggestion.mcp}**`);
+				lines.push(`  - ${suggestion.reason} (pairs well with ${suggestion.basedOn})`);
+			}
+			lines.push('');
+		}
+	}
+
+	// Excluded Recommendations (due to conflicts)
+	if (result.excludedRecommendations.length > 0) {
+		lines.push('## Excluded Recommendations\n');
+		lines.push('_The following MCPs were not recommended due to conflicts with your installed MCPs:_\n');
+		for (const excluded of result.excludedRecommendations) {
+			lines.push(`- **${excluded.mcp}** conflicts with \`${excluded.conflictsWith}\``);
+			lines.push(`  - ${excluded.reason}`);
+		}
 		lines.push('');
 	}
 
@@ -327,7 +497,7 @@ function formatAnalysisOutput(result: AnalyzeRepoMCPsOutput): string {
 		const lowPriority = result.recommendedMcps.filter((m) => m.priority === 'low');
 
 		if (highPriority.length > 0) {
-			lines.push('### High Priority\n');
+			lines.push('### 🔴 High Priority\n');
 			for (const mcp of highPriority) {
 				lines.push(`**${mcp.name}** (\`${mcp.slug}\`)`);
 				lines.push(`- ${mcp.description}`);
@@ -337,7 +507,7 @@ function formatAnalysisOutput(result: AnalyzeRepoMCPsOutput): string {
 		}
 
 		if (mediumPriority.length > 0) {
-			lines.push('### Medium Priority\n');
+			lines.push('### 🟡 Medium Priority\n');
 			for (const mcp of mediumPriority) {
 				lines.push(`**${mcp.name}** (\`${mcp.slug}\`)`);
 				lines.push(`- ${mcp.description}`);
@@ -347,7 +517,7 @@ function formatAnalysisOutput(result: AnalyzeRepoMCPsOutput): string {
 		}
 
 		if (lowPriority.length > 0) {
-			lines.push('### Low Priority\n');
+			lines.push('### 🟢 Low Priority\n');
 			for (const mcp of lowPriority) {
 				lines.push(`**${mcp.name}** (\`${mcp.slug}\`)`);
 				lines.push(`- ${mcp.description}`);

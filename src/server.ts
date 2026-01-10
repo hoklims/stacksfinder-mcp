@@ -72,6 +72,11 @@ import {
 	PrepareMCPInstallationInputSchema,
 	ExecuteMCPInstallationInputSchema
 } from './tools/project-kit/installation-types.js';
+import {
+	checkCompatibilityToolDefinition,
+	executeCheckCompatibility,
+	CheckCompatibilityInputSchema
+} from './tools/check-compatibility.js';
 import { info, debug } from './utils/logger.js';
 
 /**
@@ -608,7 +613,39 @@ export function createServer(): McpServer {
 		}
 	);
 
-	info('Registered 20 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key, create_audit, get_audit, list_audits, compare_audits, get_audit_quota, get_migration_recommendation, generate_mcp_kit, analyze_repo_mcps, prepare_mcp_installation, execute_mcp_installation');
+	// ========================================================================
+	// COMPATIBILITY TOOL (MCP Conflict Detection)
+	// ========================================================================
+
+	// Register check_mcp_compatibility tool (local, no API key required)
+	server.registerTool(
+		checkCompatibilityToolDefinition.name,
+		{
+			title: 'Check MCP Compatibility',
+			description: checkCompatibilityToolDefinition.description,
+			inputSchema: {
+				mcps: z
+					.array(z.string().min(1))
+					.min(1)
+					.max(20)
+					.describe('Array of MCP server IDs to check compatibility between')
+			}
+		},
+		async (args) => {
+			debug('check_mcp_compatibility called', args);
+			const input = CheckCompatibilityInputSchema.parse(args);
+			const { text, data, isError } = executeCheckCompatibility(input);
+			return {
+				content: [
+					{ type: 'text', text },
+					{ type: 'text', text: `\n---\n\n**Structured Data:**\n\`\`\`json\n${JSON.stringify(data, null, 2)}\n\`\`\`` }
+				],
+				isError
+			};
+		}
+	);
+
+	info('Registered 21 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key, create_audit, get_audit, list_audits, compare_audits, get_audit_quota, get_migration_recommendation, generate_mcp_kit, analyze_repo_mcps, prepare_mcp_installation, execute_mcp_installation, check_mcp_compatibility');
 
 	return server;
 }

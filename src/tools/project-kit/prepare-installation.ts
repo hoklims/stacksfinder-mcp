@@ -11,10 +11,9 @@ import { z } from 'zod';
 import type {
 	PrepareMCPInstallationInput,
 	PrepareMCPInstallationOutput,
-	MCPInstallInfo,
-	MCPEnvVar
+	MCPInstallInfo
 } from './installation-types.js';
-import { PrepareMCPInstallationInputSchema, MCP_REGISTRY, getMCPRegistryEntry } from './installation-types.js';
+import { PrepareMCPInstallationInputSchema, getMCPRegistryEntry } from './installation-types.js';
 import { analyzeRepo } from './analyze-repo.js';
 import { info, error, debug } from '../../utils/logger.js';
 

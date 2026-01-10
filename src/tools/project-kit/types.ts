@@ -165,10 +165,58 @@ export const AnalyzeRepoMCPsInputSchema = z.object({
 
 export type AnalyzeRepoMCPsInput = z.infer<typeof AnalyzeRepoMCPsInputSchema>;
 
+/**
+ * Compatibility check results for installed MCPs.
+ */
+export interface MCPCompatibilityResult {
+	score: number; // 0-100
+	grade: 'A' | 'B' | 'C' | 'D';
+	conflicts: Array<{
+		mcpA: string;
+		mcpB: string;
+		reason: string;
+		severity: 'critical' | 'warning' | 'info';
+	}>;
+	redundancies: Array<{
+		mcpA: string;
+		mcpB: string;
+		reason: string;
+		severity: 'critical' | 'warning' | 'info';
+	}>;
+	synergies: Array<{
+		mcpA: string;
+		mcpB: string;
+		reason: string;
+	}>;
+	suggestions: Array<{
+		mcp: string;
+		reason: string;
+		basedOn: string;
+	}>;
+}
+
+/**
+ * MCPs excluded from recommendations with reasons.
+ */
+export interface ExcludedRecommendation {
+	mcp: string;
+	reason: string;
+	conflictsWith: string;
+}
+
 export interface AnalyzeRepoMCPsOutput {
 	detectedStack: DetectedStack;
 	installedMcps: string[];
 	recommendedMcps: MCPRecommendation[];
+	excludedRecommendations: ExcludedRecommendation[];
+	compatibility: {
+		installed: MCPCompatibilityResult;
+		recommendationConflicts: Array<{
+			recommended: string;
+			conflictsWith: string;
+			reason: string;
+		}>;
+	};
 	installConfig: MCPInstallConfigs;
 	metadata: {
 		filesAnalyzed: string[];

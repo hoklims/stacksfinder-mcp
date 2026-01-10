@@ -110,7 +110,7 @@ function generateClaudeCodeCommand(
  * Generate JSON config for Claude Desktop / Cursor / VS Code.
  */
 function generateJsonConfig(
-	slug: string,
+	_slug: string,
 	npmPackage: string,
 	envVars: Map<string, string>,
 	requiredVars: MCPEnvVar[]
@@ -280,7 +280,6 @@ export async function executeMCPInstallation(
 	// Step 3: Calculate stats
 	const readyCount = commands.filter((c) => c.status === 'ready').length;
 	const pendingCount = commands.filter((c) => c.status === 'missing_vars').length;
-	const skippedCount = commands.filter((c) => c.status === 'skipped').length;
 
 	// Step 4: Generate aggregate command for Claude Code
 	let aggregateCommand: string | undefined;
