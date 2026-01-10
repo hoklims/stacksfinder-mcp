@@ -1,6 +1,6 @@
 {
 	"name": "@stacksfinder/mcp-server",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "21 tools for deterministic tech stack recommendations, technology comparison, blueprint generation, technical debt audits, and MCP compatibility checking. No hallucinations, just data.",
 	"type": "module",
 	"bin": {

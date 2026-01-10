@@ -90,18 +90,24 @@ export const recommendStackToolDefinition = {
 };
 
 /**
- * API response structure (simplified).
+ * API response structure (V2 format).
  */
+interface CategoryTech {
+	id: string;
+	name: string;
+	score: number;
+	grade: string;
+	isRecommended: boolean;
+}
+
 interface ScoreApiResponse {
-	stacks: Array<{
+	categories: Array<{
 		category: string;
-		technology: string;
-		score: number;
-		grade: string;
+		technologies: CategoryTech[];
 	}>;
-	confidence: 'high' | 'medium' | 'low';
-	inputsNormalized: Record<string, unknown>;
-	requestId?: string;
+	confidence: { level: 'high' | 'medium' | 'low' };
+	appliedWeights: Record<string, number>;
+	requestHash?: string;
 }
 
 /**
@@ -114,23 +120,35 @@ function formatResponse(response: ScoreApiResponse, projectType: string, scale: 
 |----------|------------|-------|-------|
 `;
 
-	for (const stack of response.stacks) {
-		text += `| ${stack.category} | ${stack.technology} | ${stack.score} | ${stack.grade} |\n`;
+	const stacks: Array<{ category: string; technology: string; score: number; grade: string }> = [];
+
+	for (const cat of response.categories) {
+		// Get the recommended tech (isRecommended=true) or first one
+		const recommended = cat.technologies.find((t) => t.isRecommended) || cat.technologies[0];
+		if (recommended) {
+			stacks.push({
+				category: cat.category,
+				technology: recommended.name,
+				score: recommended.score,
+				grade: recommended.grade
+			});
+			text += `| ${cat.category} | ${recommended.name} | ${recommended.score} | ${recommended.grade} |\n`;
+		}
 	}
 
 	text += `
-**Confidence**: ${response.confidence}`;
+**Confidence**: ${response.confidence?.level || 'medium'}`;
 
-	if (response.requestId) {
+	if (response.requestHash) {
 		text += `
-**Request ID**: ${response.requestId}`;
+**Request ID**: ${response.requestHash}`;
 	}
 
 	// Include raw JSON for programmatic access
 	text += `
 
 <json>
-${JSON.stringify({ stacks: response.stacks, confidence: response.confidence, inputsNormalized: response.inputsNormalized })}
+${JSON.stringify({ stacks, confidence: response.confidence?.level, appliedWeights: response.appliedWeights })}
 </json>`;
 
 	return text;

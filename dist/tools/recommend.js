@@ -89,20 +89,31 @@ function formatResponse(response, projectType, scale) {
 | Category | Technology | Score | Grade |
 |----------|------------|-------|-------|
 `;
-    for (const stack of response.stacks) {
-        text += `| ${stack.category} | ${stack.technology} | ${stack.score} | ${stack.grade} |\n`;
+    const stacks = [];
+    for (const cat of response.categories) {
+        // Get the recommended tech (isRecommended=true) or first one
+        const recommended = cat.technologies.find((t) => t.isRecommended) || cat.technologies[0];
+        if (recommended) {
+            stacks.push({
+                category: cat.category,
+                technology: recommended.name,
+                score: recommended.score,
+                grade: recommended.grade
+            });
+            text += `| ${cat.category} | ${recommended.name} | ${recommended.score} | ${recommended.grade} |\n`;
+        }
     }
     text += `
-**Confidence**: ${response.confidence}`;
-    if (response.requestId) {
+**Confidence**: ${response.confidence?.level || 'medium'}`;
+    if (response.requestHash) {
         text += `
-**Request ID**: ${response.requestId}`;
+**Request ID**: ${response.requestHash}`;
     }
     // Include raw JSON for programmatic access
     text += `
 
 <json>
-${JSON.stringify({ stacks: response.stacks, confidence: response.confidence, inputsNormalized: response.inputsNormalized })}
+${JSON.stringify({ stacks, confidence: response.confidence?.level, appliedWeights: response.appliedWeights })}
 </json>`;
     return text;
 }
