@@ -4,7 +4,9 @@
 [![npm version](https://img.shields.io/npm/v/@stacksfinder/mcp-server.svg)](https://www.npmjs.com/package/@stacksfinder/mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-MCP (Model Context Protocol) server that brings **deterministic tech stack recommendations** to LLM clients like Claude, Cursor, Windsurf, and other MCP-compatible tools.
+MCP (Model Context Protocol) server with **21 tools** for deterministic tech stack recommendations. Works with Claude, Cursor, VS Code + Copilot, Windsurf, and other MCP-compatible clients.
+
+All tools include **VS Code-compatible annotations** (`readOnlyHint`, `destructiveHint`, `openWorldHint`) for proper tool classification.
 
 **Try it free** — 8 tools work without an account, including a daily demo recommendation and MCP project kit tools.
 

@@ -1,4 +1,20 @@
 {
   "$schema": "https://glama.ai/mcp/schemas/server.json",
-  "maintainers": ["hoklims"]
+  "name": "@stacksfinder/mcp-server",
+  "version": "1.2.2",
+  "description": "21 MCP tools for deterministic tech stack recommendations, technology comparison, blueprint generation, technical debt audits, and MCP compatibility checking. All tools include VS Code-compatible annotations.",
+  "maintainers": ["hoklims"],
+  "repository": "https://github.com/hoklims/stacksfinder-mcp",
+  "homepage": "https://stacksfinder.com",
+  "keywords": ["tech-stack", "recommendations", "audit", "mcp", "compatibility"],
+  "tools": {
+    "free": 8,
+    "pro": 13,
+    "total": 21
+  },
+  "features": {
+    "annotations": true,
+    "openWorldHint": true,
+    "readOnlyHint": true
+  }
 }
