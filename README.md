@@ -5,7 +5,7 @@
 
 MCP (Model Context Protocol) server that brings **deterministic tech stack recommendations** to LLM clients like Claude, Cursor, Windsurf, and other MCP-compatible tools.
 
-**Try it free** — 4 tools work without an account, including a daily demo recommendation.
+**Try it free** — 8 tools work without an account, including a daily demo recommendation and MCP project kit.
 
 ## Quick Start
 
@@ -108,7 +108,16 @@ Add to `.vscode/mcp.json`:
 | `list_audits` | List your audit reports |
 | `compare_audits` | Compare two audits to track progress |
 | `get_audit_quota` | Check your remaining audit quota |
-| `get_migration_recommendation` | **NEW** Analyze audit for migration opportunities with builder constraints |
+| `get_migration_recommendation` | Analyze audit for migration opportunities with builder constraints |
+
+### Project Kit Tools (no API key required)
+
+| Tool | Description |
+|------|-------------|
+| `generate_mcp_kit` | Generate optimal tech stack + MCP recommendations from project description |
+| `analyze_repo_mcps` | Analyze your repository and recommend relevant MCP servers |
+| `prepare_mcp_installation` | Detect MCPs, generate `.env-mcp` template for credentials |
+| `execute_mcp_installation` | Parse `.env-mcp` and generate IDE install commands |
 
 Get your API key at [stacksfinder.com/pricing](https://stacksfinder.com/pricing)
 
@@ -244,6 +253,96 @@ Express 4.17.0 is missing security patches
 - [x] Critical: lodash vulnerability
 - [x] High: moment.js deprecation
 - [x] High: outdated Node version
+```
+
+### generate_mcp_kit (Free)
+
+```
+> generate_mcp_kit projectDescription="I'm building a SaaS for project management with Supabase and Stripe"
+
+## Recommended Tech Stack
+
+| Category | Technology | Score |
+|----------|------------|-------|
+| meta-framework | SvelteKit | 84 |
+| database | Supabase | 82 |
+| auth | Supabase Auth | 80 |
+| payments | Stripe | 96 |
+
+## Recommended MCPs
+
+| MCP | Priority | Why |
+|-----|----------|-----|
+| supabase-mcp | High | Direct database access |
+| stripe-mcp | High | Payment management |
+| context7 | Medium | Documentation lookup |
+
+## Install Configs
+
+Claude Code:
+claude mcp add supabase-mcp npx -y @supabase/mcp-server
+```
+
+### analyze_repo_mcps (Free)
+
+```
+> analyze_repo_mcps
+
+## Detected Technologies
+- **Frontend**: SvelteKit (2.x)
+- **Database**: PostgreSQL (via Drizzle)
+- **Auth**: Lucia
+- **Payments**: Paddle
+
+## Recommended MCPs
+
+### High Priority
+**Neon MCP** (`@neondatabase/mcp-server`)
+- Direct database access and query execution
+- _Matched: drizzle, postgresql_
+
+### Medium Priority
+**Context7** (`context7`)
+- Up-to-date documentation for any library
+- _Matched: universal_
+```
+
+### prepare_mcp_installation (Free)
+
+```
+> prepare_mcp_installation
+
+✅ Created .env-mcp with 3 MCPs requiring configuration.
+
+## MCPs to Install
+
+### 🔴 High Priority
+- **Neon MCP** (1 required vars)
+- **Paddle MCP** (2 required vars)
+
+### 🟢 Low Priority
+- **Context7** (0 required vars)
+
+Edit .env-mcp to add your credentials, then run execute_mcp_installation.
+```
+
+### execute_mcp_installation (Free)
+
+```
+> execute_mcp_installation targetClient="claude-code"
+
+✅ 2 MCPs ready, 1 pending credentials.
+
+## Claude Code Installation
+
+Run this command to install all ready MCPs:
+
+claude mcp add neon-mcp npx -y @neondatabase/mcp-server && \
+claude mcp add context7 npx -y context7
+
+## Post-Installation
+- Restart Claude Code to load new MCPs
+- Run `claude mcp list` to verify installation
 ```
 
 ## Environment Variables
