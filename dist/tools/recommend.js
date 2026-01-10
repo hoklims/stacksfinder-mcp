@@ -115,11 +115,16 @@ export async function executeRecommendStack(input) {
     const uniquePriorities = [...new Set(priorities)].slice(0, 3);
     debug('Calling score API', { projectType, scale, priorities: uniquePriorities, constraints });
     try {
+        // API V2 expects context wrapper object
         const response = await scoreRequest({
-            projectType,
-            scale,
-            priorities: uniquePriorities,
-            constraints
+            context: {
+                projectType,
+                scale,
+                priorities: uniquePriorities,
+                constraintIds: constraints
+            },
+            selectedTechs: {},
+            constraintIds: constraints
         });
         const text = formatResponse(response, projectType, scale);
         return { text };
