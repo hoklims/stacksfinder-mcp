@@ -1,7 +1,7 @@
 {
 	"name": "@stacksfinder/mcp-server",
-	"version": "1.2.1",
-	"description": "21 tools for deterministic tech stack recommendations, technology comparison, blueprint generation, technical debt audits, and MCP compatibility checking. No hallucinations, just data.",
+	"version": "1.2.2",
+	"description": "21 tools for deterministic tech stack recommendations, technology comparison, blueprint generation, technical debt audits, MCP compatibility checking, and project kit. No hallucinations, just data.",
 	"type": "module",
 	"bin": {
 		"stacksfinder-mcp": "./dist/index.js"
@@ -14,10 +14,7 @@
 			"import": "./dist/index.js"
 		}
 	},
-	"files": [
-		"dist",
-		"README.md"
-	],
+	"files": ["dist", "README.md"],
 	"scripts": {
 		"build": "tsc && npm run copy-data",
 		"copy-data": "node -e \"const fs=require('fs');['technology_scores.json','compatibility_matrix.json'].forEach(f=>fs.copyFileSync('src/data/'+f,'dist/data/'+f))\"",
@@ -29,8 +26,7 @@
 	},
 	"dependencies": {
 		"@modelcontextprotocol/sdk": "^1.25.1",
-		"@types/express": "^5.0.6",
-		"express": "^5.2.1",
+		"@stacksfinder/mcp-compatibility": "workspace:*",
 		"zod": "^3.23.0"
 	},
 	"devDependencies": {

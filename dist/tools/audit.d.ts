@@ -10,25 +10,25 @@ export declare const CreateAuditInputSchema: z.ZodObject<{
         category: z.ZodOptional<z.ZodString>;
     }, "strip", z.ZodTypeAny, {
         name: string;
-        category?: string | undefined;
         version?: string | undefined;
+        category?: string | undefined;
     }, {
         name: string;
-        category?: string | undefined;
         version?: string | undefined;
+        category?: string | undefined;
     }>, "many">;
 }, "strip", z.ZodTypeAny, {
     technologies: {
         name: string;
-        category?: string | undefined;
         version?: string | undefined;
+        category?: string | undefined;
     }[];
     name: string;
 }, {
     technologies: {
         name: string;
-        category?: string | undefined;
         version?: string | undefined;
+        category?: string | undefined;
     }[];
     name: string;
 }>;

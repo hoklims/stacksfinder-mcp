@@ -15,6 +15,7 @@ import { executeMCPInstallationTool, executeMCPInstallation } from './tools/proj
 import { PrepareMCPInstallationInputSchema, ExecuteMCPInstallationInputSchema } from './tools/project-kit/installation-types.js';
 import { checkCompatibilityToolDefinition, executeCheckCompatibility, CheckCompatibilityInputSchema } from './tools/check-compatibility.js';
 import { info, debug } from './utils/logger.js';
+import { listTechnologiesAnnotations, analyzeTechAnnotations, compareTechsAnnotations, recommendStackDemoAnnotations, recommendStackAnnotations, getBlueprintAnnotations, createBlueprintAnnotations, setupApiKeyAnnotations, listApiKeysAnnotations, revokeApiKeyAnnotations, createAuditAnnotations, getAuditAnnotations, listAuditsAnnotations, compareAuditsAnnotations, getAuditQuotaAnnotations, getMigrationRecommendationAnnotations, generateMcpKitAnnotations, analyzeRepoMcpsAnnotations, prepareMcpInstallationAnnotations, executeMcpInstallationAnnotations, checkCompatibilityAnnotations } from './annotations.js';
 /**
  * Create and configure the MCP server.
  */
@@ -30,7 +31,8 @@ export function createServer() {
         description: listTechsToolDefinition.description,
         inputSchema: {
             category: z.enum(CATEGORIES).optional().describe('Filter by category')
-        }
+        },
+        annotations: listTechnologiesAnnotations
     }, async (args) => {
         debug('list_technologies called', args);
         const input = ListTechsInputSchema.parse(args);
@@ -46,7 +48,8 @@ export function createServer() {
         inputSchema: {
             technology: z.string().min(1).describe('Technology ID to analyze'),
             context: z.enum(CONTEXTS).optional().describe('Context for scoring')
-        }
+        },
+        annotations: analyzeTechAnnotations
     }, async (args) => {
         debug('analyze_tech called', args);
         const input = AnalyzeTechInputSchema.parse(args);
@@ -63,7 +66,8 @@ export function createServer() {
         inputSchema: {
             technologies: z.array(z.string().min(1)).min(2).max(4).describe('Technologies to compare'),
             context: z.enum(CONTEXTS).optional().describe('Context for scoring')
-        }
+        },
+        annotations: compareTechsAnnotations
     }, async (args) => {
         debug('compare_techs called', args);
         const input = CompareTechsInputSchema.parse(args);
@@ -92,7 +96,8 @@ export function createServer() {
             ])
                 .describe('Type of project'),
             scale: z.enum(['mvp', 'startup', 'growth', 'enterprise']).optional().describe('Project scale')
-        }
+        },
+        annotations: recommendStackDemoAnnotations
     }, async (args) => {
         debug('recommend_stack_demo called', args);
         const input = RecommendStackDemoInputSchema.parse(args);
@@ -135,7 +140,8 @@ export function createServer() {
                 .optional()
                 .describe('Top priorities (max 3)'),
             constraints: z.array(z.string()).optional().describe('Project constraints')
-        }
+        },
+        annotations: recommendStackAnnotations
     }, async (args) => {
         debug('recommend_stack called', args);
         const input = RecommendStackInputSchema.parse(args);
@@ -151,7 +157,8 @@ export function createServer() {
         description: getBlueprintToolDefinition.description,
         inputSchema: {
             blueprintId: z.string().uuid().describe('Blueprint UUID')
-        }
+        },
+        annotations: getBlueprintAnnotations
     }, async (args) => {
         debug('get_blueprint called', args);
         const input = GetBlueprintInputSchema.parse(args);
@@ -197,7 +204,8 @@ export function createServer() {
                 .describe('Top 3 priorities (optional)'),
             constraints: z.array(z.string()).max(20).optional().describe('Technology constraint IDs (optional)'),
             waitForCompletion: z.boolean().optional().describe('Wait for completion (default: true)')
-        }
+        },
+        annotations: createBlueprintAnnotations
     }, async (args) => {
         debug('create_blueprint called', args);
         const input = CreateBlueprintInputSchema.parse(args);
@@ -215,7 +223,8 @@ export function createServer() {
             email: z.string().email().describe('Your StacksFinder account email'),
             password: z.string().min(1).describe('Your StacksFinder account password'),
             keyName: z.string().max(100).optional().describe('Optional name for the API key')
-        }
+        },
+        annotations: setupApiKeyAnnotations
     }, async (args) => {
         debug('setup_api_key called', args.email);
         const input = SetupApiKeyInputSchema.parse(args);
@@ -229,7 +238,8 @@ export function createServer() {
     server.registerTool(listApiKeysToolDefinition.name, {
         title: 'List API Keys',
         description: listApiKeysToolDefinition.description,
-        inputSchema: {}
+        inputSchema: {},
+        annotations: listApiKeysAnnotations
     }, async () => {
         debug('list_api_keys called');
         const { text, isError } = await executeListApiKeys();
@@ -244,7 +254,8 @@ export function createServer() {
         description: revokeApiKeyToolDefinition.description,
         inputSchema: {
             keyId: z.string().uuid().describe('The UUID of the API key to revoke')
-        }
+        },
+        annotations: revokeApiKeyAnnotations
     }, async (args) => {
         debug('revoke_api_key called', args.keyId);
         const input = RevokeApiKeyInputSchema.parse(args);
@@ -272,7 +283,8 @@ export function createServer() {
                 .min(1)
                 .max(50)
                 .describe('Technologies to audit')
-        }
+        },
+        annotations: createAuditAnnotations
     }, async (args) => {
         debug('create_audit called', args);
         const input = CreateAuditInputSchema.parse(args);
@@ -288,7 +300,8 @@ export function createServer() {
         description: getAuditToolDefinition.description,
         inputSchema: {
             auditId: z.string().uuid().describe('Audit report UUID')
-        }
+        },
+        annotations: getAuditAnnotations
     }, async (args) => {
         debug('get_audit called', args);
         const input = GetAuditInputSchema.parse(args);
@@ -305,7 +318,8 @@ export function createServer() {
         inputSchema: {
             limit: z.number().min(1).max(50).optional().describe('Max results'),
             offset: z.number().min(0).optional().describe('Pagination offset')
-        }
+        },
+        annotations: listAuditsAnnotations
     }, async (args) => {
         debug('list_audits called', args);
         const input = ListAuditsInputSchema.parse(args);
@@ -322,7 +336,8 @@ export function createServer() {
         inputSchema: {
             baseAuditId: z.string().uuid().describe('Base (older) audit ID'),
             compareAuditId: z.string().uuid().describe('Compare (newer) audit ID')
-        }
+        },
+        annotations: compareAuditsAnnotations
     }, async (args) => {
         debug('compare_audits called', args);
         const input = CompareAuditsInputSchema.parse(args);
@@ -336,7 +351,8 @@ export function createServer() {
     server.registerTool(getAuditQuotaToolDefinition.name, {
         title: 'Get Audit Quota',
         description: getAuditQuotaToolDefinition.description,
-        inputSchema: {}
+        inputSchema: {},
+        annotations: getAuditQuotaAnnotations
     }, async () => {
         debug('get_audit_quota called');
         const { text, isError } = await executeGetAuditQuota();
@@ -351,7 +367,8 @@ export function createServer() {
         description: getMigrationRecommendationToolDefinition.description,
         inputSchema: {
             auditId: z.string().uuid().describe('Audit report UUID to analyze for migration')
-        }
+        },
+        annotations: getMigrationRecommendationAnnotations
     }, async (args) => {
         debug('get_migration_recommendation called', args);
         const input = GetMigrationRecommendationInputSchema.parse(args);
@@ -374,7 +391,8 @@ export function createServer() {
             constraints: z.array(z.string()).optional().describe('Tech constraints (e.g., must-use-postgresql)'),
             projectType: z.enum(PROJECT_TYPES).optional().describe('Project type (if known)'),
             scale: z.enum(SCALES).optional().describe('Project scale (if known)')
-        }
+        },
+        annotations: generateMcpKitAnnotations
     }, async (args) => {
         debug('generate_mcp_kit called', args);
         const input = GenerateMCPKitInputSchema.parse(args);
@@ -391,7 +409,8 @@ export function createServer() {
             includeInstalled: z.boolean().optional().describe('Include already installed MCPs (default: false)'),
             mcpConfigPath: z.string().optional().describe('Override path to MCP configuration file'),
             workspaceRoot: z.string().optional().describe('Override workspace root directory (default: current directory)')
-        }
+        },
+        annotations: analyzeRepoMcpsAnnotations
     }, async (args) => {
         debug('analyze_repo_mcps called', args);
         const input = AnalyzeRepoMCPsInputSchema.parse(args);
@@ -410,7 +429,8 @@ export function createServer() {
             mcpConfigPath: z.string().optional().describe('Override path to existing MCP configuration file'),
             includeInstalled: z.boolean().optional().describe('Include already installed MCPs in the preparation (default: false)'),
             envMcpPath: z.string().optional().describe('Path where .env-mcp will be created (default: .env-mcp in workspaceRoot)')
-        }
+        },
+        annotations: prepareMcpInstallationAnnotations
     }, async (args) => {
         debug('prepare_mcp_installation called', args);
         const input = PrepareMCPInstallationInputSchema.parse(args);
@@ -430,7 +450,8 @@ export function createServer() {
                 .optional()
                 .describe('Target IDE/client for installation (default: claude-code)'),
             dryRun: z.boolean().optional().describe('Only generate commands without marking ready to execute (default: false)')
-        }
+        },
+        annotations: executeMcpInstallationAnnotations
     }, async (args) => {
         debug('execute_mcp_installation called', args);
         const input = ExecuteMCPInstallationInputSchema.parse(args);
@@ -452,7 +473,8 @@ export function createServer() {
                 .min(1)
                 .max(20)
                 .describe('Array of MCP server IDs to check compatibility between')
-        }
+        },
+        annotations: checkCompatibilityAnnotations
     }, async (args) => {
         debug('check_mcp_compatibility called', args);
         const input = CheckCompatibilityInputSchema.parse(args);
