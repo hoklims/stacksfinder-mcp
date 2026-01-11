@@ -2,6 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@stacksfinder/mcp-server.svg)](https://www.npmjs.com/package/@stacksfinder/mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![LobeHub](https://img.shields.io/badge/LobeHub-MCP%20Directory-blue.svg)](https://lobehub.com/fr/mcp/hoklims-stacksfinder-mcp)
 
 MCP (Model Context Protocol) server that brings **deterministic tech stack recommendations** to LLM clients like Claude, Cursor, Windsurf, and other MCP-compatible tools.
 

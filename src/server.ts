@@ -77,6 +77,13 @@ import {
 	executeCheckCompatibility,
 	CheckCompatibilityInputSchema
 } from './tools/check-compatibility.js';
+import {
+	estimateProjectToolDefinition,
+	executeEstimateProject,
+	EstimateProjectInputSchema,
+	getEstimateQuotaToolDefinition,
+	executeGetEstimateQuota
+} from './tools/estimator.js';
 import { info, debug } from './utils/logger.js';
 import {
 	listTechnologiesAnnotations,
@@ -99,7 +106,9 @@ import {
 	analyzeRepoMcpsAnnotations,
 	prepareMcpInstallationAnnotations,
 	executeMcpInstallationAnnotations,
-	checkCompatibilityAnnotations
+	checkCompatibilityAnnotations,
+	estimateProjectAnnotations,
+	getEstimateQuotaAnnotations
 } from './annotations.js';
 
 /**
@@ -689,7 +698,66 @@ export function createServer(): McpServer {
 		}
 	);
 
-	info('Registered 21 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key, create_audit, get_audit, list_audits, compare_audits, get_audit_quota, get_migration_recommendation, generate_mcp_kit, analyze_repo_mcps, prepare_mcp_installation, execute_mcp_installation, check_mcp_compatibility');
+	// ========================================================================
+	// ESTIMATOR TOOLS (Project Scope & Pricing)
+	// ========================================================================
+
+	// Register estimate_project tool (API-based, requires API key with estimate:write)
+	server.registerTool(
+		estimateProjectToolDefinition.name,
+		{
+			title: 'Estimate Project',
+			description: estimateProjectToolDefinition.description,
+			inputSchema: {
+				specs: z
+					.string()
+					.min(100)
+					.max(10000)
+					.describe('Project specifications (min 100 chars, max 10,000)'),
+				teamSize: z.number().min(1).max(100).optional().describe('Number of developers'),
+				seniorityLevel: z
+					.enum(['junior', 'mid', 'senior', 'expert'])
+					.optional()
+					.describe('Average team seniority (default: mid)'),
+				region: z
+					.enum(['france', 'us', 'uk', 'remote-global'])
+					.optional()
+					.describe('Region for pricing (default: france)'),
+				includeMarket: z.boolean().optional().describe('Include market analysis (default: true, Pro tier only)')
+			},
+			annotations: estimateProjectAnnotations
+		},
+		async (args) => {
+			debug('estimate_project called', { specsLength: (args.specs as string)?.length });
+			const input = EstimateProjectInputSchema.parse(args);
+			const { text, isError } = await executeEstimateProject(input);
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
+	// Register get_estimate_quota tool (API-based, requires API key)
+	server.registerTool(
+		getEstimateQuotaToolDefinition.name,
+		{
+			title: 'Get Estimate Quota',
+			description: getEstimateQuotaToolDefinition.description,
+			inputSchema: {},
+			annotations: getEstimateQuotaAnnotations
+		},
+		async () => {
+			debug('get_estimate_quota called');
+			const { text, isError } = await executeGetEstimateQuota({});
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
+	info('Registered 23 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key, create_audit, get_audit, list_audits, compare_audits, get_audit_quota, get_migration_recommendation, generate_mcp_kit, analyze_repo_mcps, prepare_mcp_installation, execute_mcp_installation, check_mcp_compatibility, estimate_project, get_estimate_quota');
 
 	return server;
 }

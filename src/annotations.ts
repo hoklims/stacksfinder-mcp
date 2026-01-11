@@ -221,3 +221,25 @@ export const getMigrationRecommendationAnnotations: ToolAnnotations = {
 	idempotentHint: true,
 	openWorldHint: true
 };
+
+// ============================================================================
+// ESTIMATOR TOOLS (API-based, LLM + Perplexity)
+// ============================================================================
+
+/** Estimate project - creates estimate via LLM + optional market analysis */
+export const estimateProjectAnnotations: ToolAnnotations = {
+	title: 'Estimate Project',
+	readOnlyHint: false, // Creates estimate, consumes quota
+	destructiveHint: false,
+	idempotentHint: false, // LLM responses can vary
+	openWorldHint: true // Calls Claude + optional Perplexity
+};
+
+/** Get estimate quota - fetches quota status */
+export const getEstimateQuotaAnnotations: ToolAnnotations = {
+	title: 'Get Estimate Quota',
+	readOnlyHint: true,
+	destructiveHint: false,
+	idempotentHint: true,
+	openWorldHint: true
+};
