@@ -89,6 +89,13 @@ Add to `.vscode/mcp.json`:
 | `compare_techs` | Side-by-side comparison of 2-4 technologies |
 | `recommend_stack` | **FREE 1x/day** — Full stack recommendation for any project type |
 
+### Estimator Tools (requires API key)
+
+| Tool | Description |
+|------|-------------|
+| `estimate_project` | Estimate scope, pricing, and market analysis for a project |
+| `get_estimate_quota` | Check your remaining estimate quota (weekly/monthly) |
+
 ### Pro Tools (requires API key)
 
 | Tool | Description |
@@ -254,6 +261,49 @@ Express 4.17.0 is missing security patches
 - [x] Critical: lodash vulnerability
 - [x] High: moment.js deprecation
 - [x] High: outdated Node version
+```
+
+### estimate_project (Pro)
+
+```
+> estimate_project specs="Build a SaaS project management tool with: user authentication, team workspaces, task boards with drag-and-drop, real-time collaboration, file attachments, Stripe billing integration, and email notifications. Target: small to medium teams." region="france" seniorityLevel="mid"
+
+## Project Estimate
+
+**ID**: `est_abc123`
+**Confidence**: 85%
+**Pricing Table Version**: 2026-01
+
+### Scope Analysis
+
+**Total Hours**: 280 - 420h
+**Complexity**: high
+**Buffer**: 10% (28-42h)
+
+#### Feature Breakdown
+
+| Feature | Hours | Complexity |
+|---------|-------|------------|
+| User Authentication | 16-24h | simple |
+| Team Workspaces | 32-48h | medium |
+| Task Boards | 48-72h | complex |
+| Real-time Collaboration | 40-60h | complex |
+| File Attachments | 24-36h | medium |
+| Stripe Integration | 32-48h | medium |
+| Email Notifications | 16-24h | simple |
+
+### Pricing (EUR)
+
+| Seniority | Min | Max |
+|-----------|-----|-----|
+| junior | 12 000 € | 21 000 € |
+| mid | 18 000 € | 33 000 € |
+| senior | 28 000 € | 50 400 € |
+| expert | 40 000 € | 75 600 € |
+
+**Adjustments Applied** (×1.15):
+- Payment Integration: +5%
+- Real-time Features: +10%
 ```
 
 ### generate_mcp_kit (Free)
