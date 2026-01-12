@@ -16,10 +16,14 @@ const PORT = parseInt(process.env.PORT || '3000', 10);
 /**
  * Create a sandbox server for Smithery capability scanning.
  * This allows Smithery to scan tools/resources without real credentials.
+ * This is exported as default for Cloudflare Workers / Smithery compatibility.
  */
 export function createSandboxServer() {
 	return createServer();
 }
+
+// Default export must be the createServer function for Smithery
+export default createSandboxServer;
 
 /**
  * Start the HTTP server.
@@ -98,13 +102,6 @@ export async function startServer(): Promise<void> {
 		info('POST /mcp for MCP requests, GET /health for health checks');
 	});
 }
-
-// Default export for Cloudflare Workers / Smithery compatibility
-export default {
-	createSandboxServer,
-	startServer,
-	createServer
-};
 
 // Only start server when run directly (not when imported for sandbox scanning)
 const isDirectRun = process.argv[1]?.includes('http') || process.env.SMITHERY_START === 'true';
