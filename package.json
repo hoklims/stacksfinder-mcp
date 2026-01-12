@@ -16,7 +16,7 @@
 	},
 	"files": ["dist", "README.md"],
 	"scripts": {
-		"build": "tsc && npm run copy-data",
+		"build": "tsc && npm run copy-data && npx @smithery/cli build src/http.ts",
 		"copy-data": "node -e \"const fs=require('fs');['technology_scores.json','compatibility_matrix.json'].forEach(f=>fs.copyFileSync('src/data/'+f,'dist/data/'+f))\"",
 		"dev": "tsx watch src/index.ts",
 		"start": "node dist/index.js",
@@ -29,6 +29,7 @@
 		"zod": "^3.23.0"
 	},
 	"devDependencies": {
+		"@smithery/cli": "^0.1.0",
 		"@types/node": "^20.0.0",
 		"tsx": "^4.0.0",
 		"typescript": "^5.4.0",
