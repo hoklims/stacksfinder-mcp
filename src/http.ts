@@ -99,8 +99,14 @@ export async function startServer(): Promise<void> {
 	});
 }
 
+// Default export for Cloudflare Workers / Smithery compatibility
+export default {
+	createSandboxServer,
+	startServer,
+	createServer
+};
+
 // Only start server when run directly (not when imported for sandbox scanning)
-// Check if this is the main module by looking at process.argv
 const isDirectRun = process.argv[1]?.includes('http') || process.env.SMITHERY_START === 'true';
 
 if (isDirectRun) {
