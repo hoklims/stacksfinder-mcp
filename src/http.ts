@@ -21,7 +21,10 @@ export function createSandboxServer() {
 	return createServer();
 }
 
-async function main(): Promise<void> {
+/**
+ * Start the HTTP server.
+ */
+export async function startServer(): Promise<void> {
 	// Load configuration
 	const config = loadConfig();
 
@@ -96,7 +99,13 @@ async function main(): Promise<void> {
 	});
 }
 
-main().catch((err) => {
-	console.error('Fatal error:', err);
-	process.exit(1);
-});
+// Only start server when run directly (not when imported for sandbox scanning)
+// Check if this is the main module by looking at process.argv
+const isDirectRun = process.argv[1]?.includes('http') || process.env.SMITHERY_START === 'true';
+
+if (isDirectRun) {
+	startServer().catch((err) => {
+		console.error('Fatal error:', err);
+		process.exit(1);
+	});
+}
