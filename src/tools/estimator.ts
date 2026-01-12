@@ -140,7 +140,7 @@ interface EstimateApiResponse {
 			byProfile: Record<string, { min: number; max: number }>;
 			adjustments: Array<{ id: string; label: string; percentage: number; applied: boolean }>;
 			adjustmentMultiplier: number;
-			recommended: { min: number; max: number };
+			recommended: number;
 			hoursPerDay: number;
 		};
 		market?: {
@@ -322,6 +322,11 @@ function formatEstimateResult(response: EstimateApiResponse): string {
 		text += `| ${level} | ${formatCurrency(range.min, pricing.currency)} | ${formatCurrency(range.max, pricing.currency)} |\n`;
 	}
 	text += `\n`;
+
+	// Recommended price (single win-win value)
+	if (pricing.recommended) {
+		text += `**💰 Prix recommandé**: ${formatCurrency(pricing.recommended, pricing.currency)}\n\n`;
+	}
 
 	// Adjustments
 	const appliedAdj = pricing.adjustments.filter((a) => a.applied);

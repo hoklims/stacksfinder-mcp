@@ -27,7 +27,7 @@ import {
 	findRule,
 	canonicalizeMcpId,
 	type CompatibilityReport
-} from '@stacksfinder/mcp-compatibility';
+} from '../../lib/compatibility/index.js';
 
 // ============================================================================
 // INSTALLED MCP DETECTION

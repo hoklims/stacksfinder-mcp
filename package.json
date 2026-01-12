@@ -1,6 +1,6 @@
 {
 	"name": "@stacksfinder/mcp-server",
-	"version": "1.3.0",
+	"version": "1.3.4",
 	"description": "23 tools for deterministic tech stack recommendations, technology comparison, blueprint generation, technical debt audits, project estimation, MCP compatibility checking, and project kit. No hallucinations, just data.",
 	"type": "module",
 	"bin": {
@@ -26,7 +26,6 @@
 	},
 	"dependencies": {
 		"@modelcontextprotocol/sdk": "^1.25.1",
-		"@stacksfinder/mcp-compatibility": "workspace:*",
 		"zod": "^3.23.0"
 	},
 	"devDependencies": {
