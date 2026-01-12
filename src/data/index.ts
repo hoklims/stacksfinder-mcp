@@ -1,9 +1,7 @@
 import { findSimilar } from '../utils/errors.js';
 
 // Import JSON with assertion for ESM compatibility
-// @ts-expect-error JSON import works at runtime
 import techScoresData from './technology_scores.json' with { type: 'json' };
-// @ts-expect-error JSON import works at runtime
 import compatibilityData from './compatibility_matrix.json' with { type: 'json' };
 
 /**
