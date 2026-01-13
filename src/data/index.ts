@@ -1,11 +1,53 @@
-import { createRequire } from 'module';
+import { readFileSync } from 'fs';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 import { findSimilar } from '../utils/errors.js';
 
-const require = createRequire(import.meta.url);
+// Get current directory - compatible with both ESM and CJS bundles (Smithery)
+function getCurrentDir(): string {
+	// Try ESM approach first
+	try {
+		if (typeof import.meta !== 'undefined' && import.meta.url) {
+			return dirname(fileURLToPath(import.meta.url));
+		}
+	} catch {
+		// Fallback for CJS
+	}
+	// CJS fallback - __dirname is available in bundled CJS
+	if (typeof __dirname !== 'undefined') {
+		return __dirname;
+	}
+	// Last resort - use process.cwd() with expected path
+	return join(process.cwd(), 'dist', 'data');
+}
 
 // Load JSON data at module initialization
-const techScoresData = require('./technology_scores.json') as TechScoresFile;
-const compatibilityData = require('./compatibility_matrix.json') as CompatibilityFile;
+function loadJSON<T>(filename: string): T {
+	const dataDir = getCurrentDir();
+	const filePath = join(dataDir, filename);
+	return JSON.parse(readFileSync(filePath, 'utf-8')) as T;
+}
+
+/**
+ * Technology scores file structure.
+ */
+interface TechScoresFile {
+	$version: string;
+	$description: string;
+	technologies: Record<string, TechInfo>;
+}
+
+/**
+ * Compatibility matrix file structure.
+ */
+interface CompatibilityFile {
+	$version: string;
+	$description: string;
+	matrix: Record<string, Record<string, number>>;
+}
+
+const techScoresData = loadJSON<TechScoresFile>('./technology_scores.json');
+const compatibilityData = loadJSON<CompatibilityFile>('./compatibility_matrix.json');
 
 /**
  * Data version - update when syncing from source.
@@ -72,24 +114,6 @@ export interface TechInfo {
 	category: Category;
 	url: string;
 	scores: Record<Context, Scores>;
-}
-
-/**
- * Technology scores file structure.
- */
-interface TechScoresFile {
-	$version: string;
-	$description: string;
-	technologies: Record<string, TechInfo>;
-}
-
-/**
- * Compatibility matrix file structure.
- */
-interface CompatibilityFile {
-	$version: string;
-	$description: string;
-	matrix: Record<string, Record<string, number>>;
 }
 
 /**

@@ -13,6 +13,14 @@ import { setDebug, info, error } from './utils/logger.js';
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
+/**
+ * Creates a sandbox server for Smithery capability scanning.
+ * This allows Smithery to scan tools/resources without real credentials.
+ */
+export function createSandboxServer() {
+	return createServer();
+}
+
 async function main(): Promise<void> {
 	// Load configuration
 	const config = loadConfig();
@@ -28,7 +36,7 @@ async function main(): Promise<void> {
 		// Health check endpoint
 		if (req.method === 'GET' && req.url === '/health') {
 			res.writeHead(200, { 'Content-Type': 'application/json' });
-			res.end(JSON.stringify({ status: 'ok', version: '1.3.4' }));
+			res.end(JSON.stringify({ status: 'ok', version: '1.3.5' }));
 			return;
 		}
 
