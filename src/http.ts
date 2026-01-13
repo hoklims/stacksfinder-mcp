@@ -2,7 +2,6 @@
 
 /**
  * HTTP entry point for Smithery hosted deployments.
- * Uses StreamableHTTPServerTransport instead of stdio.
  */
 
 import { createServer as createHttpServer, IncomingMessage, ServerResponse } from 'node:http';
@@ -15,81 +14,14 @@ const PORT = parseInt(process.env.PORT || '3000', 10);
 
 /**
  * Creates a sandbox server for Smithery capability scanning.
- * This allows Smithery to scan tools/resources without real credentials.
+ * Default export as required by Smithery.
  */
 export function createSandboxServer() {
 	return createServer();
 }
 
-/**
- * Default export for Cloudflare Workers / Smithery compatibility.
- * Returns the MCP server instance.
- */
-export default {
-	createSandboxServer,
-	fetch: async (request: Request): Promise<Response> => {
-		const url = new URL(request.url);
-
-		// Health check
-		if (request.method === 'GET' && url.pathname === '/health') {
-			return new Response(JSON.stringify({ status: 'ok', version: '1.3.5' }), {
-				headers: { 'Content-Type': 'application/json' }
-			});
-		}
-
-		// MCP endpoint
-		if (request.method === 'POST' && url.pathname === '/mcp') {
-			try {
-				const body = await request.json();
-				const server = createServer();
-				const transport = new StreamableHTTPServerTransport({
-					sessionIdGenerator: undefined,
-					enableJsonResponse: true
-				});
-
-				await server.connect(transport);
-				
-				// Create a mock request/response for the transport
-				const responseBody = await new Promise<string>((resolve, reject) => {
-					let result = '';
-					const mockRes = {
-						headersSent: false,
-						writeHead: () => {},
-						end: (data: string) => { result = data; resolve(result); },
-						on: () => {}
-					};
-					const mockReq = {
-						method: 'POST',
-						url: '/mcp',
-						[Symbol.asyncIterator]: async function* () { yield JSON.stringify(body); }
-					};
-					transport.handleRequest(mockReq as any, mockRes as any, body).catch(reject);
-				});
-
-				transport.close();
-				server.close();
-
-				return new Response(responseBody, {
-					headers: { 'Content-Type': 'application/json' }
-				});
-			} catch (err) {
-				return new Response(
-					JSON.stringify({
-						jsonrpc: '2.0',
-						error: { code: -32603, message: 'Internal server error' },
-						id: null
-					}),
-					{ status: 500, headers: { 'Content-Type': 'application/json' } }
-				);
-			}
-		}
-
-		return new Response(JSON.stringify({ error: 'Not found' }), {
-			status: 404,
-			headers: { 'Content-Type': 'application/json' }
-		});
-	}
-};
+// Default export must be the createServer function for Smithery
+export default createSandboxServer;
 
 async function main(): Promise<void> {
 	const config = loadConfig();
