@@ -15,7 +15,7 @@ import {
   getReportSummaryLine,
   CURATED_MCPS,
   type CompatibilityReport,
-} from '../lib/mcp-compatibility/index.js';
+} from '../lib/compatibility/index.js';
 
 // ============================================
 // Input Schema

@@ -1,8 +1,11 @@
+import { createRequire } from 'module';
 import { findSimilar } from '../utils/errors.js';
 
-// Import JSON with assertion for ESM compatibility
-import techScoresData from './technology_scores.json' with { type: 'json' };
-import compatibilityData from './compatibility_matrix.json' with { type: 'json' };
+const require = createRequire(import.meta.url);
+
+// Load JSON data at module initialization
+const techScoresData = require('./technology_scores.json') as TechScoresFile;
+const compatibilityData = require('./compatibility_matrix.json') as CompatibilityFile;
 
 /**
  * Data version - update when syncing from source.
@@ -89,29 +92,25 @@ interface CompatibilityFile {
 	matrix: Record<string, Record<string, number>>;
 }
 
-// Type assertions for imported JSON
-const techScores = techScoresData as TechScoresFile;
-const compatibility = compatibilityData as CompatibilityFile;
-
 /**
  * Get all technology IDs.
  */
 export function getAllTechIds(): string[] {
-	return Object.keys(techScores.technologies);
+	return Object.keys(techScoresData.technologies);
 }
 
 /**
  * Get a technology by ID.
  */
 export function getTechnology(id: string): TechInfo | null {
-	return techScores.technologies[id] || null;
+	return techScoresData.technologies[id] || null;
 }
 
 /**
  * Get all technologies.
  */
 export function getAllTechnologies(): TechInfo[] {
-	return Object.values(techScores.technologies);
+	return Object.values(techScoresData.technologies);
 }
 
 /**
@@ -190,8 +189,8 @@ export function getCompatibility(techA: string, techB: string): number {
 	if (techA === techB) return 100;
 
 	// Check both directions
-	const scoreAB = compatibility.matrix[techA]?.[techB];
-	const scoreBA = compatibility.matrix[techB]?.[techA];
+	const scoreAB = compatibilityData.matrix[techA]?.[techB];
+	const scoreBA = compatibilityData.matrix[techB]?.[techA];
 
 	// Return defined score, preferring A→B
 	if (scoreAB !== undefined) return scoreAB;
@@ -240,7 +239,7 @@ export function findSimilarTechIds(input: string, limit = 3): string[] {
  * Check if a technology ID exists.
  */
 export function techExists(id: string): boolean {
-	return id in techScores.technologies;
+	return id in techScoresData.technologies;
 }
 
 /**
@@ -248,7 +247,7 @@ export function techExists(id: string): boolean {
  */
 export function getSourceDataVersion(): { scores: string; compatibility: string } {
 	return {
-		scores: techScores.$version,
-		compatibility: compatibility.$version
+		scores: techScoresData.$version,
+		compatibility: compatibilityData.$version
 	};
 }

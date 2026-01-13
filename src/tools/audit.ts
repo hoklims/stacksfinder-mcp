@@ -338,28 +338,28 @@ interface MigrationRecommendationResponse {
 // FORMATTERS
 // ============================================================================
 
-function formatSeverityEmoji(severity: string): string {
+function formatSeverityMarker(severity: string): string {
 	switch (severity) {
 		case 'critical':
-			return '🔴';
+			return '[CRITICAL]';
 		case 'high':
-			return '🟠';
+			return '[HIGH]';
 		case 'medium':
-			return '🟡';
+			return '[MEDIUM]';
 		case 'low':
-			return '🟢';
+			return '[LOW]';
 		case 'info':
-			return 'ℹ️';
+			return '[INFO]';
 		default:
-			return '•';
+			return '[-]';
 	}
 }
 
 function formatHealthScore(score: number): string {
-	if (score >= 90) return `✅ ${score}/100 (Excellent)`;
-	if (score >= 70) return `🟡 ${score}/100 (Good)`;
-	if (score >= 50) return `🟠 ${score}/100 (Fair)`;
-	return `🔴 ${score}/100 (Needs Attention)`;
+	if (score >= 90) return `[EXCELLENT] ${score}/100`;
+	if (score >= 70) return `[GOOD] ${score}/100`;
+	if (score >= 50) return `[FAIR] ${score}/100`;
+	return `[NEEDS ATTENTION] ${score}/100`;
 }
 
 function formatAuditReport(audit: AuditResponse): string {
@@ -375,11 +375,11 @@ function formatAuditReport(audit: AuditResponse): string {
 		text += `### Summary\n`;
 		text += `| Severity | Count |\n`;
 		text += `|----------|-------|\n`;
-		text += `| 🔴 Critical | ${audit.summary.criticalCount} |\n`;
-		text += `| 🟠 High | ${audit.summary.highCount} |\n`;
-		text += `| 🟡 Medium | ${audit.summary.mediumCount} |\n`;
-		text += `| 🟢 Low | ${audit.summary.lowCount} |\n`;
-		text += `| ℹ️ Info | ${audit.summary.infoCount} |\n`;
+		text += `| Critical | ${audit.summary.criticalCount} |\n`;
+		text += `| High | ${audit.summary.highCount} |\n`;
+		text += `| Medium | ${audit.summary.mediumCount} |\n`;
+		text += `| Low | ${audit.summary.lowCount} |\n`;
+		text += `| Info | ${audit.summary.infoCount} |\n`;
 		text += `\n**Total Findings**: ${audit.summary.totalFindings}\n`;
 	}
 
@@ -387,7 +387,7 @@ function formatAuditReport(audit: AuditResponse): string {
 		text += `\n### Findings\n\n`;
 
 		for (const finding of audit.findings) {
-			text += `#### ${formatSeverityEmoji(finding.severity)} ${finding.title}\n`;
+			text += `#### ${formatSeverityMarker(finding.severity)} ${finding.title}\n`;
 			text += `**Technology**: ${finding.technology}`;
 			if (finding.currentVersion) {
 				text += ` (v${finding.currentVersion})`;
@@ -418,7 +418,7 @@ function formatAuditReport(audit: AuditResponse): string {
 			text += `---\n\n`;
 		}
 	} else if (audit.status === 'completed') {
-		text += `\n### 🎉 No Issues Found\n`;
+		text += `\n### All Clear\n`;
 		text += `Your stack passed all checks. Great job maintaining your technical health!\n`;
 	}
 
@@ -435,28 +435,28 @@ function formatComparison(comparison: CompareResponse['comparison']): string {
 	text += `| ${comparison.compareAudit.name} (compare) | ${comparison.compareAudit.healthScore}/100 |\n`;
 	text += `\n`;
 
-	const trendEmoji =
+	const trendMarker =
 		comparison.trend === 'improving'
-			? '📈'
+			? '[UP]'
 			: comparison.trend === 'degrading'
-				? '📉'
-				: '➡️';
+				? '[DOWN]'
+				: '[STABLE]';
 
-	text += `### Trend: ${trendEmoji} ${comparison.trend.toUpperCase()}\n`;
+	text += `### Trend: ${trendMarker} ${comparison.trend.toUpperCase()}\n`;
 	text += `**Health Score Change**: ${comparison.healthScoreDelta > 0 ? '+' : ''}${comparison.healthScoreDelta} points\n\n`;
 
 	if (comparison.resolvedCount > 0) {
-		text += `### ✅ Resolved Issues (${comparison.resolvedCount})\n`;
+		text += `### Resolved Issues (${comparison.resolvedCount})\n`;
 		for (const finding of comparison.resolvedFindings) {
-			text += `- ${formatSeverityEmoji(finding.severity)} ${finding.title} (${finding.technology})\n`;
+			text += `- ${formatSeverityMarker(finding.severity)} ${finding.title} (${finding.technology})\n`;
 		}
 		text += `\n`;
 	}
 
 	if (comparison.newCount > 0) {
-		text += `### ⚠️ New Issues (${comparison.newCount})\n`;
+		text += `### New Issues (${comparison.newCount})\n`;
 		for (const finding of comparison.newFindings) {
-			text += `- ${formatSeverityEmoji(finding.severity)} ${finding.title} (${finding.technology})\n`;
+			text += `- ${formatSeverityMarker(finding.severity)} ${finding.title} (${finding.technology})\n`;
 		}
 		text += `\n`;
 	}
@@ -471,7 +471,7 @@ function formatComparison(comparison: CompareResponse['comparison']): string {
 
 function formatMigrationRecommendation(response: MigrationRecommendationResponse): string {
 	if (!response.needsMigration) {
-		return `## Migration Analysis\n\n✅ **No migration recommended.**\n\nYour stack is healthy with no critical issues requiring migration.\n\n**Migration Score**: ${response.migrationScore}/100 (below threshold)`;
+		return `## Migration Analysis\n\n**No migration recommended.**\n\nYour stack is healthy with no critical issues requiring migration.\n\n**Migration Score**: ${response.migrationScore}/100 (below threshold)`;
 	}
 
 	const rec = response.recommendation;
@@ -479,14 +479,14 @@ function formatMigrationRecommendation(response: MigrationRecommendationResponse
 		return `## Migration Analysis\n\nUnable to generate recommendation.`;
 	}
 
-	const urgencyEmoji = {
-		critical: '🚨',
-		high: '⚠️',
-		medium: '📋',
-		low: 'ℹ️'
+	const urgencyMarker = {
+		critical: '[CRITICAL]',
+		high: '[HIGH]',
+		medium: '[MEDIUM]',
+		low: '[LOW]'
 	}[rec.urgency];
 
-	let text = `## ${urgencyEmoji} Migration Recommendation\n\n`;
+	let text = `## ${urgencyMarker} Migration Recommendation\n\n`;
 	text += `### ${rec.title}\n\n`;
 	text += `**Migration Score**: ${response.migrationScore}/100\n`;
 	text += `**Urgency**: ${rec.urgency.toUpperCase()}\n`;
@@ -499,7 +499,7 @@ function formatMigrationRecommendation(response: MigrationRecommendationResponse
 
 	// Technologies to Replace
 	if (rec.techsToReplace.length > 0) {
-		text += `### 🔄 Technologies to Replace\n\n`;
+		text += `### Technologies to Replace\n\n`;
 		text += `| Technology | Version | Reason |\n`;
 		text += `|------------|---------|--------|\n`;
 		for (const tech of rec.techsToReplace) {
@@ -510,7 +510,7 @@ function formatMigrationRecommendation(response: MigrationRecommendationResponse
 
 	// Suggested Alternatives
 	if (rec.suggestedAlternatives.length > 0) {
-		text += `### ✨ Recommended Alternatives\n\n`;
+		text += `### Recommended Alternatives\n\n`;
 		for (const alt of rec.suggestedAlternatives) {
 			text += `**${alt.forTech}** → `;
 			const alts = alt.alternatives.map(a => 
@@ -524,7 +524,7 @@ function formatMigrationRecommendation(response: MigrationRecommendationResponse
 
 	// Migration Roadmap
 	if (rec.migrationSteps.length > 0) {
-		text += `### 📋 Migration Roadmap\n\n`;
+		text += `### Migration Roadmap\n\n`;
 		for (const step of rec.migrationSteps) {
 			text += `**Phase ${step.order}: ${step.phase}** (${step.effort} effort)\n`;
 			text += `${step.description}\n`;
@@ -537,17 +537,17 @@ function formatMigrationRecommendation(response: MigrationRecommendationResponse
 
 	// Risks
 	if (rec.risks.length > 0) {
-		text += `### ⚠️ Risk Assessment\n\n`;
+		text += `### Risk Assessment\n\n`;
 		for (const risk of rec.risks) {
-			const riskEmoji = risk.level === 'high' ? '🔴' : risk.level === 'medium' ? '🟡' : '🟢';
-			text += `${riskEmoji} **${risk.level.toUpperCase()} RISK**: ${risk.description}\n`;
+			const riskMarker = risk.level === 'high' ? '[HIGH]' : risk.level === 'medium' ? '[MEDIUM]' : '[LOW]';
+			text += `${riskMarker} **${risk.level.toUpperCase()} RISK**: ${risk.description}\n`;
 			text += `   _Mitigation_: ${risk.mitigation}\n\n`;
 		}
 	}
 
 	// Inferred Constraints
 	if (rec.inferredConstraints.length > 0) {
-		text += `### 🎯 Inferred Builder Constraints\n\n`;
+		text += `### Inferred Builder Constraints\n\n`;
 		text += `These constraints will be pre-filled when generating a migration blueprint:\n`;
 		text += rec.inferredConstraints.map(c => `\`${c}\``).join(', ');
 		text += `\n\n`;
@@ -555,7 +555,7 @@ function formatMigrationRecommendation(response: MigrationRecommendationResponse
 
 	// Builder Pre-fill info
 	if (response.builderPreFill) {
-		text += `### 🚀 Generate Migration Blueprint\n\n`;
+		text += `### Generate Migration Blueprint\n\n`;
 		text += `Use the StacksFinder Builder with these pre-filled settings:\n`;
 		if (response.builderPreFill.context.projectType) {
 			text += `- **Project Type**: ${response.builderPreFill.context.projectType}\n`;

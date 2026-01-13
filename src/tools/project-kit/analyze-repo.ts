@@ -27,7 +27,7 @@ import {
 	findRule,
 	canonicalizeMcpId,
 	type CompatibilityReport
-} from '../../lib/mcp-compatibility/index.js';
+} from '../../lib/compatibility/index.js';
 
 // ============================================================================
 // INSTALLED MCP DETECTION
