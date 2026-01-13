@@ -1,7 +1,7 @@
 /**
  * MCP Server Integration Tests
  *
- * Tests all 21 MCP tools to ensure they are functional.
+ * Tests all 23 MCP tools to ensure they are functional.
  * Run with: npm test or vitest
  */
 
@@ -38,11 +38,11 @@ beforeAll(async () => {
 // ============================================================================
 
 describe('MCP Server Tool Discovery', () => {
-	test('should list all 21 registered tools', async () => {
+	test('should list all 23 registered tools', async () => {
 		const result = await client.request({ method: 'tools/list' }, ListToolsResultSchema);
 
 		expect(result.tools).toBeDefined();
-		expect(result.tools.length).toBe(21);
+		expect(result.tools.length).toBe(23);
 
 		const toolNames = result.tools.map((t) => t.name);
 		expect(toolNames).toContain('list_technologies');
@@ -66,6 +66,8 @@ describe('MCP Server Tool Discovery', () => {
 		expect(toolNames).toContain('prepare_mcp_installation');
 		expect(toolNames).toContain('execute_mcp_installation');
 		expect(toolNames).toContain('check_mcp_compatibility');
+		expect(toolNames).toContain('estimate_project');
+		expect(toolNames).toContain('get_estimate_quota');
 	});
 
 	test('all tools should have annotations', async () => {
