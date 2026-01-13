@@ -96,7 +96,15 @@ async function main(): Promise<void> {
 	});
 }
 
-main().catch((err) => {
-	console.error('Fatal error:', err);
-	process.exit(1);
-});
+// Only start server when run directly, not when imported for scanning
+// Check if this file is the entry point (works in both ESM and bundled CJS)
+const isDirectRun = process.argv[1]?.includes('http') || 
+                    process.env.SMITHERY_RUN === 'true' ||
+                    (typeof require !== 'undefined' && require.main === module);
+
+if (isDirectRun && !process.env.SMITHERY_SCAN) {
+	main().catch((err) => {
+		console.error('Fatal error:', err);
+		process.exit(1);
+	});
+}
