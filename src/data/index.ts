@@ -1,53 +1,8 @@
-import { readFileSync } from 'fs';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
 import { findSimilar } from '../utils/errors.js';
 
-// Get current directory - compatible with both ESM and CJS bundles (Smithery)
-function getCurrentDir(): string {
-	// Try ESM approach first
-	try {
-		if (typeof import.meta !== 'undefined' && import.meta.url) {
-			return dirname(fileURLToPath(import.meta.url));
-		}
-	} catch {
-		// Fallback for CJS
-	}
-	// CJS fallback - __dirname is available in bundled CJS
-	if (typeof __dirname !== 'undefined') {
-		return __dirname;
-	}
-	// Last resort - use process.cwd() with expected path
-	return join(process.cwd(), 'dist', 'data');
-}
-
-// Load JSON data at module initialization
-function loadJSON<T>(filename: string): T {
-	const dataDir = getCurrentDir();
-	const filePath = join(dataDir, filename);
-	return JSON.parse(readFileSync(filePath, 'utf-8')) as T;
-}
-
-/**
- * Technology scores file structure.
- */
-interface TechScoresFile {
-	$version: string;
-	$description: string;
-	technologies: Record<string, TechInfo>;
-}
-
-/**
- * Compatibility matrix file structure.
- */
-interface CompatibilityFile {
-	$version: string;
-	$description: string;
-	matrix: Record<string, Record<string, number>>;
-}
-
-const techScoresData = loadJSON<TechScoresFile>('./technology_scores.json');
-const compatibilityData = loadJSON<CompatibilityFile>('./compatibility_matrix.json');
+// Import JSON directly - esbuild bundles these inline for Smithery
+import techScoresData from './technology_scores.json' with { type: 'json' };
+import compatibilityData from './compatibility_matrix.json' with { type: 'json' };
 
 /**
  * Data version - update when syncing from source.
@@ -117,24 +72,46 @@ export interface TechInfo {
 }
 
 /**
+ * Technology scores file structure.
+ */
+interface TechScoresFile {
+	$version: string;
+	$description: string;
+	technologies: Record<string, TechInfo>;
+}
+
+/**
+ * Compatibility matrix file structure.
+ */
+interface CompatibilityFile {
+	$version: string;
+	$description: string;
+	matrix: Record<string, Record<string, number>>;
+}
+
+// Type assertions for imported JSON
+const scores = techScoresData as TechScoresFile;
+const compat = compatibilityData as CompatibilityFile;
+
+/**
  * Get all technology IDs.
  */
 export function getAllTechIds(): string[] {
-	return Object.keys(techScoresData.technologies);
+	return Object.keys(scores.technologies);
 }
 
 /**
  * Get a technology by ID.
  */
 export function getTechnology(id: string): TechInfo | null {
-	return techScoresData.technologies[id] || null;
+	return scores.technologies[id] || null;
 }
 
 /**
  * Get all technologies.
  */
 export function getAllTechnologies(): TechInfo[] {
-	return Object.values(techScoresData.technologies);
+	return Object.values(scores.technologies);
 }
 
 /**
@@ -213,8 +190,8 @@ export function getCompatibility(techA: string, techB: string): number {
 	if (techA === techB) return 100;
 
 	// Check both directions
-	const scoreAB = compatibilityData.matrix[techA]?.[techB];
-	const scoreBA = compatibilityData.matrix[techB]?.[techA];
+	const scoreAB = compat.matrix[techA]?.[techB];
+	const scoreBA = compat.matrix[techB]?.[techA];
 
 	// Return defined score, preferring A→B
 	if (scoreAB !== undefined) return scoreAB;
@@ -263,7 +240,7 @@ export function findSimilarTechIds(input: string, limit = 3): string[] {
  * Check if a technology ID exists.
  */
 export function techExists(id: string): boolean {
-	return id in techScoresData.technologies;
+	return id in scores.technologies;
 }
 
 /**
@@ -271,7 +248,7 @@ export function techExists(id: string): boolean {
  */
 export function getSourceDataVersion(): { scores: string; compatibility: string } {
 	return {
-		scores: techScoresData.$version,
-		compatibility: compatibilityData.$version
+		scores: scores.$version,
+		compatibility: compat.$version
 	};
 }
