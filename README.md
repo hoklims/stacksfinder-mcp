@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@stacksfinder/mcp-server.svg)](https://www.npmjs.com/package/@stacksfinder/mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![MCP](https://img.shields.io/badge/MCP-Compatible-purple.svg)](https://modelcontextprotocol.io)
+[![MCP Registry](https://img.shields.io/badge/MCP-Registry-8A2BE2.svg)](https://registry.modelcontextprotocol.io)
 [![LobeHub](https://img.shields.io/badge/LobeHub-MCP%20Directory-blue.svg)](https://lobehub.com/fr/mcp/hoklims-stacksfinder-mcp)
 
 MCP (Model Context Protocol) server that brings **deterministic tech stack recommendations** to LLM clients like Claude, Cursor, Windsurf, and other MCP-compatible tools.
@@ -477,6 +477,7 @@ For security vulnerabilities, please see our [Security Policy](SECURITY.md).
 
 - **Website**: [stacksfinder.com](https://stacksfinder.com)
 - **Pricing**: [stacksfinder.com/pricing](https://stacksfinder.com/pricing)
+- **MCP Registry**: [registry.modelcontextprotocol.io](https://registry.modelcontextprotocol.io) (Official Anthropic)
 - **Discord**: [discord.gg/scBHF2EumC](https://discord.gg/scBHF2EumC)
 - **Glama**: [glama.ai/mcp/servers/@stacksfinder/mcp-server](https://glama.ai/mcp/servers/@stacksfinder/mcp-server)
 - **Smithery**: [smithery.ai/server/hoklims/stacksfinder-mcp](https://smithery.ai/server/hoklims/stacksfinder-mcp)

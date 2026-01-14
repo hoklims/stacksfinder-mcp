@@ -16,7 +16,8 @@ import {
 
 // Mock fetch for testing
 const mockFetch = vi.fn();
-vi.stubGlobal('fetch', mockFetch);
+const originalFetch = globalThis.fetch;
+globalThis.fetch = mockFetch as typeof fetch;
 
 describe('Audit Tools - Schemas', () => {
 	describe('CreateAuditInputSchema', () => {
