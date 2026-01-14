@@ -14,10 +14,17 @@ MCP (Model Context Protocol) server that brings **deterministic tech stack recom
 ### Claude Code (CLI)
 
 ```bash
-# Add to Claude Code
+# macOS/Linux
 claude mcp add stacksfinder npx -y @stacksfinder/mcp-server
 
-# With API key for full features
+# Windows (requires cmd wrapper)
+claude mcp add-json stacksfinder '{
+  "command": "cmd",
+  "args": ["/c", "npx", "-y", "@stacksfinder/mcp-server"],
+  "env": {"STACKSFINDER_API_KEY": "sk_live_xxx"}
+}'
+
+# With API key (macOS/Linux)
 claude mcp add-json stacksfinder '{
   "command": "npx",
   "args": ["-y", "@stacksfinder/mcp-server"],
@@ -29,12 +36,28 @@ claude mcp add-json stacksfinder '{
 
 Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
+**macOS/Linux:**
 ```json
 {
   "mcpServers": {
     "stacksfinder": {
       "command": "npx",
       "args": ["-y", "@stacksfinder/mcp-server"],
+      "env": {
+        "STACKSFINDER_API_KEY": "sk_live_xxx"
+      }
+    }
+  }
+}
+```
+
+**Windows:**
+```json
+{
+  "mcpServers": {
+    "stacksfinder": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@stacksfinder/mcp-server"],
       "env": {
         "STACKSFINDER_API_KEY": "sk_live_xxx"
       }
@@ -47,6 +70,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
 
 Add to `.cursor/mcp.json` or `.windsurf/mcp.json` in your project root:
 
+**macOS/Linux:**
 ```json
 {
   "mcpServers": {
@@ -61,10 +85,26 @@ Add to `.cursor/mcp.json` or `.windsurf/mcp.json` in your project root:
 }
 ```
 
+**Windows:**
+```json
+{
+  "mcpServers": {
+    "stacksfinder": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@stacksfinder/mcp-server"],
+      "env": {
+        "STACKSFINDER_API_KEY": "sk_live_xxx"
+      }
+    }
+  }
+}
+```
+
 ### VS Code + Copilot
 
 Add to `.vscode/mcp.json`:
 
+**macOS/Linux:**
 ```json
 {
   "servers": {
@@ -78,6 +118,56 @@ Add to `.vscode/mcp.json`:
   }
 }
 ```
+
+**Windows:**
+```json
+{
+  "servers": {
+    "stacksfinder": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@stacksfinder/mcp-server"],
+      "env": {
+        "STACKSFINDER_API_KEY": "sk_live_xxx"
+      }
+    }
+  }
+}
+```
+
+### ChatGPT Developer Mode
+
+StacksFinder is compatible with **ChatGPT Developer Mode** (available on Pro, Plus, Business, Enterprise, and Education accounts).
+
+#### Prerequisites
+
+- ChatGPT Pro, Plus, Business, Enterprise, or Education account
+- Developer Mode enabled in ChatGPT settings
+- Note: Business/Enterprise workspaces may require admin approval
+
+#### Setup Steps
+
+1. **Enable Developer Mode**: Go to Settings → Apps → Advanced settings → toggle "Developer mode"
+2. **Create App**: Go to Settings → Apps → Create
+3. **Enter details**:
+   - **Name**: StacksFinder
+   - **URL**: `https://smithery.ai/server/hoklims/stacksfinder-mcp/mcp` (or your self-hosted URL)
+   - **Protocol**: Streaming HTTP
+   - **Description**: Deterministic tech stack recommendations
+4. **Verify**: Click Create and confirm the 23 tools appear
+
+#### Important Notes
+
+- **Developer Mode does NOT require search/fetch tools** (those are only for Deep Research)
+- Tools with `readOnlyHint: true` won't ask for confirmation in ChatGPT
+- Rate limited to 60 requests/minute per IP
+- Uses **Streaming HTTP** transport (not SSE)
+
+#### Supported Protocols
+
+| Protocol | Status |
+|----------|--------|
+| Streaming HTTP | ✅ Supported |
+| SSE | ❌ Not supported |
 
 ## Available Tools
 
@@ -130,6 +220,273 @@ Add to `.vscode/mcp.json`:
 
 Get your API key at [stacksfinder.com/pricing](https://stacksfinder.com/pricing)
 
+## Tool Examples
+
+### list_technologies
+
+```
+> list_technologies category="database"
+
+Available databases:
+- postgres (PostgreSQL)
+- sqlite (SQLite)
+- supabase (Supabase)
+- planetscale (PlanetScale)
+- turso (Turso)
+- neon (Neon)
+```
+
+### analyze_tech
+
+```
+> analyze_tech technology="sveltekit" context="mvp"
+
+## SvelteKit Analysis (MVP Context)
+
+| Dimension | Score | Grade |
+|-----------|-------|-------|
+| Performance | 92 | A |
+| DX | 88 | A |
+| Ecosystem | 72 | B |
+| Maintainability | 85 | A |
+| Cost | 90 | A |
+| Compliance | 75 | B |
+
+**Overall: 84/100 (A)**
+
+Strengths:
+- Compiler-first architecture, tiny bundles
+- Excellent TypeScript support
+- Built-in SSR, SSG, and edge rendering
+
+Weaknesses:
+- Smaller ecosystem than React
+- Fewer enterprise case studies
+```
+
+### compare_techs
+
+```
+> compare_techs technologies=["nextjs", "sveltekit", "nuxt"]
+
+## Comparison: Next.js vs SvelteKit vs Nuxt
+
+| Tech | Score | Grade |
+|------|-------|-------|
+| Next.js | 82 | A |
+| SvelteKit | 84 | A |
+| Nuxt | 79 | B |
+
+Per-dimension winners:
+- Performance: SvelteKit (+10)
+- DX: SvelteKit (+3)
+- Ecosystem: Next.js (+15)
+```
+
+### recommend_stack (Free Demo)
+
+```
+> recommend_stack projectType="saas" scale="mvp"
+
+## Recommended Stack for SaaS (MVP)
+
+| Category | Technology | Score | Grade |
+|----------|------------|-------|-------|
+| meta-framework | SvelteKit | 84 | A |
+| database | Supabase | 82 | A |
+| orm | Drizzle | 86 | A |
+| auth | Better Auth | 80 | A |
+| hosting | Vercel | 85 | A |
+| payments | Paddle | 86 | A |
+
+**Confidence**: medium (demo mode)
+
+---
+Want more? Upgrade to Pro for custom priorities, constraints, and AI narratives.
+```
+
+### create_audit (Pro)
+
+```
+> create_audit name="Q1 2026 Review" technologies=[{name:"react",version:"18.2.0"},{name:"lodash",version:"4.17.20"},{name:"express",version:"4.17.0"}]
+
+## Audit Report: Q1 2026 Review
+
+**Health Score: 72/100** (warning)
+
+| Severity | Count |
+|----------|-------|
+| [CRITICAL] | 2 |
+| [HIGH] | 1 |
+| [MEDIUM] | 3 |
+| [LOW] | 2 |
+| [INFO] | 5 |
+
+### Critical Findings
+
+**[CRITICAL] Security vulnerability in lodash** (lodash 4.17.20)
+CVE-2021-23337 - Prototype pollution vulnerability
+> Upgrade to lodash 4.17.21 or later
+
+**[CRITICAL] Outdated Express version** (express 4.17.0)
+Express 4.17.0 is missing security patches
+> Upgrade to express 4.21+ for security fixes
+```
+
+### compare_audits (Pro)
+
+```
+> compare_audits baseAuditId="uuid-jan" compareAuditId="uuid-mar"
+
+## Audit Comparison
+
+**Trend: Improving** (+16 health score)
+
+| Metric | January | March |
+|--------|---------|-------|
+| Health Score | 62 | 78 |
+| Critical | 4 | 1 |
+| High | 6 | 3 |
+
+### Resolved Issues (6)
+- [x] Critical: lodash vulnerability
+- [x] High: moment.js deprecation
+- [x] High: outdated Node version
+```
+
+### estimate_project (Pro)
+
+```
+> estimate_project specs="Build a SaaS project management tool with: user authentication, team workspaces, task boards with drag-and-drop, real-time collaboration, file attachments, Stripe billing integration, and email notifications. Target: small to medium teams." region="france" seniorityLevel="mid"
+
+## Project Estimate
+
+**ID**: `est_abc123`
+**Confidence**: 85%
+**Pricing Table Version**: 2026-01
+
+### Scope Analysis
+
+**Total Hours**: 280 - 420h
+**Complexity**: high
+**Buffer**: 10% (28-42h)
+
+#### Feature Breakdown
+
+| Feature | Hours | Complexity |
+|---------|-------|------------|
+| User Authentication | 16-24h | simple |
+| Team Workspaces | 32-48h | medium |
+| Task Boards | 48-72h | complex |
+| Real-time Collaboration | 40-60h | complex |
+| File Attachments | 24-36h | medium |
+| Stripe Integration | 32-48h | medium |
+| Email Notifications | 16-24h | simple |
+
+### Pricing (EUR)
+
+| Seniority | Min | Max |
+|-----------|-----|-----|
+| junior | 12 000 € | 21 000 € |
+| mid | 18 000 € | 33 000 € |
+| senior | 28 000 € | 50 400 € |
+| expert | 40 000 € | 75 600 € |
+
+**Adjustments Applied** (×1.15):
+- Payment Integration: +5%
+- Real-time Features: +10%
+```
+
+### generate_mcp_kit (Free)
+
+```
+> generate_mcp_kit projectDescription="I'm building a SaaS for project management with Supabase and Stripe"
+
+## Recommended Tech Stack
+
+| Category | Technology | Score |
+|----------|------------|-------|
+| meta-framework | SvelteKit | 84 |
+| database | Supabase | 82 |
+| auth | Supabase Auth | 80 |
+| payments | Stripe | 96 |
+
+## Recommended MCPs
+
+| MCP | Priority | Why |
+|-----|----------|-----|
+| supabase-mcp | High | Direct database access |
+| stripe-mcp | High | Payment management |
+| context7 | Medium | Documentation lookup |
+
+## Install Configs
+
+Claude Code:
+claude mcp add supabase-mcp npx -y @supabase/mcp-server
+```
+
+### analyze_repo_mcps (Free)
+
+```
+> analyze_repo_mcps
+
+## Detected Technologies
+- **Frontend**: SvelteKit (2.x)
+- **Database**: PostgreSQL (via Drizzle)
+- **Auth**: Lucia
+- **Payments**: Paddle
+
+## Recommended MCPs
+
+### High Priority
+**Neon MCP** (`@neondatabase/mcp-server`)
+- Direct database access and query execution
+- _Matched: drizzle, postgresql_
+
+### Medium Priority
+**Context7** (`context7`)
+- Up-to-date documentation for any library
+- _Matched: universal_
+```
+
+### prepare_mcp_installation (Free)
+
+```
+> prepare_mcp_installation
+
+✅ Created .env-mcp with 3 MCPs requiring configuration.
+
+## MCPs to Install
+
+### 🔴 High Priority
+- **Neon MCP** (1 required vars)
+- **Paddle MCP** (2 required vars)
+
+### 🟢 Low Priority
+- **Context7** (0 required vars)
+
+Edit .env-mcp to add your credentials, then run execute_mcp_installation.
+```
+
+### execute_mcp_installation (Free)
+
+```
+> execute_mcp_installation targetClient="claude-code"
+
+✅ 2 MCPs ready, 1 pending credentials.
+
+## Claude Code Installation
+
+Run this command to install all ready MCPs:
+
+claude mcp add neon-mcp npx -y @neondatabase/mcp-server && \
+claude mcp add context7 npx -y context7
+
+## Post-Installation
+- Restart Claude Code to load new MCPs
+- Run `claude mcp list` to verify installation
+```
+
 ## Environment Variables
 
 | Variable | Required | Default | Description |
@@ -151,6 +508,23 @@ All technology scores are measured across 6 dimensions (0-100):
 | **Cost** | Hosting costs, licensing, operational overhead |
 | **Compliance** | Security features, audit readiness |
 
+## Contexts
+
+Scores vary by project context:
+
+- **default**: General-purpose scores
+- **mvp**: Optimized for speed-to-market, lower cost
+- **enterprise**: Emphasizes compliance, maintainability, support
+
+## Error Handling
+
+Structured errors with suggestions:
+
+```
+**Error (TECH_NOT_FOUND)**: Technology "nexjs" not found.
+**Suggestions**: nextjs, nuxt, nestjs
+```
+
 ## Troubleshooting
 
 ### Debug mode
@@ -170,8 +544,7 @@ STACKSFINDER_MCP_DEBUG=true npx @stacksfinder/mcp-server
 ## Development
 
 ```bash
-git clone https://github.com/hoklims/stacksfinder-mcp.git
-cd stacksfinder-mcp
+cd packages/mcp-server
 bun install
 bun run build
 bun run dev      # Watch mode
@@ -189,7 +562,6 @@ For security vulnerabilities, please see our [Security Policy](SECURITY.md).
 - [CHANGELOG.md](CHANGELOG.md) - Version history and release notes
 - [CONTRIBUTING.md](CONTRIBUTING.md) - How to contribute
 - [SECURITY.md](SECURITY.md) - Security policy and vulnerability reporting
-- [SMITHERY.md](SMITHERY.md) - Smithery deployment guide
 
 ## Links
 

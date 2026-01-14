@@ -75,4 +75,33 @@ export declare function executeRevokeApiKey(input: RevokeApiKeyInput): Promise<{
     text: string;
     isError?: boolean;
 }>;
+/**
+ * Input schema for create_api_key tool.
+ * This tool is designed for OAuth-authenticated users (e.g., ChatGPT integration)
+ * and doesn't require email/password.
+ */
+export declare const CreateApiKeyInputSchema: z.ZodObject<{
+    keyName: z.ZodOptional<z.ZodString>;
+}, "strip", z.ZodTypeAny, {
+    keyName?: string | undefined;
+}, {
+    keyName?: string | undefined;
+}>;
+export type CreateApiKeyInput = z.infer<typeof CreateApiKeyInputSchema>;
+/**
+ * Tool definition for create_api_key.
+ */
+export declare const createApiKeyToolDefinition: {
+    name: string;
+    description: string;
+};
+/**
+ * Execute create_api_key tool.
+ * Uses OAuth token from the request (ChatGPT integration) or existing API key.
+ */
+export declare function executeCreateApiKey(input: CreateApiKeyInput): Promise<{
+    text: string;
+    isError?: boolean;
+    apiKey?: string;
+}>;
 //# sourceMappingURL=api-keys.d.ts.map

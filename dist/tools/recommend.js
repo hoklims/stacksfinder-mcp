@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { scoreRequest } from '../utils/api-client.js';
-import { McpError, ErrorCode } from '../utils/errors.js';
+import { McpError, ErrorCode, checkProAccess } from '../utils/errors.js';
 import { debug } from '../utils/logger.js';
 /**
  * Project types supported by the API.
@@ -51,7 +51,7 @@ export const RecommendStackInputSchema = z.object({
  */
 export const recommendStackToolDefinition = {
     name: 'recommend_stack',
-    description: 'Recommends the best tech stack for a project using real-time scoring with context adjustments. Requires API key.',
+    description: 'Recommends the best tech stack for a project using real-time scoring with context adjustments.',
     inputSchema: {
         type: 'object',
         properties: {
@@ -121,6 +121,11 @@ ${JSON.stringify({ stacks, confidence: response.confidence?.level, appliedWeight
  * Execute recommend_stack tool.
  */
 export async function executeRecommendStack(input) {
+    // Check Pro access first
+    const tierCheck = await checkProAccess('recommend_stack', 'recommend_stack_demo');
+    if (tierCheck) {
+        return tierCheck;
+    }
     const { projectType, scale = 'mvp', priorities = [], constraints = [] } = input;
     // Deduplicate priorities
     const uniquePriorities = [...new Set(priorities)].slice(0, 3);

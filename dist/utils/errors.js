@@ -11,6 +11,7 @@ export var ErrorCode;
     ErrorCode["TECH_NOT_FOUND"] = "TECH_NOT_FOUND";
     ErrorCode["TIMEOUT"] = "TIMEOUT";
     ErrorCode["CONFIG_ERROR"] = "CONFIG_ERROR";
+    ErrorCode["TIER_REQUIRED"] = "TIER_REQUIRED";
 })(ErrorCode || (ErrorCode = {}));
 /**
  * MCP-friendly error with code and optional suggestions.
@@ -118,8 +119,41 @@ export function apiError(status, message) {
         [ErrorCode.API_ERROR]: `API request failed with status ${status}.`,
         [ErrorCode.TECH_NOT_FOUND]: 'Technology not found.',
         [ErrorCode.TIMEOUT]: 'Request timed out.',
-        [ErrorCode.CONFIG_ERROR]: 'Configuration error.'
+        [ErrorCode.CONFIG_ERROR]: 'Configuration error.',
+        [ErrorCode.TIER_REQUIRED]: 'This feature requires an upgraded account.'
     };
     return new McpError(code, message || defaultMessages[code]);
+}
+// ============================================================================
+// Tier-Related Helpers
+// ============================================================================
+import { isPro } from './config.js';
+/**
+ * Standard response for tools that require Pro tier.
+ * Returns a neutral message without promotional content.
+ */
+export function tierRequiredResponse(toolName, alternativeTool) {
+    let text = `## Feature Not Available
+
+This tool (\`${toolName}\`) requires an authenticated account with the appropriate access level.
+
+**What you can do:**
+- Sign in to your StacksFinder account
+- Use the OAuth integration if you're using ChatGPT`;
+    if (alternativeTool) {
+        text += `\n- Try the free alternative: \`${alternativeTool}\``;
+    }
+    return { text, isError: true };
+}
+/**
+ * Check if user has Pro access, return tier-required response if not.
+ * Returns null if user has access, or the error response if not.
+ */
+export async function checkProAccess(toolName, alternativeTool) {
+    const hasPro = await isPro();
+    if (hasPro) {
+        return null; // User has access
+    }
+    return tierRequiredResponse(toolName, alternativeTool);
 }
 //# sourceMappingURL=errors.js.map

@@ -4,7 +4,8 @@ import { ErrorCode } from '../src/utils/errors.js';
 
 // Mock fetch for testing
 const mockFetch = vi.fn();
-vi.stubGlobal('fetch', mockFetch);
+const originalFetch = globalThis.fetch;
+globalThis.fetch = mockFetch as typeof fetch;
 
 describe('API Client', () => {
 	beforeEach(() => {

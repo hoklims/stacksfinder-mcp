@@ -9,7 +9,8 @@ export declare enum ErrorCode {
     API_ERROR = "API_ERROR",
     TECH_NOT_FOUND = "TECH_NOT_FOUND",
     TIMEOUT = "TIMEOUT",
-    CONFIG_ERROR = "CONFIG_ERROR"
+    CONFIG_ERROR = "CONFIG_ERROR",
+    TIER_REQUIRED = "TIER_REQUIRED"
 }
 /**
  * MCP-friendly error with code and optional suggestions.
@@ -43,4 +44,20 @@ export declare function httpStatusToErrorCode(status: number): ErrorCode;
  * Create error from HTTP response.
  */
 export declare function apiError(status: number, message?: string): McpError;
+/**
+ * Standard response for tools that require Pro tier.
+ * Returns a neutral message without promotional content.
+ */
+export declare function tierRequiredResponse(toolName: string, alternativeTool?: string): {
+    text: string;
+    isError: boolean;
+};
+/**
+ * Check if user has Pro access, return tier-required response if not.
+ * Returns null if user has access, or the error response if not.
+ */
+export declare function checkProAccess(toolName: string, alternativeTool?: string): Promise<{
+    text: string;
+    isError: boolean;
+} | null>;
 //# sourceMappingURL=errors.d.ts.map

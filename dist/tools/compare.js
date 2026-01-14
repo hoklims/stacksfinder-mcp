@@ -17,7 +17,25 @@ export const CompareTechsInputSchema = z.object({
  */
 export const compareTechsToolDefinition = {
     name: 'compare_techs',
-    description: 'Side-by-side comparison of 2-4 technologies with per-dimension winners and compatibility matrix.',
+    description: `Side-by-side comparison of 2-4 technologies with per-dimension winners and compatibility matrix.
+
+**Prerequisites**: Use \`list_technologies\` first to discover valid technology IDs.
+
+**Next Steps**:
+- Deep dive into winner: \`analyze_tech({ technology: "winner-id" })\`
+- Get full stack: \`recommend_stack_demo({ projectType: "saas" })\`
+
+**Output includes**:
+- Score comparison table
+- Per-dimension winners
+- Compatibility between compared techs
+- Overall recommendation
+
+**Common Pitfalls**:
+- Must provide 2-4 technologies (not 1, not 5+)
+- Use exact IDs from list_technologies
+
+**Example**: \`compare_techs({ technologies: ["nextjs", "sveltekit", "remix"], context: "mvp" })\``,
     inputSchema: {
         type: 'object',
         properties: {

@@ -1,8 +1,7 @@
 import { z } from 'zod';
 import { apiRequest } from '../utils/api-client.js';
-import { McpError, ErrorCode } from '../utils/errors.js';
+import { McpError, ErrorCode, checkProAccess } from '../utils/errors.js';
 import { debug } from '../utils/logger.js';
-import { hasApiKey } from '../utils/config.js';
 // ============================================================================
 // SCHEMAS
 // ============================================================================
@@ -56,10 +55,30 @@ export const GetMigrationRecommendationInputSchema = z.object({
 // ============================================================================
 export const createAuditToolDefinition = {
     name: 'create_audit',
-    description: `Create a technical debt audit for a list of technologies. 
-Analyzes your stack for deprecated packages, security vulnerabilities, EOL versions, and upgrade recommendations.
-Returns findings with severity (critical/high/medium/low/info) and actionable suggestions.
-Requires API key with audit:write scope.`,
+    description: `Create a technical debt audit for your tech stack. Analyzes for deprecated packages, security vulnerabilities, EOL versions, and upgrade recommendations.
+
+**Tier**: Requires Pro or Team subscription (OR OAuth session)
+
+**Prerequisites**:
+- Pro/Team account or authenticated via OAuth
+- List of technologies with versions (use package.json data)
+
+**Next Steps**:
+- Get full report: \`get_audit({ auditId: "returned-uuid" })\`
+- Get migration plan: \`get_migration_recommendation({ auditId: "uuid" })\`
+- Compare over time: \`compare_audits({ baseAuditId, compareAuditId })\`
+
+**Output includes**:
+- Health score (0-100)
+- Findings by severity (critical/high/medium/low/info)
+- Actionable upgrade recommendations
+- CVE detection for known vulnerabilities
+
+**Common Pitfalls**:
+- Include version numbers for accurate vulnerability detection
+- Use technology names as they appear in package managers
+
+**Example**: \`create_audit({ name: "Q1 2026 Stack Review", technologies: [{ name: "React", version: "17.0.0" }, { name: "Node.js", version: "14.0.0" }] })\``,
     inputSchema: {
         type: 'object',
         properties: {
@@ -174,30 +193,30 @@ Use this after create_audit to get actionable migration guidance.`,
 // ============================================================================
 // FORMATTERS
 // ============================================================================
-function formatSeverityEmoji(severity) {
+function formatSeverityMarker(severity) {
     switch (severity) {
         case 'critical':
-            return '🔴';
+            return '[CRITICAL]';
         case 'high':
-            return '🟠';
+            return '[HIGH]';
         case 'medium':
-            return '🟡';
+            return '[MEDIUM]';
         case 'low':
-            return '🟢';
+            return '[LOW]';
         case 'info':
-            return 'ℹ️';
+            return '[INFO]';
         default:
-            return '•';
+            return '[-]';
     }
 }
 function formatHealthScore(score) {
     if (score >= 90)
-        return `✅ ${score}/100 (Excellent)`;
+        return `[EXCELLENT] ${score}/100`;
     if (score >= 70)
-        return `🟡 ${score}/100 (Good)`;
+        return `[GOOD] ${score}/100`;
     if (score >= 50)
-        return `🟠 ${score}/100 (Fair)`;
-    return `🔴 ${score}/100 (Needs Attention)`;
+        return `[FAIR] ${score}/100`;
+    return `[NEEDS ATTENTION] ${score}/100`;
 }
 function formatAuditReport(audit) {
     let text = `## Audit Report: ${audit.name}\n\n`;
@@ -210,17 +229,17 @@ function formatAuditReport(audit) {
         text += `### Summary\n`;
         text += `| Severity | Count |\n`;
         text += `|----------|-------|\n`;
-        text += `| 🔴 Critical | ${audit.summary.criticalCount} |\n`;
-        text += `| 🟠 High | ${audit.summary.highCount} |\n`;
-        text += `| 🟡 Medium | ${audit.summary.mediumCount} |\n`;
-        text += `| 🟢 Low | ${audit.summary.lowCount} |\n`;
-        text += `| ℹ️ Info | ${audit.summary.infoCount} |\n`;
+        text += `| Critical | ${audit.summary.criticalCount} |\n`;
+        text += `| High | ${audit.summary.highCount} |\n`;
+        text += `| Medium | ${audit.summary.mediumCount} |\n`;
+        text += `| Low | ${audit.summary.lowCount} |\n`;
+        text += `| Info | ${audit.summary.infoCount} |\n`;
         text += `\n**Total Findings**: ${audit.summary.totalFindings}\n`;
     }
     if (audit.findings && audit.findings.length > 0) {
         text += `\n### Findings\n\n`;
         for (const finding of audit.findings) {
-            text += `#### ${formatSeverityEmoji(finding.severity)} ${finding.title}\n`;
+            text += `#### ${formatSeverityMarker(finding.severity)} ${finding.title}\n`;
             text += `**Technology**: ${finding.technology}`;
             if (finding.currentVersion) {
                 text += ` (v${finding.currentVersion})`;
@@ -249,7 +268,7 @@ function formatAuditReport(audit) {
         }
     }
     else if (audit.status === 'completed') {
-        text += `\n### 🎉 No Issues Found\n`;
+        text += `\n### All Clear\n`;
         text += `Your stack passed all checks. Great job maintaining your technical health!\n`;
     }
     return text;
@@ -262,24 +281,24 @@ function formatComparison(comparison) {
     text += `| ${comparison.baseAudit.name} (base) | ${comparison.baseAudit.healthScore}/100 |\n`;
     text += `| ${comparison.compareAudit.name} (compare) | ${comparison.compareAudit.healthScore}/100 |\n`;
     text += `\n`;
-    const trendEmoji = comparison.trend === 'improving'
-        ? '📈'
+    const trendMarker = comparison.trend === 'improving'
+        ? '[UP]'
         : comparison.trend === 'degrading'
-            ? '📉'
-            : '➡️';
-    text += `### Trend: ${trendEmoji} ${comparison.trend.toUpperCase()}\n`;
+            ? '[DOWN]'
+            : '[STABLE]';
+    text += `### Trend: ${trendMarker} ${comparison.trend.toUpperCase()}\n`;
     text += `**Health Score Change**: ${comparison.healthScoreDelta > 0 ? '+' : ''}${comparison.healthScoreDelta} points\n\n`;
     if (comparison.resolvedCount > 0) {
-        text += `### ✅ Resolved Issues (${comparison.resolvedCount})\n`;
+        text += `### Resolved Issues (${comparison.resolvedCount})\n`;
         for (const finding of comparison.resolvedFindings) {
-            text += `- ${formatSeverityEmoji(finding.severity)} ${finding.title} (${finding.technology})\n`;
+            text += `- ${formatSeverityMarker(finding.severity)} ${finding.title} (${finding.technology})\n`;
         }
         text += `\n`;
     }
     if (comparison.newCount > 0) {
-        text += `### ⚠️ New Issues (${comparison.newCount})\n`;
+        text += `### New Issues (${comparison.newCount})\n`;
         for (const finding of comparison.newFindings) {
-            text += `- ${formatSeverityEmoji(finding.severity)} ${finding.title} (${finding.technology})\n`;
+            text += `- ${formatSeverityMarker(finding.severity)} ${finding.title} (${finding.technology})\n`;
         }
         text += `\n`;
     }
@@ -291,19 +310,19 @@ function formatComparison(comparison) {
 }
 function formatMigrationRecommendation(response) {
     if (!response.needsMigration) {
-        return `## Migration Analysis\n\n✅ **No migration recommended.**\n\nYour stack is healthy with no critical issues requiring migration.\n\n**Migration Score**: ${response.migrationScore}/100 (below threshold)`;
+        return `## Migration Analysis\n\n**No migration recommended.**\n\nYour stack is healthy with no critical issues requiring migration.\n\n**Migration Score**: ${response.migrationScore}/100 (below threshold)`;
     }
     const rec = response.recommendation;
     if (!rec) {
         return `## Migration Analysis\n\nUnable to generate recommendation.`;
     }
-    const urgencyEmoji = {
-        critical: '🚨',
-        high: '⚠️',
-        medium: '📋',
-        low: 'ℹ️'
+    const urgencyMarker = {
+        critical: '[CRITICAL]',
+        high: '[HIGH]',
+        medium: '[MEDIUM]',
+        low: '[LOW]'
     }[rec.urgency];
-    let text = `## ${urgencyEmoji} Migration Recommendation\n\n`;
+    let text = `## ${urgencyMarker} Migration Recommendation\n\n`;
     text += `### ${rec.title}\n\n`;
     text += `**Migration Score**: ${response.migrationScore}/100\n`;
     text += `**Urgency**: ${rec.urgency.toUpperCase()}\n`;
@@ -314,7 +333,7 @@ function formatMigrationRecommendation(response) {
     text += `${rec.summary}\n\n`;
     // Technologies to Replace
     if (rec.techsToReplace.length > 0) {
-        text += `### 🔄 Technologies to Replace\n\n`;
+        text += `### Technologies to Replace\n\n`;
         text += `| Technology | Version | Reason |\n`;
         text += `|------------|---------|--------|\n`;
         for (const tech of rec.techsToReplace) {
@@ -324,7 +343,7 @@ function formatMigrationRecommendation(response) {
     }
     // Suggested Alternatives
     if (rec.suggestedAlternatives.length > 0) {
-        text += `### ✨ Recommended Alternatives\n\n`;
+        text += `### Recommended Alternatives\n\n`;
         for (const alt of rec.suggestedAlternatives) {
             text += `**${alt.forTech}** → `;
             const alts = alt.alternatives.map(a => a === alt.preferredChoice ? `**${a}** (recommended)` : a);
@@ -335,7 +354,7 @@ function formatMigrationRecommendation(response) {
     }
     // Migration Roadmap
     if (rec.migrationSteps.length > 0) {
-        text += `### 📋 Migration Roadmap\n\n`;
+        text += `### Migration Roadmap\n\n`;
         for (const step of rec.migrationSteps) {
             text += `**Phase ${step.order}: ${step.phase}** (${step.effort} effort)\n`;
             text += `${step.description}\n`;
@@ -347,23 +366,23 @@ function formatMigrationRecommendation(response) {
     }
     // Risks
     if (rec.risks.length > 0) {
-        text += `### ⚠️ Risk Assessment\n\n`;
+        text += `### Risk Assessment\n\n`;
         for (const risk of rec.risks) {
-            const riskEmoji = risk.level === 'high' ? '🔴' : risk.level === 'medium' ? '🟡' : '🟢';
-            text += `${riskEmoji} **${risk.level.toUpperCase()} RISK**: ${risk.description}\n`;
+            const riskMarker = risk.level === 'high' ? '[HIGH]' : risk.level === 'medium' ? '[MEDIUM]' : '[LOW]';
+            text += `${riskMarker} **${risk.level.toUpperCase()} RISK**: ${risk.description}\n`;
             text += `   _Mitigation_: ${risk.mitigation}\n\n`;
         }
     }
     // Inferred Constraints
     if (rec.inferredConstraints.length > 0) {
-        text += `### 🎯 Inferred Builder Constraints\n\n`;
+        text += `### Inferred Builder Constraints\n\n`;
         text += `These constraints will be pre-filled when generating a migration blueprint:\n`;
         text += rec.inferredConstraints.map(c => `\`${c}\``).join(', ');
         text += `\n\n`;
     }
     // Builder Pre-fill info
     if (response.builderPreFill) {
-        text += `### 🚀 Generate Migration Blueprint\n\n`;
+        text += `### Generate Migration Blueprint\n\n`;
         text += `Use the StacksFinder Builder with these pre-filled settings:\n`;
         if (response.builderPreFill.context.projectType) {
             text += `- **Project Type**: ${response.builderPreFill.context.projectType}\n`;
@@ -384,16 +403,14 @@ function formatMigrationRecommendation(response) {
 // ============================================================================
 // EXECUTE FUNCTIONS
 // ============================================================================
-function requireApiKey() {
-    if (!hasApiKey()) {
-        throw new McpError(ErrorCode.CONFIG_ERROR, 'API key required for audit operations. Set STACKSFINDER_API_KEY environment variable.', ['Get your API key from https://stacksfinder.com/settings/api']);
-    }
-}
 /**
  * Execute create_audit tool.
  */
 export async function executeCreateAudit(input) {
-    requireApiKey();
+    // Check Pro access
+    const tierCheck = await checkProAccess('create_audit');
+    if (tierCheck)
+        return tierCheck;
     debug('Creating audit', { name: input.name, techCount: input.technologies.length });
     try {
         const response = await apiRequest('/api/v1/audits', {
@@ -422,7 +439,10 @@ export async function executeCreateAudit(input) {
  * Execute get_audit tool.
  */
 export async function executeGetAudit(input) {
-    requireApiKey();
+    // Check Pro access
+    const tierCheck = await checkProAccess('get_audit');
+    if (tierCheck)
+        return tierCheck;
     debug('Fetching audit', { auditId: input.auditId });
     try {
         const response = await apiRequest(`/api/v1/audits/${input.auditId}`);
@@ -447,7 +467,10 @@ export async function executeGetAudit(input) {
  * Execute list_audits tool.
  */
 export async function executeListAudits(input) {
-    requireApiKey();
+    // Check Pro access
+    const tierCheck = await checkProAccess('list_audits');
+    if (tierCheck)
+        return tierCheck;
     debug('Listing audits', { limit: input.limit, offset: input.offset });
     try {
         const response = await apiRequest(`/api/v1/audits?limit=${input.limit}&offset=${input.offset}`);
@@ -481,7 +504,10 @@ export async function executeListAudits(input) {
  * Execute compare_audits tool.
  */
 export async function executeCompareAudits(input) {
-    requireApiKey();
+    // Check Pro access
+    const tierCheck = await checkProAccess('compare_audits');
+    if (tierCheck)
+        return tierCheck;
     debug('Comparing audits', { base: input.baseAuditId, compare: input.compareAuditId });
     try {
         const response = await apiRequest('/api/v1/audits/compare', {
@@ -506,7 +532,10 @@ export async function executeCompareAudits(input) {
  * Execute get_audit_quota tool.
  */
 export async function executeGetAuditQuota() {
-    requireApiKey();
+    // Check Pro access
+    const tierCheck = await checkProAccess('get_audit_quota');
+    if (tierCheck)
+        return tierCheck;
     debug('Getting audit quota');
     try {
         const response = await apiRequest('/api/v1/audits/quota');
@@ -534,7 +563,10 @@ export async function executeGetAuditQuota() {
  * Execute get_migration_recommendation tool.
  */
 export async function executeGetMigrationRecommendation(input) {
-    requireApiKey();
+    // Check Pro access
+    const tierCheck = await checkProAccess('get_migration_recommendation');
+    if (tierCheck)
+        return tierCheck;
     debug('Getting migration recommendation', { auditId: input.auditId });
     try {
         const response = await apiRequest(`/api/v1/audits/${input.auditId}/migration`);

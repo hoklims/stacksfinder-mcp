@@ -14,7 +14,18 @@ export const ListTechsInputSchema = z.object({
  */
 export const listTechsToolDefinition = {
     name: 'list_technologies',
-    description: 'Lists all available technology IDs for use with other tools. Essential for discovering valid technology identifiers.',
+    description: `Lists all available technology IDs grouped by category. Essential starting point for discovery.
+
+**Prerequisites**: None - this is typically the first tool to call.
+
+**Next Steps**:
+- Analyze a specific tech: \`analyze_tech({ technology: "nextjs" })\`
+- Compare techs: \`compare_techs({ technologies: ["nextjs", "sveltekit"] })\`
+- Get stack recommendation: \`recommend_stack_demo({ projectType: "saas" })\`
+
+**Categories**: ${CATEGORIES.join(', ')}
+
+**Example**: \`list_technologies({ category: "frontend" })\``,
     inputSchema: {
         type: 'object',
         properties: {

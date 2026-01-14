@@ -1,8 +1,7 @@
 import { z } from 'zod';
 import { apiRequest } from '../utils/api-client.js';
-import { McpError, ErrorCode } from '../utils/errors.js';
+import { McpError, ErrorCode, checkProAccess } from '../utils/errors.js';
 import { debug } from '../utils/logger.js';
-import { hasApiKey } from '../utils/config.js';
 
 // ============================================================================
 // SCHEMAS
@@ -79,10 +78,30 @@ export type GetMigrationRecommendationInput = z.infer<typeof GetMigrationRecomme
 
 export const createAuditToolDefinition = {
 	name: 'create_audit',
-	description: `Create a technical debt audit for a list of technologies. 
-Analyzes your stack for deprecated packages, security vulnerabilities, EOL versions, and upgrade recommendations.
-Returns findings with severity (critical/high/medium/low/info) and actionable suggestions.
-Requires API key with audit:write scope.`,
+	description: `Create a technical debt audit for your tech stack. Analyzes for deprecated packages, security vulnerabilities, EOL versions, and upgrade recommendations.
+
+**Tier**: Requires Pro or Team subscription (OR OAuth session)
+
+**Prerequisites**:
+- Pro/Team account or authenticated via OAuth
+- List of technologies with versions (use package.json data)
+
+**Next Steps**:
+- Get full report: \`get_audit({ auditId: "returned-uuid" })\`
+- Get migration plan: \`get_migration_recommendation({ auditId: "uuid" })\`
+- Compare over time: \`compare_audits({ baseAuditId, compareAuditId })\`
+
+**Output includes**:
+- Health score (0-100)
+- Findings by severity (critical/high/medium/low/info)
+- Actionable upgrade recommendations
+- CVE detection for known vulnerabilities
+
+**Common Pitfalls**:
+- Include version numbers for accurate vulnerability detection
+- Use technology names as they appear in package managers
+
+**Example**: \`create_audit({ name: "Q1 2026 Stack Review", technologies: [{ name: "React", version: "17.0.0" }, { name: "Node.js", version: "14.0.0" }] })\``,
 	inputSchema: {
 		type: 'object' as const,
 		properties: {
@@ -579,23 +598,15 @@ function formatMigrationRecommendation(response: MigrationRecommendationResponse
 // EXECUTE FUNCTIONS
 // ============================================================================
 
-function requireApiKey(): void {
-	if (!hasApiKey()) {
-		throw new McpError(
-			ErrorCode.CONFIG_ERROR,
-			'API key required for audit operations. Set STACKSFINDER_API_KEY environment variable.',
-			['Get your API key from https://stacksfinder.com/settings/api']
-		);
-	}
-}
-
 /**
  * Execute create_audit tool.
  */
 export async function executeCreateAudit(
 	input: CreateAuditInput
 ): Promise<{ text: string; isError?: boolean }> {
-	requireApiKey();
+	// Check Pro access
+	const tierCheck = await checkProAccess('create_audit');
+	if (tierCheck) return tierCheck;
 
 	debug('Creating audit', { name: input.name, techCount: input.technologies.length });
 
@@ -632,7 +643,9 @@ export async function executeCreateAudit(
 export async function executeGetAudit(
 	input: GetAuditInput
 ): Promise<{ text: string; isError?: boolean }> {
-	requireApiKey();
+	// Check Pro access
+	const tierCheck = await checkProAccess('get_audit');
+	if (tierCheck) return tierCheck;
 
 	debug('Fetching audit', { auditId: input.auditId });
 
@@ -664,7 +677,9 @@ export async function executeGetAudit(
 export async function executeListAudits(
 	input: ListAuditsInput
 ): Promise<{ text: string; isError?: boolean }> {
-	requireApiKey();
+	// Check Pro access
+	const tierCheck = await checkProAccess('list_audits');
+	if (tierCheck) return tierCheck;
 
 	debug('Listing audits', { limit: input.limit, offset: input.offset });
 
@@ -712,7 +727,9 @@ export async function executeListAudits(
 export async function executeCompareAudits(
 	input: CompareAuditsInput
 ): Promise<{ text: string; isError?: boolean }> {
-	requireApiKey();
+	// Check Pro access
+	const tierCheck = await checkProAccess('compare_audits');
+	if (tierCheck) return tierCheck;
 
 	debug('Comparing audits', { base: input.baseAuditId, compare: input.compareAuditId });
 
@@ -743,7 +760,9 @@ export async function executeCompareAudits(
  * Execute get_audit_quota tool.
  */
 export async function executeGetAuditQuota(): Promise<{ text: string; isError?: boolean }> {
-	requireApiKey();
+	// Check Pro access
+	const tierCheck = await checkProAccess('get_audit_quota');
+	if (tierCheck) return tierCheck;
 
 	debug('Getting audit quota');
 
@@ -781,7 +800,9 @@ export async function executeGetAuditQuota(): Promise<{ text: string; isError?: 
 export async function executeGetMigrationRecommendation(
 	input: GetMigrationRecommendationInput
 ): Promise<{ text: string; isError?: boolean }> {
-	requireApiKey();
+	// Check Pro access
+	const tierCheck = await checkProAccess('get_migration_recommendation');
+	if (tierCheck) return tierCheck;
 
 	debug('Getting migration recommendation', { auditId: input.auditId });
 

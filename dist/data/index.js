@@ -1,9 +1,7 @@
-import { createRequire } from 'module';
 import { findSimilar } from '../utils/errors.js';
-const require = createRequire(import.meta.url);
-// Load JSON data at module initialization
-const techScoresData = require('./technology_scores.json');
-const compatibilityData = require('./compatibility_matrix.json');
+// Import JSON directly - esbuild bundles these inline for Smithery
+import techScoresData from './technology_scores.json' with { type: 'json' };
+import compatibilityData from './compatibility_matrix.json' with { type: 'json' };
 /**
  * Data version - update when syncing from source.
  */
@@ -40,23 +38,26 @@ export const CATEGORIES = [
  * Score contexts.
  */
 export const CONTEXTS = ['default', 'mvp', 'enterprise'];
+// Type assertions for imported JSON
+const scores = techScoresData;
+const compat = compatibilityData;
 /**
  * Get all technology IDs.
  */
 export function getAllTechIds() {
-    return Object.keys(techScoresData.technologies);
+    return Object.keys(scores.technologies);
 }
 /**
  * Get a technology by ID.
  */
 export function getTechnology(id) {
-    return techScoresData.technologies[id] || null;
+    return scores.technologies[id] || null;
 }
 /**
  * Get all technologies.
  */
 export function getAllTechnologies() {
-    return Object.values(techScoresData.technologies);
+    return Object.values(scores.technologies);
 }
 /**
  * Get technologies by category.
@@ -140,8 +141,8 @@ export function getCompatibility(techA, techB) {
     if (techA === techB)
         return 100;
     // Check both directions
-    const scoreAB = compatibilityData.matrix[techA]?.[techB];
-    const scoreBA = compatibilityData.matrix[techB]?.[techA];
+    const scoreAB = compat.matrix[techA]?.[techB];
+    const scoreBA = compat.matrix[techB]?.[techA];
     // Return defined score, preferring A→B
     if (scoreAB !== undefined)
         return scoreAB;
@@ -189,15 +190,15 @@ export function findSimilarTechIds(input, limit = 3) {
  * Check if a technology ID exists.
  */
 export function techExists(id) {
-    return id in techScoresData.technologies;
+    return id in scores.technologies;
 }
 /**
  * Get source data version from JSON files.
  */
 export function getSourceDataVersion() {
     return {
-        scores: techScoresData.$version,
-        compatibility: compatibilityData.$version
+        scores: scores.$version,
+        compatibility: compat.$version
     };
 }
 //# sourceMappingURL=index.js.map

@@ -7,15 +7,17 @@ import { compareTechsToolDefinition, executeCompareTechs, CompareTechsInputSchem
 import { recommendStackToolDefinition, executeRecommendStack, RecommendStackInputSchema } from './tools/recommend.js';
 import { getBlueprintToolDefinition, executeGetBlueprint, GetBlueprintInputSchema, createBlueprintToolDefinition, executeCreateBlueprint, CreateBlueprintInputSchema } from './tools/blueprint.js';
 import { recommendStackDemoToolDefinition, executeRecommendStackDemo, RecommendStackDemoInputSchema } from './tools/recommend-demo.js';
-import { setupApiKeyToolDefinition, executeSetupApiKey, SetupApiKeyInputSchema, listApiKeysToolDefinition, executeListApiKeys, revokeApiKeyToolDefinition, executeRevokeApiKey, RevokeApiKeyInputSchema } from './tools/api-keys.js';
+import { setupApiKeyToolDefinition, executeSetupApiKey, SetupApiKeyInputSchema, listApiKeysToolDefinition, executeListApiKeys, revokeApiKeyToolDefinition, executeRevokeApiKey, RevokeApiKeyInputSchema, createApiKeyToolDefinition, executeCreateApiKey, CreateApiKeyInputSchema } from './tools/api-keys.js';
 import { createAuditToolDefinition, executeCreateAudit, CreateAuditInputSchema, getAuditToolDefinition, executeGetAudit, GetAuditInputSchema, listAuditsToolDefinition, executeListAudits, ListAuditsInputSchema, compareAuditsToolDefinition, executeCompareAudits, CompareAuditsInputSchema, getAuditQuotaToolDefinition, executeGetAuditQuota, getMigrationRecommendationToolDefinition, executeGetMigrationRecommendation, GetMigrationRecommendationInputSchema } from './tools/audit.js';
 import { generateMCPKitTool, generateMCPKit, GenerateMCPKitInputSchema, analyzeRepoMcpsTool, analyzeRepo, AnalyzeRepoMCPsInputSchema, PRIORITIES, PROJECT_TYPES, SCALES } from './tools/project-kit/index.js';
 import { prepareMCPInstallationTool, prepareMCPInstallation } from './tools/project-kit/prepare-installation.js';
 import { executeMCPInstallationTool, executeMCPInstallation } from './tools/project-kit/execute-installation.js';
 import { PrepareMCPInstallationInputSchema, ExecuteMCPInstallationInputSchema } from './tools/project-kit/installation-types.js';
 import { checkCompatibilityToolDefinition, executeCheckCompatibility, CheckCompatibilityInputSchema } from './tools/check-compatibility.js';
+import { getWorkflowGuideToolDefinition, executeGetWorkflowGuide, GetWorkflowGuideInputSchema, WORKFLOW_GOALS, WORKFLOW_CONTEXTS, USER_TIERS } from './tools/workflow-guide.js';
+import { estimateProjectToolDefinition, executeEstimateProject, EstimateProjectInputSchema, getEstimateQuotaToolDefinition, executeGetEstimateQuota } from './tools/estimator.js';
 import { info, debug } from './utils/logger.js';
-import { listTechnologiesAnnotations, analyzeTechAnnotations, compareTechsAnnotations, recommendStackDemoAnnotations, recommendStackAnnotations, getBlueprintAnnotations, createBlueprintAnnotations, setupApiKeyAnnotations, listApiKeysAnnotations, revokeApiKeyAnnotations, createAuditAnnotations, getAuditAnnotations, listAuditsAnnotations, compareAuditsAnnotations, getAuditQuotaAnnotations, getMigrationRecommendationAnnotations, generateMcpKitAnnotations, analyzeRepoMcpsAnnotations, prepareMcpInstallationAnnotations, executeMcpInstallationAnnotations, checkCompatibilityAnnotations } from './annotations.js';
+import { listTechnologiesAnnotations, analyzeTechAnnotations, compareTechsAnnotations, recommendStackDemoAnnotations, recommendStackAnnotations, getBlueprintAnnotations, createBlueprintAnnotations, setupApiKeyAnnotations, listApiKeysAnnotations, revokeApiKeyAnnotations, createApiKeyAnnotations, createAuditAnnotations, getAuditAnnotations, listAuditsAnnotations, compareAuditsAnnotations, getAuditQuotaAnnotations, getMigrationRecommendationAnnotations, generateMcpKitAnnotations, analyzeRepoMcpsAnnotations, prepareMcpInstallationAnnotations, executeMcpInstallationAnnotations, checkCompatibilityAnnotations, estimateProjectAnnotations, getEstimateQuotaAnnotations, getWorkflowGuideAnnotations } from './annotations.js';
 /**
  * Create and configure the MCP server.
  */
@@ -265,6 +267,23 @@ export function createServer() {
             isError
         };
     });
+    // Register create_api_key tool (OAuth-based, no email/password required)
+    server.registerTool(createApiKeyToolDefinition.name, {
+        title: 'Create API Key',
+        description: createApiKeyToolDefinition.description,
+        inputSchema: {
+            keyName: z.string().max(100).optional().describe('Optional name for the API key')
+        },
+        annotations: createApiKeyAnnotations
+    }, async (args) => {
+        debug('create_api_key called');
+        const input = CreateApiKeyInputSchema.parse(args);
+        const { text, isError } = await executeCreateApiKey(input);
+        return {
+            content: [{ type: 'text', text }],
+            isError
+        };
+    });
     // ========================================================================
     // AUDIT TOOLS (Technical Debt Analysis)
     // ========================================================================
@@ -487,7 +506,75 @@ export function createServer() {
             isError
         };
     });
-    info('Registered 21 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key, create_audit, get_audit, list_audits, compare_audits, get_audit_quota, get_migration_recommendation, generate_mcp_kit, analyze_repo_mcps, prepare_mcp_installation, execute_mcp_installation, check_mcp_compatibility');
+    // Register get_workflow_guide tool (local, FREE, no API key required)
+    server.registerTool(getWorkflowGuideToolDefinition.name, {
+        title: 'Get Workflow Guide',
+        description: getWorkflowGuideToolDefinition.description,
+        inputSchema: {
+            current_goal: z.enum(WORKFLOW_GOALS).optional().describe('What the user is trying to accomplish'),
+            completed_tools: z.array(z.string()).optional().describe('Tools already called in this session'),
+            user_tier: z.enum(USER_TIERS).optional().describe('User tier: free, pro, or unknown'),
+            known_constraints: z.array(z.string()).optional().describe('Constraints like must_use_postgresql'),
+            context: z.enum(WORKFLOW_CONTEXTS).optional().describe('Client context for adapted snippets')
+        },
+        annotations: getWorkflowGuideAnnotations
+    }, async (args) => {
+        debug('get_workflow_guide called', args);
+        const input = GetWorkflowGuideInputSchema.parse(args);
+        const { text } = executeGetWorkflowGuide(input);
+        return {
+            content: [{ type: 'text', text }]
+        };
+    });
+    // ========================================================================
+    // ESTIMATOR TOOLS (Project Scope & Pricing)
+    // ========================================================================
+    // Register estimate_project tool (API-based, requires API key with estimate:write)
+    server.registerTool(estimateProjectToolDefinition.name, {
+        title: 'Estimate Project',
+        description: estimateProjectToolDefinition.description,
+        inputSchema: {
+            specs: z
+                .string()
+                .min(100)
+                .max(10000)
+                .describe('Project specifications (min 100 chars, max 10,000)'),
+            teamSize: z.number().min(1).max(100).optional().describe('Number of developers'),
+            seniorityLevel: z
+                .enum(['junior', 'mid', 'senior', 'expert'])
+                .optional()
+                .describe('Average team seniority (default: mid)'),
+            region: z
+                .enum(['france', 'us', 'uk', 'remote-global'])
+                .optional()
+                .describe('Region for pricing (default: france)'),
+            includeMarket: z.boolean().optional().describe('Include market analysis (default: true)')
+        },
+        annotations: estimateProjectAnnotations
+    }, async (args) => {
+        debug('estimate_project called', { specsLength: args.specs?.length });
+        const input = EstimateProjectInputSchema.parse(args);
+        const { text, isError } = await executeEstimateProject(input);
+        return {
+            content: [{ type: 'text', text }],
+            isError
+        };
+    });
+    // Register get_estimate_quota tool (API-based, requires API key)
+    server.registerTool(getEstimateQuotaToolDefinition.name, {
+        title: 'Get Estimate Quota',
+        description: getEstimateQuotaToolDefinition.description,
+        inputSchema: {},
+        annotations: getEstimateQuotaAnnotations
+    }, async () => {
+        debug('get_estimate_quota called');
+        const { text, isError } = await executeGetEstimateQuota({});
+        return {
+            content: [{ type: 'text', text }],
+            isError
+        };
+    });
+    info('Registered 25 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key, create_api_key, create_audit, get_audit, list_audits, compare_audits, get_audit_quota, get_migration_recommendation, generate_mcp_kit, analyze_repo_mcps, prepare_mcp_installation, execute_mcp_installation, check_mcp_compatibility, get_workflow_guide, estimate_project, get_estimate_quota');
     return server;
 }
 // ============================================================================

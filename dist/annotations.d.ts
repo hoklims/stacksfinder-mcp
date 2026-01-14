@@ -26,6 +26,8 @@ export declare const recommendStackDemoAnnotations: ToolAnnotations;
 export declare const generateMcpKitAnnotations: ToolAnnotations;
 /** Check MCP compatibility - local rule checking, read-only */
 export declare const checkCompatibilityAnnotations: ToolAnnotations;
+/** Workflow guide - intelligent context-aware guidance, read-only */
+export declare const getWorkflowGuideAnnotations: ToolAnnotations;
 /** Analyze repo MCPs - reads local files, no modifications */
 export declare const analyzeRepoMcpsAnnotations: ToolAnnotations;
 /** Prepare MCP installation - creates .env-mcp file */
@@ -44,6 +46,8 @@ export declare const setupApiKeyAnnotations: ToolAnnotations;
 export declare const listApiKeysAnnotations: ToolAnnotations;
 /** Revoke API key - deletes resource */
 export declare const revokeApiKeyAnnotations: ToolAnnotations;
+/** Create API key - creates key via OAuth (no email/password) */
+export declare const createApiKeyAnnotations: ToolAnnotations;
 /** Create audit - creates resource */
 export declare const createAuditAnnotations: ToolAnnotations;
 /** Get audit - fetches from API */
@@ -56,4 +60,8 @@ export declare const compareAuditsAnnotations: ToolAnnotations;
 export declare const getAuditQuotaAnnotations: ToolAnnotations;
 /** Get migration recommendation - analyzes audit */
 export declare const getMigrationRecommendationAnnotations: ToolAnnotations;
+/** Estimate project - creates estimate via LLM + optional market analysis */
+export declare const estimateProjectAnnotations: ToolAnnotations;
+/** Get estimate quota - fetches quota status */
+export declare const getEstimateQuotaAnnotations: ToolAnnotations;
 //# sourceMappingURL=annotations.d.ts.map

@@ -6,7 +6,7 @@
  * Returns both markdown text and structured JSON data.
  */
 import { z } from 'zod';
-import { initRulesIndex, getAllRules, generateReport, formatReportAsMarkdown, getReportSummaryLine, CURATED_MCPS, } from '../lib/mcp-compatibility/index.js';
+import { initRulesIndex, getAllRules, generateReport, formatReportAsMarkdown, getReportSummaryLine, CURATED_MCPS, } from '../lib/compatibility/index.js';
 // ============================================
 // Input Schema
 // ============================================

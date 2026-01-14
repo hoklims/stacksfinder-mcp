@@ -12,7 +12,7 @@ import { AnalyzeRepoMCPsInputSchema } from './types.js';
 import { detectStackFromFiles } from './detect-stack.js';
 import { matchMCPsForStack, generateInstallConfig } from './match-mcps.js';
 import { debug, info, error } from '../../utils/logger.js';
-import { initRulesIndex, getAllRules, generateReport, findRule, canonicalizeMcpId } from '../../lib/mcp-compatibility/index.js';
+import { initRulesIndex, getAllRules, generateReport, findRule, canonicalizeMcpId } from '../../lib/compatibility/index.js';
 // ============================================================================
 // INSTALLED MCP DETECTION
 // ============================================================================

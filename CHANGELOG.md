@@ -5,18 +5,24 @@ All notable changes to `@stacksfinder/mcp-server` will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.3.7] - 2026-01-14
+## [1.5.1] - 2026-01-14
+
+### Fixed
+- Added Windows-specific installation instructions with `cmd /c` wrapper
+- Updated README with platform-specific configs for Claude Code, Claude Desktop, Cursor, Windsurf, and VS Code
+
+## [1.5.0] - 2026-01-14
 
 ### Added
-- Published to Anthropic MCP Registry (io.github.hoklims/stacksfinder)
-- CHANGELOG.md with version history
-- CONTRIBUTING.md with contribution guidelines
-- SECURITY.md with vulnerability disclosure policy
-- server.json for MCP Registry publishing
+- `get_workflow_guide` tool - Intelligent context-aware guidance for next steps
+- `create_api_key` tool - Create API keys via OAuth (no email/password needed)
+- Enhanced tool descriptions with Prerequisites, Next Steps, and Common Pitfalls
+- ChatGPT Actions support via OAuth authentication
 
 ### Changed
-- Added mcpName to package.json for registry validation
-- Updated README with MCP Registry badge and link
+- Total tools increased to 25
+- Improved descriptions for all tools with consistent format
+- `setup_api_key` now recommends `create_api_key` for OAuth users
 
 ## [1.3.5] - 2025-01-13
 
@@ -102,12 +108,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## Tool Categories (v1.3.7)
+## Tool Categories (v1.5.0)
 
 | Category | Tools | Auth Required |
 |----------|-------|---------------|
-| Free | 9 | No |
-| Pro | 6 | API Key |
+| Free | 10 | No |
+| Pro | 7 | API Key |
 | Audit | 6 | API Key |
 | Estimator | 2 | API Key |
-| **Total** | **23** | - |
+| **Total** | **25** | - |

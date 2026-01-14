@@ -5,9 +5,9 @@ import { z } from 'zod';
 export declare const ListTechsInputSchema: z.ZodObject<{
     category: z.ZodOptional<z.ZodEnum<["frontend", "backend", "meta-framework", "database", "orm", "auth", "hosting", "payments"]>>;
 }, "strip", z.ZodTypeAny, {
-    category?: "frontend" | "backend" | "meta-framework" | "database" | "orm" | "auth" | "hosting" | "payments" | undefined;
+    category?: "payments" | "database" | "meta-framework" | "frontend" | "orm" | "auth" | "hosting" | "backend" | undefined;
 }, {
-    category?: "frontend" | "backend" | "meta-framework" | "database" | "orm" | "auth" | "hosting" | "payments" | undefined;
+    category?: "payments" | "database" | "meta-framework" | "frontend" | "orm" | "auth" | "hosting" | "backend" | undefined;
 }>;
 export type ListTechsInput = z.infer<typeof ListTechsInputSchema>;
 /**

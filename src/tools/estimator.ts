@@ -1,8 +1,7 @@
 import { z } from 'zod';
 import { apiRequest } from '../utils/api-client.js';
-import { McpError, ErrorCode } from '../utils/errors.js';
+import { McpError, ErrorCode, checkProAccess } from '../utils/errors.js';
 import { debug } from '../utils/logger.js';
-import { hasApiKey } from '../utils/config.js';
 
 // ============================================================================
 // SCHEMAS
@@ -28,7 +27,7 @@ export const EstimateProjectInputSchema = z.object({
 		.optional()
 		.default('france')
 		.describe('Region for pricing reference'),
-	includeMarket: z.boolean().optional().default(true).describe('Include market analysis (Pro tier)')
+	includeMarket: z.boolean().optional().default(true).describe('Include market analysis')
 });
 
 export type EstimateProjectInput = z.infer<typeof EstimateProjectInputSchema>;
@@ -51,12 +50,11 @@ export const estimateProjectToolDefinition = {
 Provides:
 - Detailed hour breakdown by feature (with complexity assessment)
 - Price ranges by team seniority level (junior/mid/senior/expert)
-- Competitor analysis and market trends (real-time via Perplexity) [Pro tier]
-- Market size and gaps identification [Pro tier]
+- Competitor analysis and market trends (real-time via Perplexity)
+- Market size and gaps identification
 - Risk identification with mitigation suggestions
 
 Perfect for freelancers and agencies creating quotes.
-Requires API key with estimate:write scope.
 
 **Pricing is 100% deterministic** - same inputs always produce same outputs.
 Market analysis is best-effort and may vary with web data changes.`,
@@ -83,7 +81,7 @@ Market analysis is best-effort and may vary with web data changes.`,
 			},
 			includeMarket: {
 				type: 'boolean',
-				description: 'Include market analysis (default: true, Pro tier only)'
+				description: 'Include market analysis (default: true)'
 			}
 		},
 		required: ['specs']
@@ -195,13 +193,9 @@ interface QuotaApiResponse {
 export async function executeEstimateProject(
 	input: EstimateProjectInput
 ): Promise<{ text: string; isError?: boolean }> {
-	if (!hasApiKey()) {
-		throw new McpError(
-			ErrorCode.CONFIG_ERROR,
-			'API key required for estimate_project. Set STACKSFINDER_API_KEY environment variable.',
-			['Get API key at https://stacksfinder.com/settings/api']
-		);
-	}
+	// Check Pro access
+	const tierCheck = await checkProAccess('estimate_project');
+	if (tierCheck) return tierCheck;
 
 	debug(`[estimate_project] Estimating project (${input.specs.length} chars)`);
 
@@ -237,13 +231,9 @@ export async function executeEstimateProject(
 export async function executeGetEstimateQuota(
 	_input: GetEstimateQuotaInput
 ): Promise<{ text: string; isError?: boolean }> {
-	if (!hasApiKey()) {
-		throw new McpError(
-			ErrorCode.CONFIG_ERROR,
-			'API key required for get_estimate_quota. Set STACKSFINDER_API_KEY environment variable.',
-			['Get API key at https://stacksfinder.com/settings/api']
-		);
-	}
+	// Check Pro access
+	const tierCheck = await checkProAccess('get_estimate_quota');
+	if (tierCheck) return tierCheck;
 
 	debug('[get_estimate_quota] Fetching quota');
 
@@ -387,7 +377,7 @@ function formatEstimateResult(response: EstimateApiResponse): string {
 		text += `_${market.disclaimer}_\n\n`;
 	} else if (!_meta.marketIncluded) {
 		text += `### Market Analysis\n\n`;
-		text += `_Market analysis not included. Upgrade to Pro for real-time market research._\n\n`;
+		text += `_Market analysis not included in this request._\n\n`;
 	}
 
 	// Risks
@@ -435,7 +425,7 @@ function formatQuotaResult(response: QuotaApiResponse): string {
 		text += `**Limit**: ${formatLimit(quota.marketAnalysis.limit)}\n`;
 		text += `**Remaining**: ${formatLimit(quota.marketAnalysis.remaining)}\n`;
 	} else {
-		text += `**Available**: No (upgrade to Pro for market analysis)\n`;
+		text += `**Available**: No\n`;
 	}
 
 	return text;

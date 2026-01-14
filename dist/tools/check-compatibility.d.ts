@@ -6,7 +6,7 @@
  * Returns both markdown text and structured JSON data.
  */
 import { z } from 'zod';
-import { type CompatibilityReport } from '../lib/mcp-compatibility/index.js';
+import { type CompatibilityReport } from '../lib/compatibility/index.js';
 export declare const CheckCompatibilityInputSchema: z.ZodObject<{
     mcps: z.ZodArray<z.ZodString, "many">;
 }, "strip", z.ZodTypeAny, {

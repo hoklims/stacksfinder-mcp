@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { getBlueprintRequest, createBlueprintRequest, getJobStatusRequest } from '../utils/api-client.js';
-import { McpError, ErrorCode } from '../utils/errors.js';
+import { McpError, ErrorCode, checkProAccess } from '../utils/errors.js';
 import { debug } from '../utils/logger.js';
 /**
  * Input schema for get_blueprint tool.
@@ -13,7 +13,7 @@ export const GetBlueprintInputSchema = z.object({
  */
 export const getBlueprintToolDefinition = {
     name: 'get_blueprint',
-    description: 'Fetches an existing blueprint by ID. Blueprints are generated via the StacksFinder web UI. Requires API key.',
+    description: 'Fetches an existing blueprint by ID. Blueprints are generated via the StacksFinder web UI or this tool.',
     inputSchema: {
         type: 'object',
         properties: {
@@ -63,6 +63,10 @@ ${blueprint.narrative}`;
  * Execute get_blueprint tool.
  */
 export async function executeGetBlueprint(input) {
+    // Check Pro access
+    const tierCheck = await checkProAccess('get_blueprint');
+    if (tierCheck)
+        return tierCheck;
     const { blueprintId } = input;
     debug('Fetching blueprint', { blueprintId });
     try {
@@ -153,7 +157,7 @@ export const CreateBlueprintInputSchema = z.object({
  */
 export const createBlueprintToolDefinition = {
     name: 'create_blueprint',
-    description: `Creates a new tech stack blueprint for a project. Requires API key with 'blueprint:write' scope.
+    description: `Creates a new tech stack blueprint for a project.
 
 The blueprint generation is asynchronous. By default, this tool waits for completion and returns the full blueprint.
 Set waitForCompletion=false to get the job ID immediately for manual polling.
@@ -226,6 +230,10 @@ async function pollJobUntilComplete(jobId, maxAttempts = 30, intervalMs = 2000) 
  * Execute create_blueprint tool.
  */
 export async function executeCreateBlueprint(input) {
+    // Check Pro access
+    const tierCheck = await checkProAccess('create_blueprint');
+    if (tierCheck)
+        return tierCheck;
     const { projectName, projectType, scale, projectDescription, priorities, constraints, waitForCompletion = true } = input;
     debug('Creating blueprint', { projectType, scale, waitForCompletion });
     try {
@@ -308,7 +316,7 @@ ${text}
             else if (err.code === ErrorCode.RATE_LIMITED) {
                 err.suggestions = [
                     'You have exceeded your monthly blueprint quota.',
-                    'Upgrade your plan at https://stacksfinder.com/pricing'
+                    'Please try again later or contact support.'
                 ];
             }
             return { text: err.toResponseText(), isError: true };

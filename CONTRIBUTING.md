@@ -65,7 +65,7 @@ Feature requests are welcome! Please:
 ```bash
 # Clone the repository
 git clone https://github.com/hoklims/stacksfinder-mcp.git
-cd stacksfinder-mcp
+cd stacksfinder-mcp/packages/mcp-server
 
 # Install dependencies
 bun install
@@ -80,7 +80,7 @@ bun test
 ### Project Structure
 
 ```
-stacksfinder-mcp/
+packages/mcp-server/
 ├── src/
 │   ├── index.ts          # Entry point (stdio transport)
 │   ├── server.ts         # MCP server factory
@@ -92,7 +92,7 @@ stacksfinder-mcp/
 │   │   ├── api-client.ts
 │   │   ├── config.ts
 │   │   └── logger.ts
-│   └── data/             # Scoring data
+│   └── data/             # Scoring data (copied from main app)
 ├── tests/                # Test suites
 ├── dist/                 # Build output
 └── package.json

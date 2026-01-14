@@ -64,6 +64,14 @@ export const checkCompatibilityAnnotations = {
     idempotentHint: true,
     openWorldHint: false
 };
+/** Workflow guide - intelligent context-aware guidance, read-only */
+export const getWorkflowGuideAnnotations = {
+    title: 'Get Workflow Guide',
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: false
+};
 // ============================================================================
 // LOCAL TOOLS WITH FILE SYSTEM ACCESS
 // ============================================================================
@@ -142,6 +150,14 @@ export const revokeApiKeyAnnotations = {
     idempotentHint: true, // Revoking twice = same result
     openWorldHint: true
 };
+/** Create API key - creates key via OAuth (no email/password) */
+export const createApiKeyAnnotations = {
+    title: 'Create API Key',
+    readOnlyHint: false, // Creates API key
+    destructiveHint: false,
+    idempotentHint: false, // Creates new key each time
+    openWorldHint: true
+};
 // ============================================================================
 // AUDIT TOOLS (API-based)
 // ============================================================================
@@ -188,6 +204,25 @@ export const getAuditQuotaAnnotations = {
 /** Get migration recommendation - analyzes audit */
 export const getMigrationRecommendationAnnotations = {
     title: 'Get Migration Recommendation',
+    readOnlyHint: true,
+    destructiveHint: false,
+    idempotentHint: true,
+    openWorldHint: true
+};
+// ============================================================================
+// ESTIMATOR TOOLS (API-based, LLM + Perplexity)
+// ============================================================================
+/** Estimate project - creates estimate via LLM + optional market analysis */
+export const estimateProjectAnnotations = {
+    title: 'Estimate Project',
+    readOnlyHint: false, // Creates estimate, consumes quota
+    destructiveHint: false,
+    idempotentHint: false, // LLM responses can vary
+    openWorldHint: true // Calls Claude + optional Perplexity
+};
+/** Get estimate quota - fetches quota status */
+export const getEstimateQuotaAnnotations = {
+    title: 'Get Estimate Quota',
     readOnlyHint: true,
     destructiveHint: false,
     idempotentHint: true,
