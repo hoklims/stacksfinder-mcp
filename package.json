@@ -14,7 +14,7 @@
 			"import": "./dist/index.js"
 		}
 	},
-	"files": ["dist", "README.md"],
+	"files": ["dist", "README.md", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md"],
 	"scripts": {
 		"build": "tsc && npm run copy-data",
 		"copy-data": "node -e \"const fs=require('fs');['technology_scores.json','compatibility_matrix.json'].forEach(f=>fs.copyFileSync('src/data/'+f,'dist/data/'+f))\"",
@@ -37,11 +37,19 @@
 	"keywords": [
 		"mcp",
 		"model-context-protocol",
+		"anthropic",
 		"stacksfinder",
 		"tech-stack",
 		"llm",
 		"claude",
-		"cursor"
+		"cursor",
+		"windsurf",
+		"vscode",
+		"developer-tools",
+		"ai-assistant",
+		"code-assistant",
+		"blueprint",
+		"architecture"
 	],
 	"repository": {
 		"type": "git",

@@ -2,6 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@stacksfinder/mcp-server.svg)](https://www.npmjs.com/package/@stacksfinder/mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![MCP](https://img.shields.io/badge/MCP-Compatible-purple.svg)](https://modelcontextprotocol.io)
 [![LobeHub](https://img.shields.io/badge/LobeHub-MCP%20Directory-blue.svg)](https://lobehub.com/fr/mcp/hoklims-stacksfinder-mcp)
 
 MCP (Model Context Protocol) server that brings **deterministic tech stack recommendations** to LLM clients like Claude, Cursor, Windsurf, and other MCP-compatible tools.
@@ -459,6 +460,18 @@ bun run build
 bun run dev      # Watch mode
 bun test         # Run tests
 ```
+
+## Contributing
+
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) before submitting a Pull Request.
+
+For security vulnerabilities, please see our [Security Policy](SECURITY.md).
+
+## Documentation
+
+- [CHANGELOG.md](CHANGELOG.md) - Version history and release notes
+- [CONTRIBUTING.md](CONTRIBUTING.md) - How to contribute
+- [SECURITY.md](SECURITY.md) - Security policy and vulnerability reporting
 
 ## Links
 
