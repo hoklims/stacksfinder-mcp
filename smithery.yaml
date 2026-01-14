@@ -1,0 +1,45 @@
+# Smithery configuration for StacksFinder MCP Server
+# This enables Configuration UX scoring on Smithery registry
+
+startCommand:
+  type: http
+  configSchema:
+    type: object
+    properties:
+      debug:
+        type: boolean
+        title: "Debug Mode"
+        description: "Enable verbose logging for debugging purposes"
+        default: false
+      timeout:
+        type: integer
+        title: "Request Timeout"
+        description: "Maximum time in milliseconds to wait for API responses"
+        default: 30000
+        minimum: 1000
+        maximum: 120000
+      context:
+        type: string
+        title: "Default Scoring Context"
+        description: "Default context for technology scoring"
+        default: "default"
+        enum:
+          - default
+          - mvp
+          - enterprise
+    additionalProperties: false
+  exampleConfig:
+    debug: false
+    timeout: 30000
+    context: "default"
+
+# Server metadata
+metadata:
+  name: stacksfinder
+  displayName: "StacksFinder - Deterministic Tech Stack Recommendations"
+  description: "100% deterministic tech stack recommendations powered by versioned scoring algorithms. No LLM hallucinations."
+  vendor: StacksFinder
+  homepage: https://stacksfinder.com
+  repository: https://github.com/hoklims/stacksfinder-mcp
+  license: MIT
+  iconUrl: https://stacksfinder.com/favicon-32x32.png
