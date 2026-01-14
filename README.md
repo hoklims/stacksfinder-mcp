@@ -79,6 +79,41 @@ Add to `.vscode/mcp.json`:
 }
 ```
 
+### ChatGPT Developer Mode
+
+StacksFinder is compatible with **ChatGPT Developer Mode** (available on Pro, Plus, Business, Enterprise, and Education accounts).
+
+#### Prerequisites
+
+- ChatGPT Pro, Plus, Business, Enterprise, or Education account
+- Developer Mode enabled in ChatGPT settings
+- Note: Business/Enterprise workspaces may require admin approval
+
+#### Setup Steps
+
+1. **Enable Developer Mode**: Go to Settings → Apps → Advanced settings → toggle "Developer mode"
+2. **Create App**: Go to Settings → Apps → Create
+3. **Enter details**:
+   - **Name**: StacksFinder
+   - **URL**: `https://smithery.ai/server/hoklims/stacksfinder-mcp/mcp` (or your self-hosted URL)
+   - **Protocol**: Streaming HTTP
+   - **Description**: Deterministic tech stack recommendations
+4. **Verify**: Click Create and confirm the 23 tools appear
+
+#### Important Notes
+
+- **Developer Mode does NOT require search/fetch tools** (those are only for Deep Research)
+- Tools with `readOnlyHint: true` won't ask for confirmation in ChatGPT
+- Rate limited to 60 requests/minute per IP
+- Uses **Streaming HTTP** transport (not SSE)
+
+#### Supported Protocols
+
+| Protocol | Status |
+|----------|--------|
+| Streaming HTTP | ✅ Supported |
+| SSE | ❌ Not supported |
+
 ## Available Tools
 
 ### Free Tools (no account required)
