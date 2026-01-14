@@ -19,7 +19,7 @@ const PORT = parseInt(process.env.PORT || '3000', 10);
 
 // Load version from package.json
 const __dirname = dirname(fileURLToPath(import.meta.url));
-let VERSION = '1.4.0';
+let VERSION = '1.5.1';
 try {
 	const pkg = JSON.parse(readFileSync(resolve(__dirname, '../package.json'), 'utf-8'));
 	VERSION = pkg.version;
