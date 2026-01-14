@@ -14,3 +14,12 @@ pnpm-lock.yaml
 # OS
 .DS_Store
 Thumbs.db
+
+# MCP Registry tokens (sensitive)
+.mcpregistry_*
+mcp-publisher.exe
+mcp-publisher
+
+# Environment
+.env
+.env.local
