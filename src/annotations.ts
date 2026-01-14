@@ -75,6 +75,15 @@ export const checkCompatibilityAnnotations: ToolAnnotations = {
 	openWorldHint: false
 };
 
+/** Workflow guide - intelligent context-aware guidance, read-only */
+export const getWorkflowGuideAnnotations: ToolAnnotations = {
+	title: 'Get Workflow Guide',
+	readOnlyHint: true,
+	destructiveHint: false,
+	idempotentHint: true,
+	openWorldHint: false
+};
+
 // ============================================================================
 // LOCAL TOOLS WITH FILE SYSTEM ACCESS
 // ============================================================================
@@ -161,6 +170,15 @@ export const revokeApiKeyAnnotations: ToolAnnotations = {
 	readOnlyHint: false,
 	destructiveHint: true, // Permanently revokes key
 	idempotentHint: true, // Revoking twice = same result
+	openWorldHint: true
+};
+
+/** Create API key - creates key via OAuth (no email/password) */
+export const createApiKeyAnnotations: ToolAnnotations = {
+	title: 'Create API Key',
+	readOnlyHint: false, // Creates API key
+	destructiveHint: false,
+	idempotentHint: false, // Creates new key each time
 	openWorldHint: true
 };
 

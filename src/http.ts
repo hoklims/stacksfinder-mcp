@@ -12,8 +12,8 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { createServer } from './server.js';
-import { loadConfig } from './utils/config.js';
-import { setDebug, info, error } from './utils/logger.js';
+import { loadConfig, setOAuthToken } from './utils/config.js';
+import { setDebug, info, error, debug } from './utils/logger.js';
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
@@ -135,6 +135,16 @@ async function main(): Promise<void> {
 		if (req.method === 'POST' && req.url === '/mcp') {
 			info(`[${requestId}] MCP request from ${clientIp}`);
 
+			// Extract OAuth token from Authorization header (for ChatGPT integration)
+			const authHeader = req.headers['authorization'];
+			if (authHeader && authHeader.startsWith('Bearer ')) {
+				const token = authHeader.slice(7);
+				setOAuthToken(token);
+				debug(`[${requestId}] OAuth token extracted from Authorization header`);
+			} else {
+				setOAuthToken(null);
+			}
+
 			try {
 				let body = '';
 				for await (const chunk of req) {
@@ -151,12 +161,15 @@ async function main(): Promise<void> {
 				res.on('finish', () => {
 					transport.close();
 					server.close();
+					// Clear OAuth token after request
+					setOAuthToken(null);
 				});
 
 				await server.connect(transport);
 				await transport.handleRequest(req, res, jsonBody);
 			} catch (err) {
 				error(`[${requestId}] Error handling MCP request`, err);
+				setOAuthToken(null);
 				if (!res.headersSent) {
 					res.writeHead(500, { 'Content-Type': 'application/json' });
 					res.end(

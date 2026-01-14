@@ -79,10 +79,30 @@ export type GetMigrationRecommendationInput = z.infer<typeof GetMigrationRecomme
 
 export const createAuditToolDefinition = {
 	name: 'create_audit',
-	description: `Create a technical debt audit for a list of technologies. 
-Analyzes your stack for deprecated packages, security vulnerabilities, EOL versions, and upgrade recommendations.
-Returns findings with severity (critical/high/medium/low/info) and actionable suggestions.
-Requires API key with audit:write scope.`,
+	description: `Create a technical debt audit for your tech stack. Analyzes for deprecated packages, security vulnerabilities, EOL versions, and upgrade recommendations.
+
+**Tier**: Requires Pro or Team subscription (OR OAuth session)
+
+**Prerequisites**:
+- Pro/Team account or authenticated via OAuth
+- List of technologies with versions (use package.json data)
+
+**Next Steps**:
+- Get full report: \`get_audit({ auditId: "returned-uuid" })\`
+- Get migration plan: \`get_migration_recommendation({ auditId: "uuid" })\`
+- Compare over time: \`compare_audits({ baseAuditId, compareAuditId })\`
+
+**Output includes**:
+- Health score (0-100)
+- Findings by severity (critical/high/medium/low/info)
+- Actionable upgrade recommendations
+- CVE detection for known vulnerabilities
+
+**Common Pitfalls**:
+- Include version numbers for accurate vulnerability detection
+- Use technology names as they appear in package managers
+
+**Example**: \`create_audit({ name: "Q1 2026 Stack Review", technologies: [{ name: "React", version: "17.0.0" }, { name: "Node.js", version: "14.0.0" }] })\``,
 	inputSchema: {
 		type: 'object' as const,
 		properties: {

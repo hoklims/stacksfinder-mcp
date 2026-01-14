@@ -5,6 +5,19 @@ All notable changes to `@stacksfinder/mcp-server` will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-01-14
+
+### Added
+- `get_workflow_guide` tool - Intelligent context-aware guidance for next steps
+- `create_api_key` tool - Create API keys via OAuth (no email/password needed)
+- Enhanced tool descriptions with Prerequisites, Next Steps, and Common Pitfalls
+- ChatGPT Actions support via OAuth authentication
+
+### Changed
+- Total tools increased to 25
+- Improved descriptions for all tools with consistent format
+- `setup_api_key` now recommends `create_api_key` for OAuth users
+
 ## [1.3.5] - 2025-01-13
 
 ### Added
@@ -89,12 +102,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## Tool Categories (v1.3.5)
+## Tool Categories (v1.5.0)
 
 | Category | Tools | Auth Required |
 |----------|-------|---------------|
-| Free | 9 | No |
-| Pro | 6 | API Key |
+| Free | 10 | No |
+| Pro | 7 | API Key |
 | Audit | 6 | API Key |
 | Estimator | 2 | API Key |
-| **Total** | **23** | - |
+| **Total** | **25** | - |

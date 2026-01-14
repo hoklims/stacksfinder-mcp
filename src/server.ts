@@ -27,7 +27,10 @@ import {
 	executeListApiKeys,
 	revokeApiKeyToolDefinition,
 	executeRevokeApiKey,
-	RevokeApiKeyInputSchema
+	RevokeApiKeyInputSchema,
+	createApiKeyToolDefinition,
+	executeCreateApiKey,
+	CreateApiKeyInputSchema
 } from './tools/api-keys.js';
 import {
 	createAuditToolDefinition,
@@ -78,6 +81,14 @@ import {
 	CheckCompatibilityInputSchema
 } from './tools/check-compatibility.js';
 import {
+	getWorkflowGuideToolDefinition,
+	executeGetWorkflowGuide,
+	GetWorkflowGuideInputSchema,
+	WORKFLOW_GOALS,
+	WORKFLOW_CONTEXTS,
+	USER_TIERS
+} from './tools/workflow-guide.js';
+import {
 	estimateProjectToolDefinition,
 	executeEstimateProject,
 	EstimateProjectInputSchema,
@@ -96,6 +107,7 @@ import {
 	setupApiKeyAnnotations,
 	listApiKeysAnnotations,
 	revokeApiKeyAnnotations,
+	createApiKeyAnnotations,
 	createAuditAnnotations,
 	getAuditAnnotations,
 	listAuditsAnnotations,
@@ -108,7 +120,8 @@ import {
 	executeMcpInstallationAnnotations,
 	checkCompatibilityAnnotations,
 	estimateProjectAnnotations,
-	getEstimateQuotaAnnotations
+	getEstimateQuotaAnnotations,
+	getWorkflowGuideAnnotations
 } from './annotations.js';
 
 /**
@@ -416,6 +429,28 @@ export function createServer(): McpServer {
 		}
 	);
 
+	// Register create_api_key tool (OAuth-based, no email/password required)
+	server.registerTool(
+		createApiKeyToolDefinition.name,
+		{
+			title: 'Create API Key',
+			description: createApiKeyToolDefinition.description,
+			inputSchema: {
+				keyName: z.string().max(100).optional().describe('Optional name for the API key')
+			},
+			annotations: createApiKeyAnnotations
+		},
+		async (args) => {
+			debug('create_api_key called');
+			const input = CreateApiKeyInputSchema.parse(args);
+			const { text, isError } = await executeCreateApiKey(input);
+			return {
+				content: [{ type: 'text', text }],
+				isError
+			};
+		}
+	);
+
 	// ========================================================================
 	// AUDIT TOOLS (Technical Debt Analysis)
 	// ========================================================================
@@ -698,6 +733,31 @@ export function createServer(): McpServer {
 		}
 	);
 
+	// Register get_workflow_guide tool (local, FREE, no API key required)
+	server.registerTool(
+		getWorkflowGuideToolDefinition.name,
+		{
+			title: 'Get Workflow Guide',
+			description: getWorkflowGuideToolDefinition.description,
+			inputSchema: {
+				current_goal: z.enum(WORKFLOW_GOALS).optional().describe('What the user is trying to accomplish'),
+				completed_tools: z.array(z.string()).optional().describe('Tools already called in this session'),
+				user_tier: z.enum(USER_TIERS).optional().describe('User tier: free, pro, or unknown'),
+				known_constraints: z.array(z.string()).optional().describe('Constraints like must_use_postgresql'),
+				context: z.enum(WORKFLOW_CONTEXTS).optional().describe('Client context for adapted snippets')
+			},
+			annotations: getWorkflowGuideAnnotations
+		},
+		async (args) => {
+			debug('get_workflow_guide called', args);
+			const input = GetWorkflowGuideInputSchema.parse(args);
+			const { text } = executeGetWorkflowGuide(input);
+			return {
+				content: [{ type: 'text', text }]
+			};
+		}
+	);
+
 	// ========================================================================
 	// ESTIMATOR TOOLS (Project Scope & Pricing)
 	// ========================================================================
@@ -757,7 +817,7 @@ export function createServer(): McpServer {
 		}
 	);
 
-	info('Registered 23 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key, create_audit, get_audit, list_audits, compare_audits, get_audit_quota, get_migration_recommendation, generate_mcp_kit, analyze_repo_mcps, prepare_mcp_installation, execute_mcp_installation, check_mcp_compatibility, estimate_project, get_estimate_quota');
+	info('Registered 25 tools: list_technologies, analyze_tech, compare_techs, recommend_stack_demo, recommend_stack, get_blueprint, create_blueprint, setup_api_key, list_api_keys, revoke_api_key, create_api_key, create_audit, get_audit, list_audits, compare_audits, get_audit_quota, get_migration_recommendation, generate_mcp_kit, analyze_repo_mcps, prepare_mcp_installation, execute_mcp_installation, check_mcp_compatibility, get_workflow_guide, estimate_project, get_estimate_quota');
 
 	return server;
 }

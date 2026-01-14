@@ -48,8 +48,25 @@ export const recommendStackDemoToolDefinition = {
 	name: 'recommend_stack_demo',
 	description: `Try StacksFinder's tech stack recommendations for FREE - once per day, no account required.
 
-Returns the optimal technology for each category based on deterministic scoring.
-For unlimited access, priorities, constraints, and AI-generated narratives, upgrade to Pro at https://stacksfinder.com/pricing`,
+**Tier**: Free (1 per day limit)
+
+**Prerequisites**: None - great starting point for new users.
+
+**Next Steps**:
+- Analyze a specific tech: \`analyze_tech({ technology: "recommended-id" })\`
+- Upgrade for unlimited: \`create_api_key()\` then \`recommend_stack()\`
+- Create free account for 3/month: https://stacksfinder.com/signup
+
+**Output includes**:
+- Optimal technology for each category (frontend, backend, database, etc.)
+- Score and grade for each recommendation
+- Based on 100% deterministic scoring (no AI hallucinations)
+
+**Common Pitfalls**:
+- 1/day limit: Create free account for 3 blueprints/month
+- For custom priorities/constraints: Upgrade to Pro
+
+**Example**: \`recommend_stack_demo({ projectType: "saas", scale: "mvp" })\``,
 	inputSchema: {
 		type: 'object' as const,
 		properties: {

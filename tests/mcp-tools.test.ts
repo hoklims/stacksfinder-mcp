@@ -1,7 +1,7 @@
 /**
  * MCP Server Integration Tests
  *
- * Tests all 23 MCP tools to ensure they are functional.
+ * Tests all 24 MCP tools to ensure they are functional.
  * Run with: npm test or vitest
  */
 
@@ -38,11 +38,11 @@ beforeAll(async () => {
 // ============================================================================
 
 describe('MCP Server Tool Discovery', () => {
-	test('should list all 23 registered tools', async () => {
+	test('should list all 25 registered tools', async () => {
 		const result = await client.request({ method: 'tools/list' }, ListToolsResultSchema);
 
 		expect(result.tools).toBeDefined();
-		expect(result.tools.length).toBe(23);
+		expect(result.tools.length).toBe(25);
 
 		const toolNames = result.tools.map((t) => t.name);
 		expect(toolNames).toContain('list_technologies');
@@ -55,6 +55,7 @@ describe('MCP Server Tool Discovery', () => {
 		expect(toolNames).toContain('setup_api_key');
 		expect(toolNames).toContain('list_api_keys');
 		expect(toolNames).toContain('revoke_api_key');
+		expect(toolNames).toContain('create_api_key');
 		expect(toolNames).toContain('create_audit');
 		expect(toolNames).toContain('get_audit');
 		expect(toolNames).toContain('list_audits');
@@ -68,6 +69,7 @@ describe('MCP Server Tool Discovery', () => {
 		expect(toolNames).toContain('check_mcp_compatibility');
 		expect(toolNames).toContain('estimate_project');
 		expect(toolNames).toContain('get_estimate_quota');
+		expect(toolNames).toContain('get_workflow_guide');
 	});
 
 	test('all tools should have annotations', async () => {
@@ -91,7 +93,8 @@ describe('MCP Server Tool Discovery', () => {
 			'generate_mcp_kit',
 			'check_mcp_compatibility',
 			'analyze_repo_mcps',
-			'execute_mcp_installation'
+			'execute_mcp_installation',
+			'get_workflow_guide'
 		];
 
 		for (const toolName of localTools) {
@@ -111,6 +114,7 @@ describe('MCP Server Tool Discovery', () => {
 			'setup_api_key',
 			'list_api_keys',
 			'revoke_api_key',
+			'create_api_key',
 			'create_audit',
 			'get_audit',
 			'list_audits',
@@ -280,6 +284,15 @@ describe('API Tools (Error Handling Without API Key)', () => {
 	test('list_api_keys should require API key', async () => {
 		const result = (await client.callTool({
 			name: 'list_api_keys',
+			arguments: {}
+		})) as CallToolResult;
+
+		expect(result.isError).toBe(true);
+	});
+
+	test('create_api_key should require authentication', async () => {
+		const result = (await client.callTool({
+			name: 'create_api_key',
 			arguments: {}
 		})) as CallToolResult;
 

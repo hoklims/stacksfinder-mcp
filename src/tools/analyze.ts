@@ -30,8 +30,22 @@ export type AnalyzeTechInput = z.infer<typeof AnalyzeTechInputSchema>;
  */
 export const analyzeTechToolDefinition = {
 	name: 'analyze_tech',
-	description:
-		'Detailed analysis of a technology with 6-dimension scores, strengths, weaknesses, and compatible technologies.',
+	description: `Detailed analysis of a technology with 6-dimension scores, strengths, weaknesses, and compatible technologies.
+
+**Tier**: Free (no API key required)
+
+**Prerequisites**: Use \`list_technologies\` first to discover valid technology IDs.
+
+**Next Steps**:
+- Compare with alternatives: \`compare_techs({ technologies: ["tech1", "tech2"] })\`
+- Get full stack recommendation: \`recommend_stack_demo({ projectType: "saas" })\`
+
+**Dimensions scored**: Developer Experience, Performance, Scalability, Security, Ecosystem, Cost
+
+**Common Pitfalls**:
+- Unknown technology ID: Use exact IDs from list_technologies (e.g., "nextjs" not "Next.js")
+
+**Example**: \`analyze_tech({ technology: "nextjs", context: "mvp" })\``,
 	inputSchema: {
 		type: 'object' as const,
 		properties: {
