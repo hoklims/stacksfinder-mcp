@@ -32,8 +32,6 @@ export const analyzeTechToolDefinition = {
 	name: 'analyze_tech',
 	description: `Detailed analysis of a technology with 6-dimension scores, strengths, weaknesses, and compatible technologies.
 
-**Tier**: Free (no API key required)
-
 **Prerequisites**: Use \`list_technologies\` first to discover valid technology IDs.
 
 **Next Steps**:

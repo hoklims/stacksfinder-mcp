@@ -783,7 +783,7 @@ export function createServer(): McpServer {
 					.enum(['france', 'us', 'uk', 'remote-global'])
 					.optional()
 					.describe('Region for pricing (default: france)'),
-				includeMarket: z.boolean().optional().describe('Include market analysis (default: true, Pro tier only)')
+				includeMarket: z.boolean().optional().describe('Include market analysis (default: true)')
 			},
 			annotations: estimateProjectAnnotations
 		},

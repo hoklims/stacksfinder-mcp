@@ -264,8 +264,8 @@ describe('API Tools (Error Handling Without API Key)', () => {
 		// Should fail without API key or config
 		expect(result.isError).toBe(true);
 		const text = getResultText(result);
-		// Error message could be about config or API key
-		expect(text.toLowerCase()).toMatch(/config|api|error/i);
+		// Error message could be about config, API key, error, or feature availability
+		expect(text.toLowerCase()).toMatch(/config|api|error|feature|authenticated|requires/i);
 	});
 
 	test('get_blueprint should handle invalid UUID', async () => {

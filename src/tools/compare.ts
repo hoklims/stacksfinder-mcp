@@ -37,8 +37,6 @@ export const compareTechsToolDefinition = {
 	name: 'compare_techs',
 	description: `Side-by-side comparison of 2-4 technologies with per-dimension winners and compatibility matrix.
 
-**Tier**: Free (no API key required)
-
 **Prerequisites**: Use \`list_technologies\` first to discover valid technology IDs.
 
 **Next Steps**:

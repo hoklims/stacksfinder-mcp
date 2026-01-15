@@ -70,8 +70,6 @@ export const getWorkflowGuideToolDefinition = {
 	name: 'get_workflow_guide',
 	description: `Intelligent workflow guide that recommends the next tool to use based on your goal and context.
 
-**Tier**: Free (no API key required)
-
 **When to use**:
 - You're unsure which StacksFinder tool to call next
 - You want to understand the recommended workflow for your goal
@@ -168,8 +166,7 @@ const WORKFLOWS: Record<WorkflowGoal, WorkflowDefinition> = {
 				tool: 'create_api_key',
 				description: 'Create an API key using OAuth (preferred for ChatGPT)',
 				example: { keyName: 'my-chatgpt-key' },
-				requiresPro: true,
-				alternativeIfFree: 'Upgrade to Pro at https://stacksfinder.com/pricing'
+				requiresPro: true
 			},
 			{
 				tool: 'setup_api_key',
@@ -194,14 +191,14 @@ const WORKFLOWS: Record<WorkflowGoal, WorkflowDefinition> = {
 				description: 'Get unlimited recommendations with Pro',
 				example: { projectType: 'saas', scale: 'startup', priorities: ['scalability', 'developer-experience'] },
 				requiresPro: true,
-				alternativeIfFree: 'Use recommend_stack_demo for free (1/day limit)'
+				alternativeIfFree: 'Try recommend_stack_demo first'
 			}
 		]
 	},
 	audit_project: {
 		goal: 'audit_project',
 		title: 'Audit Technical Debt',
-		prerequisiteCondition: 'Pro tier or OAuth session',
+		prerequisiteCondition: 'Authentication required',
 		steps: [
 			{
 				tool: 'create_audit',
@@ -213,8 +210,7 @@ const WORKFLOWS: Record<WorkflowGoal, WorkflowDefinition> = {
 						{ name: 'Node.js', version: '14.0.0' }
 					]
 				},
-				requiresPro: true,
-				alternativeIfFree: 'Upgrade to Pro for technical debt audits'
+				requiresPro: true
 			},
 			{
 				tool: 'get_audit',
@@ -281,7 +277,7 @@ const WORKFLOWS: Record<WorkflowGoal, WorkflowDefinition> = {
 	create_blueprint: {
 		goal: 'create_blueprint',
 		title: 'Create and Save Blueprint',
-		prerequisiteCondition: 'Pro tier or OAuth session',
+		prerequisiteCondition: 'Authentication required',
 		steps: [
 			{
 				tool: 'recommend_stack',
@@ -293,8 +289,7 @@ const WORKFLOWS: Record<WorkflowGoal, WorkflowDefinition> = {
 				tool: 'create_blueprint',
 				description: 'Save the recommendation as a blueprint',
 				example: { projectType: 'saas', scale: 'startup', priorities: ['time-to-market'] },
-				requiresPro: true,
-				alternativeIfFree: 'Upgrade to Pro to save blueprints'
+				requiresPro: true
 			},
 			{
 				tool: 'get_blueprint',
@@ -360,7 +355,6 @@ export function executeGetWorkflowGuide(input: GetWorkflowGuideInput): { text: s
 
 	// Handle missing prerequisites
 	if (missingPrerequisites.length > 0) {
-		const prereqWorkflow = WORKFLOWS[missingPrerequisites[0] as WorkflowGoal] || WORKFLOWS.discover;
 		text += `## Missing Prerequisites\n`;
 		text += `Before ${goal}, you need to complete: **${missingPrerequisites.join(', ')}**\n\n`;
 		text += `Run \`get_workflow_guide({ current_goal: "${missingPrerequisites[0].includes('audit') ? 'audit_project' : 'discover'}" })\` for guidance.\n\n`;
@@ -368,8 +362,6 @@ export function executeGetWorkflowGuide(input: GetWorkflowGuideInput): { text: s
 
 	// Next recommended tool
 	if (nextStep) {
-		const needsUpgrade = nextStep.requiresPro && user_tier === 'free';
-
 		text += `## Next Recommended Tool\n`;
 		text += `**\`${nextStep.tool}\`** - ${nextStep.description}\n\n`;
 
@@ -383,10 +375,7 @@ export function executeGetWorkflowGuide(input: GetWorkflowGuideInput): { text: s
 
 		// Alternatives
 		text += `## Alternatives\n`;
-		if (needsUpgrade && nextStep.alternativeIfFree) {
-			text += `- **Free tier**: ${nextStep.alternativeIfFree}\n`;
-			text += `- **Get Pro**: Use \`create_api_key\` (OAuth) or \`setup_api_key\` (email/password)\n`;
-		} else if (workflow.steps.length > 1 && stepIndex < workflow.steps.length - 1) {
+		if (workflow.steps.length > 1 && stepIndex < workflow.steps.length - 1) {
 			const altStep = workflow.steps.find((s, i) => i !== stepIndex && !completedSet.has(s.tool.toLowerCase()));
 			if (altStep) {
 				text += `- Skip to \`${altStep.tool}\`: ${altStep.description}\n`;

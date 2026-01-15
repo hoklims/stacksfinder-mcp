@@ -5,6 +5,12 @@ All notable changes to `@stacksfinder/mcp-server` will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1] - 2026-01-14
+
+### Fixed
+- Added Windows-specific installation instructions with `cmd /c` wrapper
+- Updated README with platform-specific configs for Claude Code, Claude Desktop, Cursor, Windsurf, and VS Code
+
 ## [1.5.0] - 2026-01-14
 
 ### Added

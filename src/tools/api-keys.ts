@@ -21,10 +21,6 @@ export const setupApiKeyToolDefinition = {
 	name: 'setup_api_key',
 	description: `Authenticates with your StacksFinder account and creates an API key using email/password.
 
-**Tier**: Requires Pro or Team subscription
-
-**Prerequisites**: A StacksFinder Pro/Team account at https://stacksfinder.com/pricing
-
 **Next Steps**:
 - Verify key created: \`list_api_keys()\`
 - Use Pro features: \`recommend_stack()\`, \`create_audit()\`, \`create_blueprint()\`
@@ -79,7 +75,7 @@ export async function executeSetupApiKey(
 
 			// Add helpful context for common errors
 			if (data.error === 'TIER_REQUIRED') {
-				errorMessage = `Pro or Team tier required. Upgrade at ${config.apiUrl}/pricing`;
+				errorMessage = 'This feature requires an upgraded account.';
 			} else if (data.error === 'LIMIT_EXCEEDED') {
 				errorMessage = `API key limit reached. Manage keys at ${config.apiUrl}/account/developer/api-keys`;
 			} else if (data.error === 'INVALID_CREDENTIALS') {
@@ -358,7 +354,6 @@ export const createApiKeyToolDefinition = {
 - Preferred method for ChatGPT users
 
 **Common Pitfalls**:
-- Requires Pro/Team subscription - upgrade at https://stacksfinder.com/pricing
 - Key is shown only once - save it securely
 
 **Example**: \`create_api_key({ keyName: "my-chatgpt-key" })\``
@@ -413,7 +408,7 @@ If you're using Claude Code or another CLI, use \`setup_api_key\` with your emai
 			if (response.status === 401) {
 				errorMessage = 'Authentication failed. Please reconnect your StacksFinder account.';
 			} else if (response.status === 403) {
-				errorMessage = `Pro or Team tier required. Upgrade at ${config.apiUrl}/pricing`;
+				errorMessage = 'This feature requires an upgraded account.';
 			} else if (data.error === 'LIMIT_EXCEEDED') {
 				errorMessage = `API key limit reached. Manage keys at ${config.apiUrl}/account/developer/api-keys`;
 			}

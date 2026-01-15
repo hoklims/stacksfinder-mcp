@@ -46,25 +46,18 @@ export type RecommendStackDemoInput = z.infer<typeof RecommendStackDemoInputSche
  */
 export const recommendStackDemoToolDefinition = {
 	name: 'recommend_stack_demo',
-	description: `Try StacksFinder's tech stack recommendations for FREE - once per day, no account required.
-
-**Tier**: Free (1 per day limit)
+	description: `Quick tech stack recommendation based on project type and scale.
 
 **Prerequisites**: None - great starting point for new users.
 
 **Next Steps**:
 - Analyze a specific tech: \`analyze_tech({ technology: "recommended-id" })\`
-- Upgrade for unlimited: \`create_api_key()\` then \`recommend_stack()\`
-- Create free account for 3/month: https://stacksfinder.com/signup
+- Full recommendation with priorities: \`recommend_stack()\`
 
 **Output includes**:
 - Optimal technology for each category (frontend, backend, database, etc.)
 - Score and grade for each recommendation
 - Based on 100% deterministic scoring (no AI hallucinations)
-
-**Common Pitfalls**:
-- 1/day limit: Create free account for 3 blueprints/month
-- For custom priorities/constraints: Upgrade to Pro
 
 **Example**: \`recommend_stack_demo({ projectType: "saas", scale: "mvp" })\``,
 	inputSchema: {
@@ -189,20 +182,7 @@ export function executeRecommendStackDemo(
 		return {
 			text: `## Daily Demo Limit Reached
 
-You've already used your free demo today.
-
-**Options:**
-1. Come back tomorrow for another free demo
-2. Create a free account at https://stacksfinder.com/register
-3. Upgrade to Pro for unlimited recommendations: https://stacksfinder.com/pricing
-
-**Pro benefits:**
-- Unlimited stack recommendations
-- Custom priorities (time-to-market, scalability, security, etc.)
-- Technology constraints
-- AI-generated implementation narratives
-- API access for automation
-- MCP integration with full features
+You've already used the demo today. Try again tomorrow or use \`recommend_stack()\` for full access.
 
 ---
 *Device ID: ${deviceId.slice(0, 8)}...*`,
@@ -240,20 +220,13 @@ You've already used your free demo today.
 
 ---
 
-### Want More?
-
-This is a **simplified demo**. The full version includes:
-- Custom priorities (time-to-market, scalability, security, etc.)
-- Technology constraints ("must use PostgreSQL", "no AWS")
-- Compatibility scoring between all selected technologies
-- AI-generated implementation narrative with setup guides
-- Confidence scoring (high/medium/low) based on your inputs
-
-**Upgrade to Pro**: https://stacksfinder.com/pricing
-**Create free account**: https://stacksfinder.com/register
+**Next steps:**
+- Analyze a tech: \`analyze_tech({ technology: "nextjs" })\`
+- Compare alternatives: \`compare_techs({ technologies: ["nextjs", "sveltekit"] })\`
+- Full recommendation with priorities: \`recommend_stack()\`
 
 ---
-*Data version: ${DATA_VERSION} | Demo (1/day limit)*`;
+*Data version: ${DATA_VERSION}*`;
 
 	return { text };
 }

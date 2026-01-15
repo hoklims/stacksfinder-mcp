@@ -6,7 +6,7 @@ import {
 	type CreateBlueprintRequest,
 	type JobStatusResponse
 } from '../utils/api-client.js';
-import { McpError, ErrorCode } from '../utils/errors.js';
+import { McpError, ErrorCode, checkProAccess } from '../utils/errors.js';
 import { debug } from '../utils/logger.js';
 
 /**
@@ -24,7 +24,7 @@ export type GetBlueprintInput = z.infer<typeof GetBlueprintInputSchema>;
 export const getBlueprintToolDefinition = {
 	name: 'get_blueprint',
 	description:
-		'Fetches an existing blueprint by ID. Blueprints are generated via the StacksFinder web UI. Requires API key.',
+		'Fetches an existing blueprint by ID. Blueprints are generated via the StacksFinder web UI or this tool.',
 	inputSchema: {
 		type: 'object' as const,
 		properties: {
@@ -102,6 +102,10 @@ ${blueprint.narrative}`;
 export async function executeGetBlueprint(
 	input: GetBlueprintInput
 ): Promise<{ text: string; isError?: boolean }> {
+	// Check Pro access
+	const tierCheck = await checkProAccess('get_blueprint');
+	if (tierCheck) return tierCheck;
+
 	const { blueprintId } = input;
 
 	debug('Fetching blueprint', { blueprintId });
@@ -205,7 +209,7 @@ export type CreateBlueprintInput = z.infer<typeof CreateBlueprintInputSchema>;
  */
 export const createBlueprintToolDefinition = {
 	name: 'create_blueprint',
-	description: `Creates a new tech stack blueprint for a project. Requires API key with 'blueprint:write' scope.
+	description: `Creates a new tech stack blueprint for a project.
 
 The blueprint generation is asynchronous. By default, this tool waits for completion and returns the full blueprint.
 Set waitForCompletion=false to get the job ID immediately for manual polling.
@@ -297,6 +301,10 @@ async function pollJobUntilComplete(
 export async function executeCreateBlueprint(
 	input: CreateBlueprintInput
 ): Promise<{ text: string; isError?: boolean }> {
+	// Check Pro access
+	const tierCheck = await checkProAccess('create_blueprint');
+	if (tierCheck) return tierCheck;
+
 	const {
 		projectName,
 		projectType,
@@ -393,7 +401,7 @@ ${text}
 			} else if (err.code === ErrorCode.RATE_LIMITED) {
 				err.suggestions = [
 					'You have exceeded your monthly blueprint quota.',
-					'Upgrade your plan at https://stacksfinder.com/pricing'
+					'Please try again later or contact support.'
 				];
 			}
 			return { text: err.toResponseText(), isError: true };

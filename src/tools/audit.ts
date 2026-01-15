@@ -1,8 +1,7 @@
 import { z } from 'zod';
 import { apiRequest } from '../utils/api-client.js';
-import { McpError, ErrorCode } from '../utils/errors.js';
+import { McpError, ErrorCode, checkProAccess } from '../utils/errors.js';
 import { debug } from '../utils/logger.js';
-import { hasApiKey } from '../utils/config.js';
 
 // ============================================================================
 // SCHEMAS
@@ -599,23 +598,15 @@ function formatMigrationRecommendation(response: MigrationRecommendationResponse
 // EXECUTE FUNCTIONS
 // ============================================================================
 
-function requireApiKey(): void {
-	if (!hasApiKey()) {
-		throw new McpError(
-			ErrorCode.CONFIG_ERROR,
-			'API key required for audit operations. Set STACKSFINDER_API_KEY environment variable.',
-			['Get your API key from https://stacksfinder.com/settings/api']
-		);
-	}
-}
-
 /**
  * Execute create_audit tool.
  */
 export async function executeCreateAudit(
 	input: CreateAuditInput
 ): Promise<{ text: string; isError?: boolean }> {
-	requireApiKey();
+	// Check Pro access
+	const tierCheck = await checkProAccess('create_audit');
+	if (tierCheck) return tierCheck;
 
 	debug('Creating audit', { name: input.name, techCount: input.technologies.length });
 
@@ -652,7 +643,9 @@ export async function executeCreateAudit(
 export async function executeGetAudit(
 	input: GetAuditInput
 ): Promise<{ text: string; isError?: boolean }> {
-	requireApiKey();
+	// Check Pro access
+	const tierCheck = await checkProAccess('get_audit');
+	if (tierCheck) return tierCheck;
 
 	debug('Fetching audit', { auditId: input.auditId });
 
@@ -684,7 +677,9 @@ export async function executeGetAudit(
 export async function executeListAudits(
 	input: ListAuditsInput
 ): Promise<{ text: string; isError?: boolean }> {
-	requireApiKey();
+	// Check Pro access
+	const tierCheck = await checkProAccess('list_audits');
+	if (tierCheck) return tierCheck;
 
 	debug('Listing audits', { limit: input.limit, offset: input.offset });
 
@@ -732,7 +727,9 @@ export async function executeListAudits(
 export async function executeCompareAudits(
 	input: CompareAuditsInput
 ): Promise<{ text: string; isError?: boolean }> {
-	requireApiKey();
+	// Check Pro access
+	const tierCheck = await checkProAccess('compare_audits');
+	if (tierCheck) return tierCheck;
 
 	debug('Comparing audits', { base: input.baseAuditId, compare: input.compareAuditId });
 
@@ -763,7 +760,9 @@ export async function executeCompareAudits(
  * Execute get_audit_quota tool.
  */
 export async function executeGetAuditQuota(): Promise<{ text: string; isError?: boolean }> {
-	requireApiKey();
+	// Check Pro access
+	const tierCheck = await checkProAccess('get_audit_quota');
+	if (tierCheck) return tierCheck;
 
 	debug('Getting audit quota');
 
@@ -801,7 +800,9 @@ export async function executeGetAuditQuota(): Promise<{ text: string; isError?: 
 export async function executeGetMigrationRecommendation(
 	input: GetMigrationRecommendationInput
 ): Promise<{ text: string; isError?: boolean }> {
-	requireApiKey();
+	// Check Pro access
+	const tierCheck = await checkProAccess('get_migration_recommendation');
+	if (tierCheck) return tierCheck;
 
 	debug('Getting migration recommendation', { auditId: input.auditId });
 

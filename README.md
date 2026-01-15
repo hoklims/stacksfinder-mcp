@@ -14,10 +14,17 @@ MCP (Model Context Protocol) server that brings **deterministic tech stack recom
 ### Claude Code (CLI)
 
 ```bash
-# Add to Claude Code
+# macOS/Linux
 claude mcp add stacksfinder npx -y @stacksfinder/mcp-server
 
-# With API key for full features
+# Windows (requires cmd wrapper)
+claude mcp add-json stacksfinder '{
+  "command": "cmd",
+  "args": ["/c", "npx", "-y", "@stacksfinder/mcp-server"],
+  "env": {"STACKSFINDER_API_KEY": "sk_live_xxx"}
+}'
+
+# With API key (macOS/Linux)
 claude mcp add-json stacksfinder '{
   "command": "npx",
   "args": ["-y", "@stacksfinder/mcp-server"],
@@ -25,16 +32,32 @@ claude mcp add-json stacksfinder '{
 }'
 ```
 
-### Claude Code
+### Claude Desktop
 
 Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
+**macOS/Linux:**
 ```json
 {
   "mcpServers": {
     "stacksfinder": {
       "command": "npx",
       "args": ["-y", "@stacksfinder/mcp-server"],
+      "env": {
+        "STACKSFINDER_API_KEY": "sk_live_xxx"
+      }
+    }
+  }
+}
+```
+
+**Windows:**
+```json
+{
+  "mcpServers": {
+    "stacksfinder": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@stacksfinder/mcp-server"],
       "env": {
         "STACKSFINDER_API_KEY": "sk_live_xxx"
       }
@@ -47,6 +70,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
 
 Add to `.cursor/mcp.json` or `.windsurf/mcp.json` in your project root:
 
+**macOS/Linux:**
 ```json
 {
   "mcpServers": {
@@ -61,16 +85,47 @@ Add to `.cursor/mcp.json` or `.windsurf/mcp.json` in your project root:
 }
 ```
 
+**Windows:**
+```json
+{
+  "mcpServers": {
+    "stacksfinder": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@stacksfinder/mcp-server"],
+      "env": {
+        "STACKSFINDER_API_KEY": "sk_live_xxx"
+      }
+    }
+  }
+}
+```
+
 ### VS Code + Copilot
 
 Add to `.vscode/mcp.json`:
 
+**macOS/Linux:**
 ```json
 {
   "servers": {
     "stacksfinder": {
       "command": "npx",
       "args": ["-y", "@stacksfinder/mcp-server"],
+      "env": {
+        "STACKSFINDER_API_KEY": "sk_live_xxx"
+      }
+    }
+  }
+}
+```
+
+**Windows:**
+```json
+{
+  "servers": {
+    "stacksfinder": {
+      "command": "cmd",
+      "args": ["/c", "npx", "-y", "@stacksfinder/mcp-server"],
       "env": {
         "STACKSFINDER_API_KEY": "sk_live_xxx"
       }

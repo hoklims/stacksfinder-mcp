@@ -92,3 +92,108 @@ export function resetConfig(): void {
 	_config = null;
 	_oauthToken = null;
 }
+
+// ============================================================================
+// User Tier Management
+// ============================================================================
+
+export type UserTier = 'free' | 'pro' | 'team' | 'unknown';
+
+interface UserTierInfo {
+	tier: UserTier;
+	isPro: boolean;
+	isTeam: boolean;
+	quota: {
+		remaining: number;
+		limit: number;
+		used: number;
+	};
+}
+
+let _cachedTierInfo: UserTierInfo | null = null;
+let _tierCacheExpiry: number = 0;
+const TIER_CACHE_TTL_MS = 60000; // 1 minute cache
+
+/**
+ * Get the current user's tier information.
+ * Calls /api/v1/mcp/me and caches the result.
+ */
+export async function getUserTier(): Promise<UserTierInfo> {
+	const authToken = getAuthToken();
+
+	// No auth = free tier
+	if (!authToken) {
+		return {
+			tier: 'free',
+			isPro: false,
+			isTeam: false,
+			quota: { remaining: 0, limit: 0, used: 0 }
+		};
+	}
+
+	// Check cache
+	if (_cachedTierInfo && Date.now() < _tierCacheExpiry) {
+		return _cachedTierInfo;
+	}
+
+	const config = getConfig();
+
+	try {
+		const response = await fetch(`${config.apiUrl}/api/v1/mcp/me`, {
+			headers: {
+				Authorization: `Bearer ${authToken}`
+			}
+		});
+
+		if (!response.ok) {
+			// Auth failed = treat as free
+			return {
+				tier: 'free',
+				isPro: false,
+				isTeam: false,
+				quota: { remaining: 0, limit: 0, used: 0 }
+			};
+		}
+
+		const data = await response.json() as {
+			tier: UserTier;
+			isPro: boolean;
+			isTeam: boolean;
+			quota: { remaining: number; limit: number; used: number };
+		};
+
+		_cachedTierInfo = {
+			tier: data.tier,
+			isPro: data.isPro,
+			isTeam: data.isTeam,
+			quota: data.quota
+		};
+		_tierCacheExpiry = Date.now() + TIER_CACHE_TTL_MS;
+
+		return _cachedTierInfo;
+	} catch {
+		// Network error = treat as unknown
+		return {
+			tier: 'unknown',
+			isPro: false,
+			isTeam: false,
+			quota: { remaining: 0, limit: 0, used: 0 }
+		};
+	}
+}
+
+/**
+ * Check if the current user has Pro tier or higher.
+ */
+export async function isPro(): Promise<boolean> {
+	const tierInfo = await getUserTier();
+	return tierInfo.isPro;
+}
+
+/**
+ * Clear the tier cache (useful when user upgrades).
+ */
+export function clearTierCache(): void {
+	_cachedTierInfo = null;
+	_tierCacheExpiry = 0;
+}

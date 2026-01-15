@@ -1,6 +1,6 @@
 {
 	"name": "@stacksfinder/mcp-server",
-	"version": "1.5.0",
+	"version": "1.5.1",
 	"mcpName": "io.github.hoklims/stacksfinder",
 	"description": "25 tools for deterministic tech stack recommendations, technology comparison, blueprint generation, technical debt audits, project estimation, MCP compatibility checking, workflow guidance, and project kit. No hallucinations, just data.",
 	"type": "module",

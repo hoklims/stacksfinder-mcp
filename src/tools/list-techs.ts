@@ -26,8 +26,6 @@ export const listTechsToolDefinition = {
 	name: 'list_technologies',
 	description: `Lists all available technology IDs grouped by category. Essential starting point for discovery.
 
-**Tier**: Free (no API key required)
-
 **Prerequisites**: None - this is typically the first tool to call.
 
 **Next Steps**:

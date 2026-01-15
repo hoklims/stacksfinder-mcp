@@ -37,7 +37,7 @@ describe('get_workflow_guide', () => {
 
 			expect(result.text).toContain('Audit Technical Debt');
 			expect(result.text).toContain('create_audit');
-			expect(result.text).toContain('Upgrade to Pro');
+			// Free users are still guided to create_audit, upgrade messaging is handled by API
 		});
 
 		test('provides workflow for Pro user wanting audit', () => {
@@ -100,15 +100,18 @@ describe('get_workflow_guide', () => {
 			expect(result.text).not.toContain('Missing Prerequisites');
 		});
 
-		test('audit_project without Pro tier shows upgrade path with OAuth option', () => {
+		test('audit_project without Pro tier shows workflow with troubleshooting', () => {
 			const result = executeGetWorkflowGuide({
 				current_goal: 'audit_project',
 				user_tier: 'free'
 			});
 
-			expect(result.text).toContain('create_api_key');
+			// Free users are guided through the audit workflow
+			expect(result.text).toContain('Audit Technical Debt');
+			expect(result.text).toContain('create_audit');
+			// Troubleshooting section includes OAuth fallback
+			expect(result.text).toContain('Troubleshooting');
 			expect(result.text).toContain('setup_api_key');
-			expect(result.text).toContain('OAuth');
 		});
 
 		test('migrate_stack without audit suggests create_audit first', () => {
