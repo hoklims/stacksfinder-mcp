@@ -85,7 +85,7 @@ Data version: ${DATA_VERSION}`;
 	let total = 0;
 
 	for (const cat of CATEGORIES) {
-		const techs = grouped[cat];
+		const techs = grouped[cat] ?? [];
 		if (techs.length > 0) {
 			sections.push(
 				formatCategory(

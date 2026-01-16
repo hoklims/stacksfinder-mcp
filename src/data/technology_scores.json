@@ -1,7 +1,7 @@
 {
-	"$version": "2.4.0",
-	"$description": "Base scores for 32 technologies across 6 criteria (auto-generated + manual entries)",
-	"$generatedAt": "2025-12-30T17:47:44.828Z",
+	"$version": "2.5.0",
+	"$description": "Base scores for 46 technologies across 6 criteria (auto-generated + manual entries)",
+	"$generatedAt": "2026-01-15T10:00:00.000Z",
 	"technologies": {
 		"stripe": {
 			"id": "stripe",
@@ -1024,6 +1024,454 @@
 					"maintain": 85,
 					"cost": 95,
 					"compliance": 85
+				}
+			}
+		},
+		"php": {
+			"id": "php",
+			"name": "PHP",
+			"category": "backend",
+			"url": "https://php.net",
+			"scores": {
+				"default": {
+					"perf": 75,
+					"dx": 80,
+					"ecosystem": 95,
+					"maintain": 85,
+					"cost": 90,
+					"compliance": 80
+				},
+				"mvp": {
+					"perf": 72,
+					"dx": 85,
+					"ecosystem": 98,
+					"maintain": 85,
+					"cost": 95,
+					"compliance": 78
+				},
+				"enterprise": {
+					"perf": 78,
+					"dx": 78,
+					"ecosystem": 92,
+					"maintain": 90,
+					"cost": 88,
+					"compliance": 85
+				}
+			}
+		},
+		"laravel": {
+			"id": "laravel",
+			"name": "Laravel",
+			"category": "meta-framework",
+			"url": "https://laravel.com",
+			"scores": {
+				"default": {
+					"perf": 78,
+					"dx": 95,
+					"ecosystem": 92,
+					"maintain": 88,
+					"cost": 85,
+					"compliance": 82
+				},
+				"mvp": {
+					"perf": 75,
+					"dx": 98,
+					"ecosystem": 95,
+					"maintain": 88,
+					"cost": 90,
+					"compliance": 80
+				},
+				"enterprise": {
+					"perf": 80,
+					"dx": 92,
+					"ecosystem": 88,
+					"maintain": 92,
+					"cost": 80,
+					"compliance": 88
+				}
+			}
+		},
+		"eloquent": {
+			"id": "eloquent",
+			"name": "Eloquent ORM",
+			"category": "orm",
+			"url": "https://laravel.com/docs/eloquent",
+			"scores": {
+				"default": {
+					"perf": 75,
+					"dx": 92,
+					"ecosystem": 88,
+					"maintain": 85,
+					"cost": 95,
+					"compliance": 80
+				},
+				"mvp": {
+					"perf": 72,
+					"dx": 96,
+					"ecosystem": 90,
+					"maintain": 85,
+					"cost": 98,
+					"compliance": 78
+				},
+				"enterprise": {
+					"perf": 78,
+					"dx": 88,
+					"ecosystem": 85,
+					"maintain": 90,
+					"cost": 92,
+					"compliance": 85
+				}
+			}
+		},
+		"livewire": {
+			"id": "livewire",
+			"name": "Livewire",
+			"category": "frontend",
+			"url": "https://livewire.laravel.com",
+			"scores": {
+				"default": {
+					"perf": 70,
+					"dx": 90,
+					"ecosystem": 75,
+					"maintain": 80,
+					"cost": 95,
+					"compliance": 80
+				},
+				"mvp": {
+					"perf": 68,
+					"dx": 95,
+					"ecosystem": 78,
+					"maintain": 80,
+					"cost": 98,
+					"compliance": 78
+				},
+				"enterprise": {
+					"perf": 72,
+					"dx": 88,
+					"ecosystem": 72,
+					"maintain": 85,
+					"cost": 92,
+					"compliance": 85
+				}
+			}
+		},
+		"inertia": {
+			"id": "inertia",
+			"name": "Inertia.js",
+			"category": "frontend",
+			"url": "https://inertiajs.com",
+			"scores": {
+				"default": {
+					"perf": 80,
+					"dx": 88,
+					"ecosystem": 70,
+					"maintain": 82,
+					"cost": 95,
+					"compliance": 80
+				},
+				"mvp": {
+					"perf": 78,
+					"dx": 92,
+					"ecosystem": 73,
+					"maintain": 82,
+					"cost": 98,
+					"compliance": 78
+				},
+				"enterprise": {
+					"perf": 82,
+					"dx": 85,
+					"ecosystem": 68,
+					"maintain": 87,
+					"cost": 92,
+					"compliance": 85
+				}
+			}
+		},
+		"laravel-sanctum": {
+			"id": "laravel-sanctum",
+			"name": "Laravel Sanctum",
+			"category": "auth",
+			"url": "https://laravel.com/docs/sanctum",
+			"scores": {
+				"default": {
+					"perf": 85,
+					"dx": 90,
+					"ecosystem": 80,
+					"maintain": 85,
+					"cost": 95,
+					"compliance": 85
+				},
+				"mvp": {
+					"perf": 82,
+					"dx": 94,
+					"ecosystem": 83,
+					"maintain": 85,
+					"cost": 98,
+					"compliance": 82
+				},
+				"enterprise": {
+					"perf": 88,
+					"dx": 87,
+					"ecosystem": 78,
+					"maintain": 90,
+					"cost": 92,
+					"compliance": 90
+				}
+			}
+		},
+		"laravel-breeze": {
+			"id": "laravel-breeze",
+			"name": "Laravel Breeze",
+			"category": "auth",
+			"url": "https://laravel.com/docs/starter-kits",
+			"scores": {
+				"default": {
+					"perf": 80,
+					"dx": 95,
+					"ecosystem": 75,
+					"maintain": 85,
+					"cost": 100,
+					"compliance": 80
+				},
+				"mvp": {
+					"perf": 78,
+					"dx": 98,
+					"ecosystem": 78,
+					"maintain": 85,
+					"cost": 100,
+					"compliance": 78
+				},
+				"enterprise": {
+					"perf": 82,
+					"dx": 92,
+					"ecosystem": 72,
+					"maintain": 90,
+					"cost": 100,
+					"compliance": 85
+				}
+			}
+		},
+		"forge": {
+			"id": "forge",
+			"name": "Laravel Forge",
+			"category": "hosting",
+			"url": "https://forge.laravel.com",
+			"scores": {
+				"default": {
+					"perf": 85,
+					"dx": 88,
+					"ecosystem": 80,
+					"maintain": 75,
+					"cost": 60,
+					"compliance": 85
+				},
+				"mvp": {
+					"perf": 82,
+					"dx": 92,
+					"ecosystem": 83,
+					"maintain": 75,
+					"cost": 55,
+					"compliance": 82
+				},
+				"enterprise": {
+					"perf": 88,
+					"dx": 85,
+					"ecosystem": 78,
+					"maintain": 80,
+					"cost": 65,
+					"compliance": 90
+				}
+			}
+		},
+		"vapor": {
+			"id": "vapor",
+			"name": "Laravel Vapor",
+			"category": "hosting",
+			"url": "https://vapor.laravel.com",
+			"scores": {
+				"default": {
+					"perf": 90,
+					"dx": 85,
+					"ecosystem": 70,
+					"maintain": 70,
+					"cost": 50,
+					"compliance": 90
+				},
+				"mvp": {
+					"perf": 88,
+					"dx": 88,
+					"ecosystem": 73,
+					"maintain": 70,
+					"cost": 45,
+					"compliance": 88
+				},
+				"enterprise": {
+					"perf": 92,
+					"dx": 82,
+					"ecosystem": 68,
+					"maintain": 75,
+					"cost": 55,
+					"compliance": 95
+				}
+			}
+		},
+		"ploi": {
+			"id": "ploi",
+			"name": "Ploi.io",
+			"category": "hosting",
+			"url": "https://ploi.io",
+			"scores": {
+				"default": {
+					"perf": 82,
+					"dx": 90,
+					"ecosystem": 65,
+					"maintain": 75,
+					"cost": 70,
+					"compliance": 80
+				},
+				"mvp": {
+					"perf": 80,
+					"dx": 94,
+					"ecosystem": 68,
+					"maintain": 75,
+					"cost": 75,
+					"compliance": 78
+				},
+				"enterprise": {
+					"perf": 85,
+					"dx": 87,
+					"ecosystem": 62,
+					"maintain": 80,
+					"cost": 68,
+					"compliance": 85
+				}
+			}
+		},
+		"symfony": {
+			"id": "symfony",
+			"name": "Symfony",
+			"category": "meta-framework",
+			"url": "https://symfony.com",
+			"scores": {
+				"default": {
+					"perf": 80,
+					"dx": 75,
+					"ecosystem": 88,
+					"maintain": 90,
+					"cost": 85,
+					"compliance": 88
+				},
+				"mvp": {
+					"perf": 78,
+					"dx": 78,
+					"ecosystem": 90,
+					"maintain": 90,
+					"cost": 88,
+					"compliance": 85
+				},
+				"enterprise": {
+					"perf": 82,
+					"dx": 72,
+					"ecosystem": 85,
+					"maintain": 95,
+					"cost": 82,
+					"compliance": 92
+				}
+			}
+		},
+		"doctrine": {
+			"id": "doctrine",
+			"name": "Doctrine ORM",
+			"category": "orm",
+			"url": "https://doctrine-project.org",
+			"scores": {
+				"default": {
+					"perf": 78,
+					"dx": 70,
+					"ecosystem": 85,
+					"maintain": 88,
+					"cost": 95,
+					"compliance": 85
+				},
+				"mvp": {
+					"perf": 75,
+					"dx": 73,
+					"ecosystem": 88,
+					"maintain": 88,
+					"cost": 98,
+					"compliance": 82
+				},
+				"enterprise": {
+					"perf": 80,
+					"dx": 68,
+					"ecosystem": 82,
+					"maintain": 92,
+					"cost": 92,
+					"compliance": 90
+				}
+			}
+		},
+		"filament": {
+			"id": "filament",
+			"name": "Filament",
+			"category": "cms",
+			"url": "https://filamentphp.com",
+			"scores": {
+				"default": {
+					"perf": 75,
+					"dx": 92,
+					"ecosystem": 70,
+					"maintain": 80,
+					"cost": 100,
+					"compliance": 80
+				},
+				"mvp": {
+					"perf": 72,
+					"dx": 96,
+					"ecosystem": 73,
+					"maintain": 80,
+					"cost": 100,
+					"compliance": 78
+				},
+				"enterprise": {
+					"perf": 78,
+					"dx": 89,
+					"ecosystem": 68,
+					"maintain": 85,
+					"cost": 100,
+					"compliance": 85
+				}
+			}
+		},
+		"nova": {
+			"id": "nova",
+			"name": "Laravel Nova",
+			"category": "cms",
+			"url": "https://nova.laravel.com",
+			"scores": {
+				"default": {
+					"perf": 80,
+					"dx": 88,
+					"ecosystem": 75,
+					"maintain": 85,
+					"cost": 40,
+					"compliance": 85
+				},
+				"mvp": {
+					"perf": 78,
+					"dx": 92,
+					"ecosystem": 78,
+					"maintain": 85,
+					"cost": 35,
+					"compliance": 82
+				},
+				"enterprise": {
+					"perf": 82,
+					"dx": 85,
+					"ecosystem": 72,
+					"maintain": 90,
+					"cost": 45,
+					"compliance": 90
 				}
 			}
 		}
