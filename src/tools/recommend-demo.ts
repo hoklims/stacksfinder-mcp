@@ -4,6 +4,7 @@ import {
 	type Category,
 	type Context,
 	calculateOverallScore,
+	getCompatibility,
 	getScores,
 	getTechnologiesByCategory,
 	scoreToGrade
@@ -119,7 +120,22 @@ const PROJECT_TYPE_CATEGORIES: Record<string, Category[]> = {
 };
 
 /**
+ * Check if a technology is compatible with all already-selected technologies.
+ * Returns false if ANY hard incompatibility (score=0) is found.
+ */
+function isCompatibleWithSelected(techId: string, selectedTechIds: string[]): boolean {
+	for (const selectedId of selectedTechIds) {
+		const compatScore = getCompatibility(techId, selectedId);
+		if (compatScore === 0) {
+			return false; // Hard incompatibility
+		}
+	}
+	return true;
+}
+
+/**
  * Select best tech for each category based on scores.
+ * Tracks selected techs and filters out incompatible options.
  */
 function selectBestTechPerCategory(
 	categories: Category[],
@@ -128,15 +144,21 @@ function selectBestTechPerCategory(
 ): Array<{ category: Category; technology: string; score: number; grade: string }> {
 	const results: Array<{ category: Category; technology: string; score: number; grade: string }> = [];
 	const weights = PROJECT_TYPE_WEIGHTS[projectType] || {};
+	const selectedTechIds: string[] = []; // Track selections for compatibility checking
 
 	for (const category of categories) {
 		const techs = getTechnologiesByCategory(category);
 		if (techs.length === 0) continue;
 
-		let bestTech = techs[0];
+		let bestTech: (typeof techs)[0] | null = null;
 		let bestScore = 0;
 
 		for (const tech of techs) {
+			// Skip if incompatible with already-selected techs
+			if (!isCompatibleWithSelected(tech.id, selectedTechIds)) {
+				continue;
+			}
+
 			const scores = getScores(tech.id, context);
 			if (!scores) continue;
 
@@ -152,15 +174,21 @@ function selectBestTechPerCategory(
 			}
 		}
 
-		const finalScores = getScores(bestTech.id, context);
-		const finalScore = finalScores ? calculateOverallScore(finalScores) : 0;
+		// Only add if we found a compatible tech
+		if (bestTech) {
+			const finalScores = getScores(bestTech.id, context);
+			const finalScore = finalScores ? calculateOverallScore(finalScores) : 0;
 
-		results.push({
-			category,
-			technology: bestTech.name,
-			score: finalScore,
-			grade: scoreToGrade(finalScore)
-		});
+			results.push({
+				category,
+				technology: bestTech.name,
+				score: finalScore,
+				grade: scoreToGrade(finalScore)
+			});
+
+			// Track this selection for future compatibility checks
+			selectedTechIds.push(bestTech.id);
+		}
 	}
 
 	return results;

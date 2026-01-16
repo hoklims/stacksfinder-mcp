@@ -310,7 +310,8 @@ export function generateMCPKit(input: GenerateMCPKitInput): GenerateMCPKitOutput
 		orm: 'database', // ORM is part of database layer
 		auth: 'auth',
 		hosting: 'hosting',
-		payments: 'payments'
+		payments: 'payments',
+		cms: 'backend' // CMS systems are backend services
 	};
 
 	for (const [category, tech] of techMap.entries()) {
