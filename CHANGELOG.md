@@ -5,6 +5,21 @@ All notable changes to `@stacksfinder/mcp-server` will be documented in this fil
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2026-01-29
+
+### Added
+- 38 new technologies (Rust ecosystem, backend frameworks, routers)
+- Technologies now at 84 total (up from 46)
+- Related section in README linking to create-stacksfinder CLI
+
+### Changed
+- Scoring data synced to v2.9.1
+- Compatibility matrix updated to v1.5.0
+- README updated: "30+ tech IDs" → "80+ tech IDs"
+
+### Fixed
+- `ErrorCode.VALIDATION_ERROR` → `ErrorCode.INVALID_INPUT` in audit import
+
 ## [1.5.1] - 2026-01-14
 
 ### Fixed
