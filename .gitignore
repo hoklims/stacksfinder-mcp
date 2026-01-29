@@ -11,3 +11,6 @@ dist/
 bun.lock
 yarn.lock
 pnpm-lock.yaml
+
+# Registry tokens (sensitive)
+.mcpregistry_*
