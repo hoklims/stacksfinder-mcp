@@ -175,7 +175,7 @@ StacksFinder is compatible with **ChatGPT Developer Mode** (available on Pro, Pl
 
 | Tool | Description |
 |------|-------------|
-| `list_technologies` | List all 30+ tech IDs by category |
+| `list_technologies` | List all 80+ tech IDs by category |
 | `analyze_tech` | 6-dimension scores, strengths, weaknesses, compatible techs |
 | `compare_techs` | Side-by-side comparison of 2-4 technologies |
 | `recommend_stack` | **FREE 1x/day** — Full stack recommendation for any project type |
@@ -573,6 +573,11 @@ For security vulnerabilities, please see our [Security Policy](SECURITY.md).
 - **Smithery**: [smithery.ai/server/hoklims/stacksfinder-mcp](https://smithery.ai/server/hoklims/stacksfinder-mcp)
 - **GitHub**: [github.com/hoklims/stacksfinder-mcp](https://github.com/hoklims/stacksfinder-mcp)
 - **npm**: [@stacksfinder/mcp-server](https://www.npmjs.com/package/@stacksfinder/mcp-server)
+
+## Related
+
+- **CLI**: [create-stacksfinder](https://www.npmjs.com/package/create-stacksfinder) — Scaffold projects from terminal
+- **Website**: [stacksfinder.dev](https://stacksfinder.dev) — Full web experience
 
 ## License
 

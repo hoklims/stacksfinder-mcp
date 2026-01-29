@@ -1,1479 +1,2937 @@
 {
-	"$version": "2.5.0",
-	"$description": "Base scores for 46 technologies across 6 criteria (auto-generated + manual entries)",
-	"$generatedAt": "2026-01-15T10:00:00.000Z",
-	"technologies": {
-		"stripe": {
-			"id": "stripe",
-			"name": "Stripe",
-			"category": "payments",
-			"url": "https://stripe.com",
-			"scores": {
-				"default": {
-					"perf": 97,
-					"dx": 94,
-					"ecosystem": 98,
-					"maintain": 81,
-					"cost": 51,
-					"compliance": 65
-				},
-				"mvp": {
-					"perf": 94,
-					"dx": 99,
-					"ecosystem": 100,
-					"maintain": 81,
-					"cost": 51,
-					"compliance": 65
-				},
-				"enterprise": {
-					"perf": 97,
-					"dx": 94,
-					"ecosystem": 93,
-					"maintain": 86,
-					"cost": 56,
-					"compliance": 75
-				}
-			}
-		},
-		"paddle": {
-			"id": "paddle",
-			"name": "Paddle",
-			"category": "payments",
-			"url": "https://paddle.com",
-			"scores": {
-				"default": {
-					"perf": 95,
-					"dx": 88,
-					"ecosystem": 66,
-					"maintain": 68,
-					"cost": 41,
-					"compliance": 99
-				},
-				"mvp": {
-					"perf": 92,
-					"dx": 93,
-					"ecosystem": 69,
-					"maintain": 68,
-					"cost": 41,
-					"compliance": 99
-				},
-				"enterprise": {
-					"perf": 95,
-					"dx": 88,
-					"ecosystem": 61,
-					"maintain": 73,
-					"cost": 46,
-					"compliance": 100
-				}
-			}
-		},
-		"lemonsqueezy": {
-			"id": "lemonsqueezy",
-			"name": "LemonSqueezy",
-			"category": "payments",
-			"url": "https://lemonsqueezy.com",
-			"scores": {
-				"default": {
-					"perf": 92,
-					"dx": 85,
-					"ecosystem": 58,
-					"maintain": 40,
-					"cost": 44,
-					"compliance": 96
-				},
-				"mvp": {
-					"perf": 89,
-					"dx": 90,
-					"ecosystem": 61,
-					"maintain": 40,
-					"cost": 44,
-					"compliance": 96
-				},
-				"enterprise": {
-					"perf": 92,
-					"dx": 85,
-					"ecosystem": 53,
-					"maintain": 45,
-					"cost": 49,
-					"compliance": 100
-				}
-			}
-		},
-		"gumroad": {
-			"id": "gumroad",
-			"name": "Gumroad",
-			"category": "payments",
-			"url": "https://gumroad.com",
-			"scores": {
-				"default": {
-					"perf": 79,
-					"dx": 60,
-					"ecosystem": 50,
-					"maintain": 68,
-					"cost": 32,
-					"compliance": 79
-				},
-				"mvp": {
-					"perf": 76,
-					"dx": 65,
-					"ecosystem": 53,
-					"maintain": 68,
-					"cost": 32,
-					"compliance": 79
-				},
-				"enterprise": {
-					"perf": 79,
-					"dx": 60,
-					"ecosystem": 45,
-					"maintain": 73,
-					"cost": 37,
-					"compliance": 89
-				}
-			}
-		},
-		"neon": {
-			"id": "neon",
-			"name": "Neon",
-			"category": "database",
-			"url": "https://neon.tech",
-			"scores": {
-				"default": {
-					"perf": 85,
-					"dx": 97,
-					"ecosystem": 75,
-					"maintain": 48,
-					"cost": 88,
-					"compliance": 93
-				},
-				"mvp": {
-					"perf": 82,
-					"dx": 100,
-					"ecosystem": 78,
-					"maintain": 48,
-					"cost": 88,
-					"compliance": 93
-				},
-				"enterprise": {
-					"perf": 85,
-					"dx": 97,
-					"ecosystem": 70,
-					"maintain": 53,
-					"cost": 93,
-					"compliance": 100
-				}
-			}
-		},
-		"sveltekit": {
-			"id": "sveltekit",
-			"name": "SvelteKit",
-			"category": "meta-framework",
-			"url": "https://kit.svelte.dev",
-			"scores": {
-				"default": {
-					"perf": 54,
-					"dx": 96,
-					"ecosystem": 100,
-					"maintain": 73,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 51,
-					"dx": 100,
-					"ecosystem": 100,
-					"maintain": 73,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 54,
-					"dx": 96,
-					"ecosystem": 95,
-					"maintain": 78,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"nextjs": {
-			"id": "nextjs",
-			"name": "Next.js",
-			"category": "meta-framework",
-			"url": "https://nextjs.org",
-			"scores": {
-				"default": {
-					"perf": 68,
-					"dx": 90,
-					"ecosystem": 100,
-					"maintain": 80,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 65,
-					"dx": 95,
-					"ecosystem": 100,
-					"maintain": 80,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 68,
-					"dx": 90,
-					"ecosystem": 95,
-					"maintain": 85,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"nuxt": {
-			"id": "nuxt",
-			"name": "Nuxt",
-			"category": "meta-framework",
-			"url": "https://nuxt.com",
-			"scores": {
-				"default": {
-					"perf": 30,
-					"dx": 96,
-					"ecosystem": 100,
-					"maintain": 78,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 27,
-					"dx": 100,
-					"ecosystem": 100,
-					"maintain": 78,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 30,
-					"dx": 96,
-					"ecosystem": 95,
-					"maintain": 83,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"remix": {
-			"id": "remix",
-			"name": "Remix",
-			"category": "meta-framework",
-			"url": "https://remix.run",
-			"scores": {
-				"default": {
-					"perf": 70,
-					"dx": 98,
-					"ecosystem": 100,
-					"maintain": 83,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 67,
-					"dx": 100,
-					"ecosystem": 100,
-					"maintain": 83,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 70,
-					"dx": 98,
-					"ecosystem": 95,
-					"maintain": 88,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"astro": {
-			"id": "astro",
-			"name": "Astro",
-			"category": "meta-framework",
-			"url": "https://astro.build",
-			"scores": {
-				"default": {
-					"perf": 30,
-					"dx": 98,
-					"ecosystem": 100,
-					"maintain": 85,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 27,
-					"dx": 100,
-					"ecosystem": 100,
-					"maintain": 85,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 30,
-					"dx": 98,
-					"ecosystem": 95,
-					"maintain": 90,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"react": {
-			"id": "react",
-			"name": "React",
-			"category": "frontend",
-			"url": "https://react.dev",
-			"scores": {
-				"default": {
-					"perf": 82,
-					"dx": 78,
-					"ecosystem": 100,
-					"maintain": 76,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 79,
-					"dx": 83,
-					"ecosystem": 100,
-					"maintain": 76,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 82,
-					"dx": 78,
-					"ecosystem": 95,
-					"maintain": 81,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"vue": {
-			"id": "vue",
-			"name": "Vue",
-			"category": "frontend",
-			"url": "https://vuejs.org",
-			"scores": {
-				"default": {
-					"perf": 67,
-					"dx": 96,
-					"ecosystem": 100,
-					"maintain": 72,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 64,
-					"dx": 100,
-					"ecosystem": 100,
-					"maintain": 72,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 67,
-					"dx": 96,
-					"ecosystem": 95,
-					"maintain": 77,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"svelte": {
-			"id": "svelte",
-			"name": "Svelte",
-			"category": "frontend",
-			"url": "https://svelte.dev",
-			"scores": {
-				"default": {
-					"perf": 81,
-					"dx": 99,
-					"ecosystem": 100,
-					"maintain": 76,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 78,
-					"dx": 100,
-					"ecosystem": 100,
-					"maintain": 76,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 81,
-					"dx": 99,
-					"ecosystem": 95,
-					"maintain": 81,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"solid": {
-			"id": "solid",
-			"name": "Solid",
-			"category": "frontend",
-			"url": "https://solidjs.com",
-			"scores": {
-				"default": {
-					"perf": 98,
-					"dx": 52,
-					"ecosystem": 98,
-					"maintain": 42,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 95,
-					"dx": 57,
-					"ecosystem": 100,
-					"maintain": 42,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 98,
-					"dx": 52,
-					"ecosystem": 93,
-					"maintain": 47,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"postgres": {
-			"id": "postgres",
-			"name": "PostgreSQL",
-			"category": "database",
-			"url": "https://postgresql.org",
-			"scores": {
-				"default": {
-					"perf": 84,
-					"dx": 67,
-					"ecosystem": 77,
-					"maintain": 88,
-					"cost": 100,
-					"compliance": 93
-				},
-				"mvp": {
-					"perf": 81,
-					"dx": 72,
-					"ecosystem": 80,
-					"maintain": 88,
-					"cost": 100,
-					"compliance": 93
-				},
-				"enterprise": {
-					"perf": 84,
-					"dx": 67,
-					"ecosystem": 72,
-					"maintain": 93,
-					"cost": 100,
-					"compliance": 100
-				}
-			}
-		},
-		"supabase": {
-			"id": "supabase",
-			"name": "Supabase",
-			"category": "database",
-			"url": "https://supabase.com",
-			"scores": {
-				"default": {
-					"perf": 91,
-					"dx": 97,
-					"ecosystem": 85,
-					"maintain": 81,
-					"cost": 83,
-					"compliance": 90
-				},
-				"mvp": {
-					"perf": 88,
-					"dx": 100,
-					"ecosystem": 88,
-					"maintain": 81,
-					"cost": 83,
-					"compliance": 90
-				},
-				"enterprise": {
-					"perf": 91,
-					"dx": 97,
-					"ecosystem": 80,
-					"maintain": 86,
-					"cost": 88,
-					"compliance": 100
-				}
-			}
-		},
-		"mysql": {
-			"id": "mysql",
-			"name": "MySQL",
-			"category": "database",
-			"url": "https://mysql.com",
-			"scores": {
-				"default": {
-					"perf": 82,
-					"dx": 64,
-					"ecosystem": 74,
-					"maintain": 88,
-					"cost": 100,
-					"compliance": 88
-				},
-				"mvp": {
-					"perf": 79,
-					"dx": 69,
-					"ecosystem": 77,
-					"maintain": 88,
-					"cost": 100,
-					"compliance": 88
-				},
-				"enterprise": {
-					"perf": 82,
-					"dx": 64,
-					"ecosystem": 69,
-					"maintain": 93,
-					"cost": 100,
-					"compliance": 98
-				}
-			}
-		},
-		"sqlite": {
-			"id": "sqlite",
-			"name": "SQLite",
-			"category": "database",
-			"url": "https://sqlite.org",
-			"scores": {
-				"default": {
-					"perf": 91,
-					"dx": 74,
-					"ecosystem": 88,
-					"maintain": 72,
-					"cost": 100,
-					"compliance": 78
-				},
-				"mvp": {
-					"perf": 88,
-					"dx": 79,
-					"ecosystem": 91,
-					"maintain": 72,
-					"cost": 100,
-					"compliance": 78
-				},
-				"enterprise": {
-					"perf": 91,
-					"dx": 74,
-					"ecosystem": 83,
-					"maintain": 77,
-					"cost": 100,
-					"compliance": 88
-				}
-			}
-		},
-		"mongodb": {
-			"id": "mongodb",
-			"name": "MongoDB",
-			"category": "database",
-			"url": "https://mongodb.com",
-			"scores": {
-				"default": {
-					"perf": 85,
-					"dx": 83,
-					"ecosystem": 88,
-					"maintain": 80,
-					"cost": 90,
-					"compliance": 87
-				},
-				"mvp": {
-					"perf": 82,
-					"dx": 88,
-					"ecosystem": 91,
-					"maintain": 80,
-					"cost": 90,
-					"compliance": 87
-				},
-				"enterprise": {
-					"perf": 85,
-					"dx": 83,
-					"ecosystem": 83,
-					"maintain": 85,
-					"cost": 95,
-					"compliance": 97
-				}
-			}
-		},
-		"drizzle": {
-			"id": "drizzle",
-			"name": "Drizzle ORM",
-			"category": "orm",
-			"url": "https://orm.drizzle.team",
-			"scores": {
-				"default": {
-					"perf": 92,
-					"dx": 80,
-					"ecosystem": 98,
-					"maintain": 54,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 89,
-					"dx": 85,
-					"ecosystem": 100,
-					"maintain": 54,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 92,
-					"dx": 80,
-					"ecosystem": 93,
-					"maintain": 59,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"prisma": {
-			"id": "prisma",
-			"name": "Prisma",
-			"category": "orm",
-			"url": "https://prisma.io",
-			"scores": {
-				"default": {
-					"perf": 68,
-					"dx": 97,
-					"ecosystem": 100,
-					"maintain": 73,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 65,
-					"dx": 100,
-					"ecosystem": 100,
-					"maintain": 73,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 68,
-					"dx": 97,
-					"ecosystem": 95,
-					"maintain": 78,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"kysely": {
-			"id": "kysely",
-			"name": "Kysely",
-			"category": "orm",
-			"url": "https://kysely.dev",
-			"scores": {
-				"default": {
-					"perf": 75,
-					"dx": 72,
-					"ecosystem": 95,
-					"maintain": 51,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 72,
-					"dx": 77,
-					"ecosystem": 98,
-					"maintain": 51,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 75,
-					"dx": 72,
-					"ecosystem": 90,
-					"maintain": 56,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"lucia": {
-			"id": "lucia",
-			"name": "Lucia",
-			"category": "auth",
-			"url": "https://lucia-auth.com",
-			"scores": {
-				"default": {
-					"perf": 89,
-					"dx": 50,
-					"ecosystem": 93,
-					"maintain": 17,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 86,
-					"dx": 55,
-					"ecosystem": 96,
-					"maintain": 17,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 89,
-					"dx": 50,
-					"ecosystem": 88,
-					"maintain": 22,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"authjs": {
-			"id": "authjs",
-			"name": "Auth.js",
-			"category": "auth",
-			"url": "https://authjs.dev",
-			"scores": {
-				"default": {
-					"perf": 57,
-					"dx": 62,
-					"ecosystem": 100,
-					"maintain": 45,
-					"cost": 90,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 54,
-					"dx": 67,
-					"ecosystem": 100,
-					"maintain": 45,
-					"cost": 90,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 57,
-					"dx": 62,
-					"ecosystem": 95,
-					"maintain": 50,
-					"cost": 95,
-					"compliance": 95
-				}
-			}
-		},
-		"clerk": {
-			"id": "clerk",
-			"name": "Clerk",
-			"category": "auth",
-			"url": "https://clerk.com",
-			"scores": {
-				"default": {
-					"perf": 79,
-					"dx": 86,
-					"ecosystem": 66,
-					"maintain": 93,
-					"cost": 67,
-					"compliance": 92
-				},
-				"mvp": {
-					"perf": 76,
-					"dx": 91,
-					"ecosystem": 69,
-					"maintain": 93,
-					"cost": 67,
-					"compliance": 92
-				},
-				"enterprise": {
-					"perf": 79,
-					"dx": 86,
-					"ecosystem": 61,
-					"maintain": 98,
-					"cost": 72,
-					"compliance": 100
-				}
-			}
-		},
-		"vercel": {
-			"id": "vercel",
-			"name": "Vercel",
-			"category": "hosting",
-			"url": "https://vercel.com",
-			"scores": {
-				"default": {
-					"perf": 87,
-					"dx": 77,
-					"ecosystem": 65,
-					"maintain": 81,
-					"cost": 74,
-					"compliance": 92
-				},
-				"mvp": {
-					"perf": 84,
-					"dx": 82,
-					"ecosystem": 68,
-					"maintain": 81,
-					"cost": 74,
-					"compliance": 92
-				},
-				"enterprise": {
-					"perf": 87,
-					"dx": 77,
-					"ecosystem": 60,
-					"maintain": 86,
-					"cost": 79,
-					"compliance": 100
-				}
-			}
-		},
-		"cloudflare": {
-			"id": "cloudflare",
-			"name": "Cloudflare",
-			"category": "hosting",
-			"url": "https://cloudflare.com",
-			"scores": {
-				"default": {
-					"perf": 87,
-					"dx": 73,
-					"ecosystem": 68,
-					"maintain": 80,
-					"cost": 92,
-					"compliance": 96
-				},
-				"mvp": {
-					"perf": 84,
-					"dx": 78,
-					"ecosystem": 71,
-					"maintain": 80,
-					"cost": 92,
-					"compliance": 96
-				},
-				"enterprise": {
-					"perf": 87,
-					"dx": 73,
-					"ecosystem": 63,
-					"maintain": 85,
-					"cost": 97,
-					"compliance": 100
-				}
-			}
-		},
-		"railway": {
-			"id": "railway",
-			"name": "Railway",
-			"category": "hosting",
-			"url": "https://railway.app",
-			"scores": {
-				"default": {
-					"perf": 85,
-					"dx": 73,
-					"ecosystem": 45,
-					"maintain": 77,
-					"cost": 73,
-					"compliance": 82
-				},
-				"mvp": {
-					"perf": 82,
-					"dx": 78,
-					"ecosystem": 48,
-					"maintain": 77,
-					"cost": 73,
-					"compliance": 82
-				},
-				"enterprise": {
-					"perf": 85,
-					"dx": 73,
-					"ecosystem": 40,
-					"maintain": 82,
-					"cost": 78,
-					"compliance": 92
-				}
-			}
-		},
-		"fly": {
-			"id": "fly",
-			"name": "Fly.io",
-			"category": "hosting",
-			"url": "https://fly.io",
-			"scores": {
-				"default": {
-					"perf": 85,
-					"dx": 71,
-					"ecosystem": 43,
-					"maintain": 75,
-					"cost": 78,
-					"compliance": 81
-				},
-				"mvp": {
-					"perf": 82,
-					"dx": 76,
-					"ecosystem": 46,
-					"maintain": 75,
-					"cost": 78,
-					"compliance": 81
-				},
-				"enterprise": {
-					"perf": 85,
-					"dx": 71,
-					"ecosystem": 38,
-					"maintain": 80,
-					"cost": 83,
-					"compliance": 91
-				}
-			}
-		},
-		"nodejs": {
-			"id": "nodejs",
-			"name": "Node.js",
-			"category": "backend",
-			"url": "https://nodejs.org",
-			"scores": {
-				"default": {
-					"perf": 75,
-					"dx": 85,
-					"ecosystem": 98,
-					"maintain": 80,
-					"cost": 90,
-					"compliance": 88
-				},
-				"mvp": {
-					"perf": 70,
-					"dx": 85,
-					"ecosystem": 98,
-					"maintain": 78,
-					"cost": 95,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 78,
-					"dx": 85,
-					"ecosystem": 98,
-					"maintain": 82,
-					"cost": 85,
-					"compliance": 90
-				}
-			}
-		},
-		"bun": {
-			"id": "bun",
-			"name": "Bun",
-			"category": "backend",
-			"url": "https://bun.sh",
-			"scores": {
-				"default": {
-					"perf": 98,
-					"dx": 92,
-					"ecosystem": 60,
-					"maintain": 75,
-					"cost": 95,
-					"compliance": 80
-				},
-				"mvp": {
-					"perf": 98,
-					"dx": 95,
-					"ecosystem": 55,
-					"maintain": 72,
-					"cost": 98,
-					"compliance": 78
-				},
-				"enterprise": {
-					"perf": 98,
-					"dx": 88,
-					"ecosystem": 58,
-					"maintain": 70,
-					"cost": 90,
-					"compliance": 75
-				}
-			}
-		},
-		"better-auth": {
-			"id": "better-auth",
-			"name": "Better Auth",
-			"category": "auth",
-			"url": "https://better-auth.com",
-			"scores": {
-				"default": {
-					"perf": 90,
-					"dx": 92,
-					"ecosystem": 55,
-					"maintain": 88,
-					"cost": 98,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 90,
-					"dx": 95,
-					"ecosystem": 50,
-					"maintain": 88,
-					"cost": 100,
-					"compliance": 82
-				},
-				"enterprise": {
-					"perf": 88,
-					"dx": 88,
-					"ecosystem": 55,
-					"maintain": 85,
-					"cost": 95,
-					"compliance": 85
-				}
-			}
-		},
-		"php": {
-			"id": "php",
-			"name": "PHP",
-			"category": "backend",
-			"url": "https://php.net",
-			"scores": {
-				"default": {
-					"perf": 75,
-					"dx": 80,
-					"ecosystem": 95,
-					"maintain": 85,
-					"cost": 90,
-					"compliance": 80
-				},
-				"mvp": {
-					"perf": 72,
-					"dx": 85,
-					"ecosystem": 98,
-					"maintain": 85,
-					"cost": 95,
-					"compliance": 78
-				},
-				"enterprise": {
-					"perf": 78,
-					"dx": 78,
-					"ecosystem": 92,
-					"maintain": 90,
-					"cost": 88,
-					"compliance": 85
-				}
-			}
-		},
-		"laravel": {
-			"id": "laravel",
-			"name": "Laravel",
-			"category": "meta-framework",
-			"url": "https://laravel.com",
-			"scores": {
-				"default": {
-					"perf": 78,
-					"dx": 95,
-					"ecosystem": 92,
-					"maintain": 88,
-					"cost": 85,
-					"compliance": 82
-				},
-				"mvp": {
-					"perf": 75,
-					"dx": 98,
-					"ecosystem": 95,
-					"maintain": 88,
-					"cost": 90,
-					"compliance": 80
-				},
-				"enterprise": {
-					"perf": 80,
-					"dx": 92,
-					"ecosystem": 88,
-					"maintain": 92,
-					"cost": 80,
-					"compliance": 88
-				}
-			}
-		},
-		"eloquent": {
-			"id": "eloquent",
-			"name": "Eloquent ORM",
-			"category": "orm",
-			"url": "https://laravel.com/docs/eloquent",
-			"scores": {
-				"default": {
-					"perf": 75,
-					"dx": 92,
-					"ecosystem": 88,
-					"maintain": 85,
-					"cost": 95,
-					"compliance": 80
-				},
-				"mvp": {
-					"perf": 72,
-					"dx": 96,
-					"ecosystem": 90,
-					"maintain": 85,
-					"cost": 98,
-					"compliance": 78
-				},
-				"enterprise": {
-					"perf": 78,
-					"dx": 88,
-					"ecosystem": 85,
-					"maintain": 90,
-					"cost": 92,
-					"compliance": 85
-				}
-			}
-		},
-		"livewire": {
-			"id": "livewire",
-			"name": "Livewire",
-			"category": "frontend",
-			"url": "https://livewire.laravel.com",
-			"scores": {
-				"default": {
-					"perf": 70,
-					"dx": 90,
-					"ecosystem": 75,
-					"maintain": 80,
-					"cost": 95,
-					"compliance": 80
-				},
-				"mvp": {
-					"perf": 68,
-					"dx": 95,
-					"ecosystem": 78,
-					"maintain": 80,
-					"cost": 98,
-					"compliance": 78
-				},
-				"enterprise": {
-					"perf": 72,
-					"dx": 88,
-					"ecosystem": 72,
-					"maintain": 85,
-					"cost": 92,
-					"compliance": 85
-				}
-			}
-		},
-		"inertia": {
-			"id": "inertia",
-			"name": "Inertia.js",
-			"category": "frontend",
-			"url": "https://inertiajs.com",
-			"scores": {
-				"default": {
-					"perf": 80,
-					"dx": 88,
-					"ecosystem": 70,
-					"maintain": 82,
-					"cost": 95,
-					"compliance": 80
-				},
-				"mvp": {
-					"perf": 78,
-					"dx": 92,
-					"ecosystem": 73,
-					"maintain": 82,
-					"cost": 98,
-					"compliance": 78
-				},
-				"enterprise": {
-					"perf": 82,
-					"dx": 85,
-					"ecosystem": 68,
-					"maintain": 87,
-					"cost": 92,
-					"compliance": 85
-				}
-			}
-		},
-		"laravel-sanctum": {
-			"id": "laravel-sanctum",
-			"name": "Laravel Sanctum",
-			"category": "auth",
-			"url": "https://laravel.com/docs/sanctum",
-			"scores": {
-				"default": {
-					"perf": 85,
-					"dx": 90,
-					"ecosystem": 80,
-					"maintain": 85,
-					"cost": 95,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 82,
-					"dx": 94,
-					"ecosystem": 83,
-					"maintain": 85,
-					"cost": 98,
-					"compliance": 82
-				},
-				"enterprise": {
-					"perf": 88,
-					"dx": 87,
-					"ecosystem": 78,
-					"maintain": 90,
-					"cost": 92,
-					"compliance": 90
-				}
-			}
-		},
-		"laravel-breeze": {
-			"id": "laravel-breeze",
-			"name": "Laravel Breeze",
-			"category": "auth",
-			"url": "https://laravel.com/docs/starter-kits",
-			"scores": {
-				"default": {
-					"perf": 80,
-					"dx": 95,
-					"ecosystem": 75,
-					"maintain": 85,
-					"cost": 100,
-					"compliance": 80
-				},
-				"mvp": {
-					"perf": 78,
-					"dx": 98,
-					"ecosystem": 78,
-					"maintain": 85,
-					"cost": 100,
-					"compliance": 78
-				},
-				"enterprise": {
-					"perf": 82,
-					"dx": 92,
-					"ecosystem": 72,
-					"maintain": 90,
-					"cost": 100,
-					"compliance": 85
-				}
-			}
-		},
-		"forge": {
-			"id": "forge",
-			"name": "Laravel Forge",
-			"category": "hosting",
-			"url": "https://forge.laravel.com",
-			"scores": {
-				"default": {
-					"perf": 85,
-					"dx": 88,
-					"ecosystem": 80,
-					"maintain": 75,
-					"cost": 60,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 82,
-					"dx": 92,
-					"ecosystem": 83,
-					"maintain": 75,
-					"cost": 55,
-					"compliance": 82
-				},
-				"enterprise": {
-					"perf": 88,
-					"dx": 85,
-					"ecosystem": 78,
-					"maintain": 80,
-					"cost": 65,
-					"compliance": 90
-				}
-			}
-		},
-		"vapor": {
-			"id": "vapor",
-			"name": "Laravel Vapor",
-			"category": "hosting",
-			"url": "https://vapor.laravel.com",
-			"scores": {
-				"default": {
-					"perf": 90,
-					"dx": 85,
-					"ecosystem": 70,
-					"maintain": 70,
-					"cost": 50,
-					"compliance": 90
-				},
-				"mvp": {
-					"perf": 88,
-					"dx": 88,
-					"ecosystem": 73,
-					"maintain": 70,
-					"cost": 45,
-					"compliance": 88
-				},
-				"enterprise": {
-					"perf": 92,
-					"dx": 82,
-					"ecosystem": 68,
-					"maintain": 75,
-					"cost": 55,
-					"compliance": 95
-				}
-			}
-		},
-		"ploi": {
-			"id": "ploi",
-			"name": "Ploi.io",
-			"category": "hosting",
-			"url": "https://ploi.io",
-			"scores": {
-				"default": {
-					"perf": 82,
-					"dx": 90,
-					"ecosystem": 65,
-					"maintain": 75,
-					"cost": 70,
-					"compliance": 80
-				},
-				"mvp": {
-					"perf": 80,
-					"dx": 94,
-					"ecosystem": 68,
-					"maintain": 75,
-					"cost": 75,
-					"compliance": 78
-				},
-				"enterprise": {
-					"perf": 85,
-					"dx": 87,
-					"ecosystem": 62,
-					"maintain": 80,
-					"cost": 68,
-					"compliance": 85
-				}
-			}
-		},
-		"symfony": {
-			"id": "symfony",
-			"name": "Symfony",
-			"category": "meta-framework",
-			"url": "https://symfony.com",
-			"scores": {
-				"default": {
-					"perf": 80,
-					"dx": 75,
-					"ecosystem": 88,
-					"maintain": 90,
-					"cost": 85,
-					"compliance": 88
-				},
-				"mvp": {
-					"perf": 78,
-					"dx": 78,
-					"ecosystem": 90,
-					"maintain": 90,
-					"cost": 88,
-					"compliance": 85
-				},
-				"enterprise": {
-					"perf": 82,
-					"dx": 72,
-					"ecosystem": 85,
-					"maintain": 95,
-					"cost": 82,
-					"compliance": 92
-				}
-			}
-		},
-		"doctrine": {
-			"id": "doctrine",
-			"name": "Doctrine ORM",
-			"category": "orm",
-			"url": "https://doctrine-project.org",
-			"scores": {
-				"default": {
-					"perf": 78,
-					"dx": 70,
-					"ecosystem": 85,
-					"maintain": 88,
-					"cost": 95,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 75,
-					"dx": 73,
-					"ecosystem": 88,
-					"maintain": 88,
-					"cost": 98,
-					"compliance": 82
-				},
-				"enterprise": {
-					"perf": 80,
-					"dx": 68,
-					"ecosystem": 82,
-					"maintain": 92,
-					"cost": 92,
-					"compliance": 90
-				}
-			}
-		},
-		"filament": {
-			"id": "filament",
-			"name": "Filament",
-			"category": "cms",
-			"url": "https://filamentphp.com",
-			"scores": {
-				"default": {
-					"perf": 75,
-					"dx": 92,
-					"ecosystem": 70,
-					"maintain": 80,
-					"cost": 100,
-					"compliance": 80
-				},
-				"mvp": {
-					"perf": 72,
-					"dx": 96,
-					"ecosystem": 73,
-					"maintain": 80,
-					"cost": 100,
-					"compliance": 78
-				},
-				"enterprise": {
-					"perf": 78,
-					"dx": 89,
-					"ecosystem": 68,
-					"maintain": 85,
-					"cost": 100,
-					"compliance": 85
-				}
-			}
-		},
-		"nova": {
-			"id": "nova",
-			"name": "Laravel Nova",
-			"category": "cms",
-			"url": "https://nova.laravel.com",
-			"scores": {
-				"default": {
-					"perf": 80,
-					"dx": 88,
-					"ecosystem": 75,
-					"maintain": 85,
-					"cost": 40,
-					"compliance": 85
-				},
-				"mvp": {
-					"perf": 78,
-					"dx": 92,
-					"ecosystem": 78,
-					"maintain": 85,
-					"cost": 35,
-					"compliance": 82
-				},
-				"enterprise": {
-					"perf": 82,
-					"dx": 85,
-					"ecosystem": 72,
-					"maintain": 90,
-					"cost": 45,
-					"compliance": 90
-				}
-			}
-		}
-	}
+  "$version": "2.9.1",
+  "$description": "Base scores for technologies with ecosystem metadata",
+  "$generatedAt": "2026-01-29T00:17:47.028Z",
+  "technologies": {
+    "stripe": {
+      "id": "stripe",
+      "name": "Stripe",
+      "category": "payments",
+      "ecosystem": "universal",
+      "url": "https://stripe.com",
+      "scores": {
+        "default": {
+          "perf": 97,
+          "dx": 94,
+          "ecosystem": 98,
+          "maintain": 86,
+          "cost": 51,
+          "compliance": 65
+        },
+        "mvp": {
+          "perf": 94,
+          "dx": 99,
+          "ecosystem": 100,
+          "maintain": 86,
+          "cost": 51,
+          "compliance": 65
+        },
+        "enterprise": {
+          "perf": 97,
+          "dx": 94,
+          "ecosystem": 93,
+          "maintain": 91,
+          "cost": 56,
+          "compliance": 75
+        }
+      }
+    },
+    "paddle": {
+      "id": "paddle",
+      "name": "Paddle",
+      "category": "payments",
+      "ecosystem": "universal",
+      "url": "https://paddle.com",
+      "scores": {
+        "default": {
+          "perf": 95,
+          "dx": 88,
+          "ecosystem": 68,
+          "maintain": 60,
+          "cost": 41,
+          "compliance": 99
+        },
+        "mvp": {
+          "perf": 92,
+          "dx": 93,
+          "ecosystem": 71,
+          "maintain": 60,
+          "cost": 41,
+          "compliance": 99
+        },
+        "enterprise": {
+          "perf": 95,
+          "dx": 88,
+          "ecosystem": 63,
+          "maintain": 65,
+          "cost": 46,
+          "compliance": 100
+        }
+      }
+    },
+    "lemonsqueezy": {
+      "id": "lemonsqueezy",
+      "name": "LemonSqueezy",
+      "category": "payments",
+      "ecosystem": "universal",
+      "url": "https://lemonsqueezy.com",
+      "scores": {
+        "default": {
+          "perf": 92,
+          "dx": 85,
+          "ecosystem": 60,
+          "maintain": 40,
+          "cost": 44,
+          "compliance": 96
+        },
+        "mvp": {
+          "perf": 89,
+          "dx": 90,
+          "ecosystem": 63,
+          "maintain": 40,
+          "cost": 44,
+          "compliance": 96
+        },
+        "enterprise": {
+          "perf": 92,
+          "dx": 85,
+          "ecosystem": 55,
+          "maintain": 45,
+          "cost": 49,
+          "compliance": 100
+        }
+      }
+    },
+    "gumroad": {
+      "id": "gumroad",
+      "name": "Gumroad",
+      "category": "payments",
+      "ecosystem": "universal",
+      "url": "https://gumroad.com",
+      "scores": {
+        "default": {
+          "perf": 79,
+          "dx": 60,
+          "ecosystem": 50,
+          "maintain": 68,
+          "cost": 32,
+          "compliance": 79
+        },
+        "mvp": {
+          "perf": 76,
+          "dx": 65,
+          "ecosystem": 53,
+          "maintain": 68,
+          "cost": 32,
+          "compliance": 79
+        },
+        "enterprise": {
+          "perf": 79,
+          "dx": 60,
+          "ecosystem": 45,
+          "maintain": 73,
+          "cost": 37,
+          "compliance": 89
+        }
+      }
+    },
+    "neon": {
+      "id": "neon",
+      "name": "Neon",
+      "category": "database",
+      "ecosystem": "universal",
+      "url": "https://neon.tech",
+      "scores": {
+        "default": {
+          "perf": 83,
+          "dx": 97,
+          "ecosystem": 76,
+          "maintain": 48,
+          "cost": 88,
+          "compliance": 93
+        },
+        "mvp": {
+          "perf": 80,
+          "dx": 100,
+          "ecosystem": 79,
+          "maintain": 48,
+          "cost": 88,
+          "compliance": 93
+        },
+        "enterprise": {
+          "perf": 83,
+          "dx": 97,
+          "ecosystem": 71,
+          "maintain": 53,
+          "cost": 93,
+          "compliance": 100
+        }
+      }
+    },
+    "sveltekit": {
+      "id": "sveltekit",
+      "name": "SvelteKit",
+      "category": "meta-framework",
+      "ecosystem": "javascript",
+      "stackType": "modular",
+      "preferredHosting": [
+        "vercel",
+        "cloudflare",
+        "railway",
+        "fly"
+      ],
+      "url": "https://kit.svelte.dev",
+      "scores": {
+        "default": {
+          "perf": 54,
+          "dx": 99,
+          "ecosystem": 100,
+          "maintain": 74,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 51,
+          "dx": 100,
+          "ecosystem": 100,
+          "maintain": 74,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 54,
+          "dx": 99,
+          "ecosystem": 95,
+          "maintain": 79,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "nextjs": {
+      "id": "nextjs",
+      "name": "Next.js",
+      "category": "meta-framework",
+      "ecosystem": "javascript",
+      "stackType": "modular",
+      "preferredHosting": [
+        "vercel",
+        "cloudflare",
+        "railway"
+      ],
+      "url": "https://nextjs.org",
+      "scores": {
+        "default": {
+          "perf": 68,
+          "dx": 90,
+          "ecosystem": 100,
+          "maintain": 80,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 65,
+          "dx": 95,
+          "ecosystem": 100,
+          "maintain": 80,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 68,
+          "dx": 90,
+          "ecosystem": 95,
+          "maintain": 85,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "nuxt": {
+      "id": "nuxt",
+      "name": "Nuxt",
+      "category": "meta-framework",
+      "ecosystem": "javascript",
+      "stackType": "modular",
+      "preferredHosting": [
+        "vercel",
+        "cloudflare",
+        "railway"
+      ],
+      "url": "https://nuxt.com",
+      "scores": {
+        "default": {
+          "perf": 30,
+          "dx": 99,
+          "ecosystem": 100,
+          "maintain": 79,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 27,
+          "dx": 100,
+          "ecosystem": 100,
+          "maintain": 79,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 30,
+          "dx": 99,
+          "ecosystem": 95,
+          "maintain": 84,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "remix": {
+      "id": "remix",
+      "name": "Remix",
+      "category": "meta-framework",
+      "ecosystem": "javascript",
+      "stackType": "modular",
+      "preferredHosting": [
+        "vercel",
+        "cloudflare",
+        "fly",
+        "railway"
+      ],
+      "url": "https://remix.run",
+      "scores": {
+        "default": {
+          "perf": 70,
+          "dx": 99,
+          "ecosystem": 100,
+          "maintain": 86,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 67,
+          "dx": 100,
+          "ecosystem": 100,
+          "maintain": 86,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 70,
+          "dx": 99,
+          "ecosystem": 95,
+          "maintain": 91,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "astro": {
+      "id": "astro",
+      "name": "Astro",
+      "category": "meta-framework",
+      "ecosystem": "javascript",
+      "stackType": "modular",
+      "preferredHosting": [
+        "vercel",
+        "cloudflare",
+        "netlify"
+      ],
+      "url": "https://astro.build",
+      "scores": {
+        "default": {
+          "perf": 30,
+          "dx": 100,
+          "ecosystem": 100,
+          "maintain": 85,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 27,
+          "dx": 100,
+          "ecosystem": 100,
+          "maintain": 85,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 30,
+          "dx": 100,
+          "ecosystem": 95,
+          "maintain": 90,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "react": {
+      "id": "react",
+      "name": "React",
+      "category": "frontend",
+      "ecosystem": "javascript",
+      "url": "https://react.dev",
+      "scores": {
+        "default": {
+          "perf": 82,
+          "dx": 78,
+          "ecosystem": 100,
+          "maintain": 76,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 79,
+          "dx": 83,
+          "ecosystem": 100,
+          "maintain": 76,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 82,
+          "dx": 78,
+          "ecosystem": 95,
+          "maintain": 81,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "vue": {
+      "id": "vue",
+      "name": "Vue",
+      "category": "frontend",
+      "ecosystem": "javascript",
+      "url": "https://vuejs.org",
+      "scores": {
+        "default": {
+          "perf": 67,
+          "dx": 96,
+          "ecosystem": 100,
+          "maintain": 72,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 64,
+          "dx": 100,
+          "ecosystem": 100,
+          "maintain": 72,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 67,
+          "dx": 96,
+          "ecosystem": 95,
+          "maintain": 77,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "svelte": {
+      "id": "svelte",
+      "name": "Svelte",
+      "category": "frontend",
+      "ecosystem": "javascript",
+      "url": "https://svelte.dev",
+      "scores": {
+        "default": {
+          "perf": 81,
+          "dx": 99,
+          "ecosystem": 100,
+          "maintain": 76,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 78,
+          "dx": 100,
+          "ecosystem": 100,
+          "maintain": 76,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 81,
+          "dx": 99,
+          "ecosystem": 95,
+          "maintain": 81,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "solid": {
+      "id": "solid",
+      "name": "Solid",
+      "category": "frontend",
+      "ecosystem": "javascript",
+      "url": "https://solidjs.com",
+      "scores": {
+        "default": {
+          "perf": 98,
+          "dx": 52,
+          "ecosystem": 98,
+          "maintain": 42,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 95,
+          "dx": 57,
+          "ecosystem": 100,
+          "maintain": 42,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 98,
+          "dx": 52,
+          "ecosystem": 93,
+          "maintain": 47,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "postgres": {
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "category": "database",
+      "ecosystem": "universal",
+      "url": "https://postgresql.org",
+      "scores": {
+        "default": {
+          "perf": 84,
+          "dx": 67,
+          "ecosystem": 77,
+          "maintain": 88,
+          "cost": 100,
+          "compliance": 93
+        },
+        "mvp": {
+          "perf": 81,
+          "dx": 72,
+          "ecosystem": 80,
+          "maintain": 88,
+          "cost": 100,
+          "compliance": 93
+        },
+        "enterprise": {
+          "perf": 84,
+          "dx": 67,
+          "ecosystem": 72,
+          "maintain": 93,
+          "cost": 100,
+          "compliance": 100
+        }
+      }
+    },
+    "supabase": {
+      "id": "supabase",
+      "name": "Supabase",
+      "category": "database",
+      "ecosystem": "universal",
+      "stackType": "platform",
+      "provides": {
+        "auth": {
+          "techId": "supabase-auth",
+          "type": "builtin",
+          "label": "Supabase Auth inclus",
+          "description": "Email, OAuth, Magic Links, Row Level Security"
+        }
+      },
+      "url": "https://supabase.com",
+      "scores": {
+        "default": {
+          "perf": 92,
+          "dx": 97,
+          "ecosystem": 85,
+          "maintain": 83,
+          "cost": 83,
+          "compliance": 90
+        },
+        "mvp": {
+          "perf": 89,
+          "dx": 100,
+          "ecosystem": 88,
+          "maintain": 83,
+          "cost": 83,
+          "compliance": 90
+        },
+        "enterprise": {
+          "perf": 92,
+          "dx": 97,
+          "ecosystem": 80,
+          "maintain": 88,
+          "cost": 88,
+          "compliance": 100
+        }
+      }
+    },
+    "firebase": {
+      "id": "firebase",
+      "name": "Firebase",
+      "category": "database",
+      "ecosystem": "universal",
+      "stackType": "platform",
+      "provides": {
+        "auth": {
+          "techId": "firebase-auth",
+          "type": "builtin",
+          "label": "Firebase Auth inclus",
+          "description": "Email, OAuth, Phone, Anonymous authentication"
+        }
+      },
+      "url": "https://firebase.google.com",
+      "scores": {
+        "default": {
+          "perf": 84,
+          "dx": 96,
+          "ecosystem": 94,
+          "maintain": 79,
+          "cost": 73,
+          "compliance": 88
+        },
+        "mvp": {
+          "perf": 81,
+          "dx": 100,
+          "ecosystem": 97,
+          "maintain": 79,
+          "cost": 73,
+          "compliance": 88
+        },
+        "enterprise": {
+          "perf": 84,
+          "dx": 96,
+          "ecosystem": 89,
+          "maintain": 84,
+          "cost": 78,
+          "compliance": 98
+        }
+      }
+    },
+    "mysql": {
+      "id": "mysql",
+      "name": "MySQL",
+      "category": "database",
+      "ecosystem": "universal",
+      "url": "https://mysql.com",
+      "scores": {
+        "default": {
+          "perf": 82,
+          "dx": 64,
+          "ecosystem": 74,
+          "maintain": 88,
+          "cost": 100,
+          "compliance": 88
+        },
+        "mvp": {
+          "perf": 79,
+          "dx": 69,
+          "ecosystem": 77,
+          "maintain": 88,
+          "cost": 100,
+          "compliance": 88
+        },
+        "enterprise": {
+          "perf": 82,
+          "dx": 64,
+          "ecosystem": 69,
+          "maintain": 93,
+          "cost": 100,
+          "compliance": 98
+        }
+      }
+    },
+    "sqlite": {
+      "id": "sqlite",
+      "name": "SQLite",
+      "category": "database",
+      "ecosystem": "universal",
+      "url": "https://sqlite.org",
+      "scores": {
+        "default": {
+          "perf": 94,
+          "dx": 74,
+          "ecosystem": 88,
+          "maintain": 76,
+          "cost": 100,
+          "compliance": 78
+        },
+        "mvp": {
+          "perf": 91,
+          "dx": 79,
+          "ecosystem": 91,
+          "maintain": 76,
+          "cost": 100,
+          "compliance": 78
+        },
+        "enterprise": {
+          "perf": 94,
+          "dx": 74,
+          "ecosystem": 83,
+          "maintain": 81,
+          "cost": 100,
+          "compliance": 88
+        }
+      }
+    },
+    "mongodb": {
+      "id": "mongodb",
+      "name": "MongoDB",
+      "category": "database",
+      "ecosystem": "universal",
+      "url": "https://mongodb.com",
+      "scores": {
+        "default": {
+          "perf": 83,
+          "dx": 82,
+          "ecosystem": 88,
+          "maintain": 72,
+          "cost": 90,
+          "compliance": 87
+        },
+        "mvp": {
+          "perf": 80,
+          "dx": 87,
+          "ecosystem": 91,
+          "maintain": 72,
+          "cost": 90,
+          "compliance": 87
+        },
+        "enterprise": {
+          "perf": 83,
+          "dx": 82,
+          "ecosystem": 83,
+          "maintain": 77,
+          "cost": 95,
+          "compliance": 97
+        }
+      }
+    },
+    "drizzle": {
+      "id": "drizzle",
+      "name": "Drizzle ORM",
+      "category": "orm",
+      "ecosystem": "javascript",
+      "url": "https://orm.drizzle.team",
+      "scores": {
+        "default": {
+          "perf": 94,
+          "dx": 80,
+          "ecosystem": 98,
+          "maintain": 57,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 91,
+          "dx": 85,
+          "ecosystem": 100,
+          "maintain": 57,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 94,
+          "dx": 80,
+          "ecosystem": 93,
+          "maintain": 62,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "prisma": {
+      "id": "prisma",
+      "name": "Prisma",
+      "category": "orm",
+      "ecosystem": "javascript",
+      "url": "https://prisma.io",
+      "scores": {
+        "default": {
+          "perf": 68,
+          "dx": 99,
+          "ecosystem": 100,
+          "maintain": 72,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 65,
+          "dx": 100,
+          "ecosystem": 100,
+          "maintain": 72,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 68,
+          "dx": 99,
+          "ecosystem": 95,
+          "maintain": 77,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "kysely": {
+      "id": "kysely",
+      "name": "Kysely",
+      "category": "orm",
+      "ecosystem": "javascript",
+      "url": "https://kysely.dev",
+      "scores": {
+        "default": {
+          "perf": 80,
+          "dx": 76,
+          "ecosystem": 95,
+          "maintain": 53,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 77,
+          "dx": 81,
+          "ecosystem": 98,
+          "maintain": 53,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 80,
+          "dx": 76,
+          "ecosystem": 90,
+          "maintain": 58,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "lucia": {
+      "id": "lucia",
+      "name": "Lucia",
+      "category": "auth",
+      "ecosystem": "javascript",
+      "url": "https://lucia-auth.com",
+      "deprecated": {
+        "since": "2025-03",
+        "reason": "Library no longer maintained",
+        "alternatives": [
+          "better-auth",
+          "authjs"
+        ]
+      },
+      "scores": {
+        "default": {
+          "perf": 76,
+          "dx": 50,
+          "ecosystem": 96,
+          "maintain": 5,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 73,
+          "dx": 55,
+          "ecosystem": 99,
+          "maintain": 5,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 76,
+          "dx": 50,
+          "ecosystem": 91,
+          "maintain": 5,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "authjs": {
+      "id": "authjs",
+      "name": "Auth.js",
+      "category": "auth",
+      "ecosystem": "javascript",
+      "url": "https://authjs.dev",
+      "scores": {
+        "default": {
+          "perf": 57,
+          "dx": 52,
+          "ecosystem": 100,
+          "maintain": 35,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 54,
+          "dx": 57,
+          "ecosystem": 100,
+          "maintain": 35,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 57,
+          "dx": 52,
+          "ecosystem": 95,
+          "maintain": 40,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "clerk": {
+      "id": "clerk",
+      "name": "Clerk",
+      "category": "auth",
+      "ecosystem": "universal",
+      "url": "https://clerk.com",
+      "scores": {
+        "default": {
+          "perf": 79,
+          "dx": 86,
+          "ecosystem": 69,
+          "maintain": 95,
+          "cost": 67,
+          "compliance": 92
+        },
+        "mvp": {
+          "perf": 76,
+          "dx": 91,
+          "ecosystem": 72,
+          "maintain": 95,
+          "cost": 67,
+          "compliance": 92
+        },
+        "enterprise": {
+          "perf": 79,
+          "dx": 86,
+          "ecosystem": 64,
+          "maintain": 100,
+          "cost": 72,
+          "compliance": 100
+        }
+      }
+    },
+    "vercel": {
+      "id": "vercel",
+      "name": "Vercel",
+      "category": "hosting",
+      "ecosystem": "javascript",
+      "url": "https://vercel.com",
+      "scores": {
+        "default": {
+          "perf": 87,
+          "dx": 77,
+          "ecosystem": 65,
+          "maintain": 81,
+          "cost": 74,
+          "compliance": 92
+        },
+        "mvp": {
+          "perf": 84,
+          "dx": 82,
+          "ecosystem": 68,
+          "maintain": 81,
+          "cost": 74,
+          "compliance": 92
+        },
+        "enterprise": {
+          "perf": 87,
+          "dx": 77,
+          "ecosystem": 60,
+          "maintain": 86,
+          "cost": 79,
+          "compliance": 100
+        }
+      }
+    },
+    "cloudflare": {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "category": "hosting",
+      "ecosystem": "javascript",
+      "url": "https://cloudflare.com",
+      "scores": {
+        "default": {
+          "perf": 87,
+          "dx": 73,
+          "ecosystem": 68,
+          "maintain": 80,
+          "cost": 92,
+          "compliance": 96
+        },
+        "mvp": {
+          "perf": 84,
+          "dx": 78,
+          "ecosystem": 71,
+          "maintain": 80,
+          "cost": 92,
+          "compliance": 96
+        },
+        "enterprise": {
+          "perf": 87,
+          "dx": 73,
+          "ecosystem": 63,
+          "maintain": 85,
+          "cost": 97,
+          "compliance": 100
+        }
+      }
+    },
+    "railway": {
+      "id": "railway",
+      "name": "Railway",
+      "category": "hosting",
+      "ecosystem": "universal",
+      "url": "https://railway.app",
+      "scores": {
+        "default": {
+          "perf": 85,
+          "dx": 73,
+          "ecosystem": 45,
+          "maintain": 77,
+          "cost": 73,
+          "compliance": 82
+        },
+        "mvp": {
+          "perf": 82,
+          "dx": 78,
+          "ecosystem": 48,
+          "maintain": 77,
+          "cost": 73,
+          "compliance": 82
+        },
+        "enterprise": {
+          "perf": 85,
+          "dx": 73,
+          "ecosystem": 40,
+          "maintain": 82,
+          "cost": 78,
+          "compliance": 92
+        }
+      }
+    },
+    "fly": {
+      "id": "fly",
+      "name": "Fly.io",
+      "category": "hosting",
+      "ecosystem": "universal",
+      "url": "https://fly.io",
+      "scores": {
+        "default": {
+          "perf": 85,
+          "dx": 71,
+          "ecosystem": 43,
+          "maintain": 75,
+          "cost": 78,
+          "compliance": 81
+        },
+        "mvp": {
+          "perf": 82,
+          "dx": 76,
+          "ecosystem": 46,
+          "maintain": 75,
+          "cost": 78,
+          "compliance": 81
+        },
+        "enterprise": {
+          "perf": 85,
+          "dx": 71,
+          "ecosystem": 38,
+          "maintain": 80,
+          "cost": 83,
+          "compliance": 91
+        }
+      }
+    },
+    "nodejs": {
+      "id": "nodejs",
+      "name": "Node.js",
+      "category": "backend",
+      "ecosystem": "javascript",
+      "url": "https://nodejs.org",
+      "scores": {
+        "default": {
+          "perf": 75,
+          "dx": 85,
+          "ecosystem": 98,
+          "maintain": 80,
+          "cost": 90,
+          "compliance": 88
+        },
+        "mvp": {
+          "perf": 70,
+          "dx": 85,
+          "ecosystem": 98,
+          "maintain": 78,
+          "cost": 95,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 78,
+          "dx": 85,
+          "ecosystem": 98,
+          "maintain": 82,
+          "cost": 85,
+          "compliance": 90
+        }
+      }
+    },
+    "bun": {
+      "id": "bun",
+      "name": "Bun",
+      "category": "backend",
+      "ecosystem": "javascript",
+      "url": "https://bun.sh",
+      "scores": {
+        "default": {
+          "perf": 98,
+          "dx": 92,
+          "ecosystem": 60,
+          "maintain": 75,
+          "cost": 95,
+          "compliance": 80
+        },
+        "mvp": {
+          "perf": 98,
+          "dx": 95,
+          "ecosystem": 55,
+          "maintain": 72,
+          "cost": 98,
+          "compliance": 78
+        },
+        "enterprise": {
+          "perf": 98,
+          "dx": 88,
+          "ecosystem": 58,
+          "maintain": 70,
+          "cost": 90,
+          "compliance": 75
+        }
+      }
+    },
+    "better-auth": {
+      "id": "better-auth",
+      "name": "Better Auth",
+      "category": "auth",
+      "ecosystem": "javascript",
+      "url": "https://better-auth.com",
+      "scores": {
+        "default": {
+          "perf": 56,
+          "dx": 99,
+          "ecosystem": 100,
+          "maintain": 89,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 53,
+          "dx": 100,
+          "ecosystem": 100,
+          "maintain": 89,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 56,
+          "dx": 99,
+          "ecosystem": 95,
+          "maintain": 94,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "php": {
+      "id": "php",
+      "name": "PHP",
+      "category": "backend",
+      "ecosystem": "php",
+      "url": "https://php.net",
+      "scores": {
+        "default": {
+          "perf": 75,
+          "dx": 80,
+          "ecosystem": 95,
+          "maintain": 85,
+          "cost": 90,
+          "compliance": 80
+        },
+        "mvp": {
+          "perf": 72,
+          "dx": 85,
+          "ecosystem": 98,
+          "maintain": 85,
+          "cost": 95,
+          "compliance": 78
+        },
+        "enterprise": {
+          "perf": 78,
+          "dx": 78,
+          "ecosystem": 92,
+          "maintain": 90,
+          "cost": 88,
+          "compliance": 85
+        }
+      }
+    },
+    "laravel": {
+      "id": "laravel",
+      "name": "Laravel",
+      "category": "meta-framework",
+      "ecosystem": "php",
+      "stackType": "all-in-one",
+      "provides": {
+        "orm": {
+          "techId": "eloquent",
+          "type": "native",
+          "label": "Eloquent ORM inclus"
+        },
+        "auth": {
+          "options": [
+            {
+              "techId": "laravel-sanctum",
+              "type": "native",
+              "label": "Sanctum (API tokens)"
+            },
+            {
+              "techId": "laravel-breeze",
+              "type": "native",
+              "label": "Breeze (starter kit)"
+            }
+          ],
+          "note": "Auth native incluse. Clerk disponible pour SSO avance."
+        }
+      },
+      "preferredHosting": [
+        "forge",
+        "vapor",
+        "ploi",
+        "railway"
+      ],
+      "url": "https://laravel.com",
+      "scores": {
+        "default": {
+          "perf": 78,
+          "dx": 95,
+          "ecosystem": 92,
+          "maintain": 88,
+          "cost": 85,
+          "compliance": 82
+        },
+        "mvp": {
+          "perf": 75,
+          "dx": 98,
+          "ecosystem": 95,
+          "maintain": 88,
+          "cost": 90,
+          "compliance": 80
+        },
+        "enterprise": {
+          "perf": 80,
+          "dx": 92,
+          "ecosystem": 88,
+          "maintain": 92,
+          "cost": 80,
+          "compliance": 88
+        }
+      }
+    },
+    "eloquent": {
+      "id": "eloquent",
+      "name": "Eloquent ORM",
+      "category": "orm",
+      "ecosystem": "php",
+      "nativeFor": [
+        "laravel"
+      ],
+      "url": "https://laravel.com/docs/eloquent",
+      "scores": {
+        "default": {
+          "perf": 75,
+          "dx": 92,
+          "ecosystem": 88,
+          "maintain": 85,
+          "cost": 95,
+          "compliance": 80
+        },
+        "mvp": {
+          "perf": 72,
+          "dx": 96,
+          "ecosystem": 90,
+          "maintain": 85,
+          "cost": 98,
+          "compliance": 78
+        },
+        "enterprise": {
+          "perf": 78,
+          "dx": 88,
+          "ecosystem": 85,
+          "maintain": 90,
+          "cost": 92,
+          "compliance": 85
+        }
+      }
+    },
+    "livewire": {
+      "id": "livewire",
+      "name": "Livewire",
+      "category": "frontend",
+      "ecosystem": "php",
+      "nativeFor": [
+        "laravel"
+      ],
+      "url": "https://livewire.laravel.com",
+      "scores": {
+        "default": {
+          "perf": 70,
+          "dx": 90,
+          "ecosystem": 75,
+          "maintain": 80,
+          "cost": 95,
+          "compliance": 80
+        },
+        "mvp": {
+          "perf": 68,
+          "dx": 95,
+          "ecosystem": 78,
+          "maintain": 80,
+          "cost": 98,
+          "compliance": 78
+        },
+        "enterprise": {
+          "perf": 72,
+          "dx": 88,
+          "ecosystem": 72,
+          "maintain": 85,
+          "cost": 92,
+          "compliance": 85
+        }
+      }
+    },
+    "inertia": {
+      "id": "inertia",
+      "name": "Inertia.js",
+      "category": "frontend",
+      "ecosystem": "php",
+      "nativeFor": [
+        "laravel"
+      ],
+      "url": "https://inertiajs.com",
+      "scores": {
+        "default": {
+          "perf": 80,
+          "dx": 88,
+          "ecosystem": 70,
+          "maintain": 82,
+          "cost": 95,
+          "compliance": 80
+        },
+        "mvp": {
+          "perf": 78,
+          "dx": 92,
+          "ecosystem": 73,
+          "maintain": 82,
+          "cost": 98,
+          "compliance": 78
+        },
+        "enterprise": {
+          "perf": 82,
+          "dx": 85,
+          "ecosystem": 68,
+          "maintain": 87,
+          "cost": 92,
+          "compliance": 85
+        }
+      }
+    },
+    "laravel-sanctum": {
+      "id": "laravel-sanctum",
+      "name": "Laravel Sanctum",
+      "category": "auth",
+      "ecosystem": "php",
+      "nativeFor": [
+        "laravel"
+      ],
+      "url": "https://laravel.com/docs/sanctum",
+      "scores": {
+        "default": {
+          "perf": 85,
+          "dx": 90,
+          "ecosystem": 80,
+          "maintain": 85,
+          "cost": 95,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 82,
+          "dx": 94,
+          "ecosystem": 83,
+          "maintain": 85,
+          "cost": 98,
+          "compliance": 82
+        },
+        "enterprise": {
+          "perf": 88,
+          "dx": 87,
+          "ecosystem": 78,
+          "maintain": 90,
+          "cost": 92,
+          "compliance": 90
+        }
+      }
+    },
+    "laravel-breeze": {
+      "id": "laravel-breeze",
+      "name": "Laravel Breeze",
+      "category": "auth",
+      "ecosystem": "php",
+      "nativeFor": [
+        "laravel"
+      ],
+      "url": "https://laravel.com/docs/starter-kits",
+      "scores": {
+        "default": {
+          "perf": 80,
+          "dx": 95,
+          "ecosystem": 75,
+          "maintain": 85,
+          "cost": 100,
+          "compliance": 80
+        },
+        "mvp": {
+          "perf": 78,
+          "dx": 98,
+          "ecosystem": 78,
+          "maintain": 85,
+          "cost": 100,
+          "compliance": 78
+        },
+        "enterprise": {
+          "perf": 82,
+          "dx": 92,
+          "ecosystem": 72,
+          "maintain": 90,
+          "cost": 100,
+          "compliance": 85
+        }
+      }
+    },
+    "forge": {
+      "id": "forge",
+      "name": "Laravel Forge",
+      "category": "hosting",
+      "ecosystem": "php",
+      "url": "https://forge.laravel.com",
+      "scores": {
+        "default": {
+          "perf": 85,
+          "dx": 88,
+          "ecosystem": 80,
+          "maintain": 75,
+          "cost": 60,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 82,
+          "dx": 92,
+          "ecosystem": 83,
+          "maintain": 75,
+          "cost": 55,
+          "compliance": 82
+        },
+        "enterprise": {
+          "perf": 88,
+          "dx": 85,
+          "ecosystem": 78,
+          "maintain": 80,
+          "cost": 65,
+          "compliance": 90
+        }
+      }
+    },
+    "vapor": {
+      "id": "vapor",
+      "name": "Laravel Vapor",
+      "category": "hosting",
+      "ecosystem": "php",
+      "url": "https://vapor.laravel.com",
+      "scores": {
+        "default": {
+          "perf": 90,
+          "dx": 85,
+          "ecosystem": 70,
+          "maintain": 70,
+          "cost": 50,
+          "compliance": 90
+        },
+        "mvp": {
+          "perf": 88,
+          "dx": 88,
+          "ecosystem": 73,
+          "maintain": 70,
+          "cost": 45,
+          "compliance": 88
+        },
+        "enterprise": {
+          "perf": 92,
+          "dx": 82,
+          "ecosystem": 68,
+          "maintain": 75,
+          "cost": 55,
+          "compliance": 95
+        }
+      }
+    },
+    "ploi": {
+      "id": "ploi",
+      "name": "Ploi.io",
+      "category": "hosting",
+      "ecosystem": "php",
+      "url": "https://ploi.io",
+      "scores": {
+        "default": {
+          "perf": 82,
+          "dx": 90,
+          "ecosystem": 65,
+          "maintain": 75,
+          "cost": 70,
+          "compliance": 80
+        },
+        "mvp": {
+          "perf": 80,
+          "dx": 94,
+          "ecosystem": 68,
+          "maintain": 75,
+          "cost": 75,
+          "compliance": 78
+        },
+        "enterprise": {
+          "perf": 85,
+          "dx": 87,
+          "ecosystem": 62,
+          "maintain": 80,
+          "cost": 68,
+          "compliance": 85
+        }
+      }
+    },
+    "symfony": {
+      "id": "symfony",
+      "name": "Symfony",
+      "category": "meta-framework",
+      "ecosystem": "php",
+      "stackType": "modular",
+      "preferredHosting": [
+        "forge",
+        "ploi",
+        "railway"
+      ],
+      "url": "https://symfony.com",
+      "scores": {
+        "default": {
+          "perf": 80,
+          "dx": 75,
+          "ecosystem": 88,
+          "maintain": 90,
+          "cost": 85,
+          "compliance": 88
+        },
+        "mvp": {
+          "perf": 78,
+          "dx": 78,
+          "ecosystem": 90,
+          "maintain": 90,
+          "cost": 88,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 82,
+          "dx": 72,
+          "ecosystem": 85,
+          "maintain": 95,
+          "cost": 82,
+          "compliance": 92
+        }
+      }
+    },
+    "doctrine": {
+      "id": "doctrine",
+      "name": "Doctrine ORM",
+      "category": "orm",
+      "ecosystem": "php",
+      "nativeFor": [
+        "symfony"
+      ],
+      "url": "https://doctrine-project.org",
+      "scores": {
+        "default": {
+          "perf": 78,
+          "dx": 70,
+          "ecosystem": 85,
+          "maintain": 88,
+          "cost": 95,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 75,
+          "dx": 73,
+          "ecosystem": 88,
+          "maintain": 88,
+          "cost": 98,
+          "compliance": 82
+        },
+        "enterprise": {
+          "perf": 80,
+          "dx": 68,
+          "ecosystem": 82,
+          "maintain": 92,
+          "cost": 92,
+          "compliance": 90
+        }
+      }
+    },
+    "filament": {
+      "id": "filament",
+      "name": "Filament",
+      "category": "cms",
+      "ecosystem": "php",
+      "nativeFor": [
+        "laravel"
+      ],
+      "url": "https://filamentphp.com",
+      "scores": {
+        "default": {
+          "perf": 75,
+          "dx": 92,
+          "ecosystem": 70,
+          "maintain": 80,
+          "cost": 100,
+          "compliance": 80
+        },
+        "mvp": {
+          "perf": 72,
+          "dx": 96,
+          "ecosystem": 73,
+          "maintain": 80,
+          "cost": 100,
+          "compliance": 78
+        },
+        "enterprise": {
+          "perf": 78,
+          "dx": 89,
+          "ecosystem": 68,
+          "maintain": 85,
+          "cost": 100,
+          "compliance": 85
+        }
+      }
+    },
+    "nova": {
+      "id": "nova",
+      "name": "Laravel Nova",
+      "category": "cms",
+      "ecosystem": "php",
+      "nativeFor": [
+        "laravel"
+      ],
+      "url": "https://nova.laravel.com",
+      "scores": {
+        "default": {
+          "perf": 80,
+          "dx": 88,
+          "ecosystem": 75,
+          "maintain": 85,
+          "cost": 40,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 78,
+          "dx": 92,
+          "ecosystem": 78,
+          "maintain": 85,
+          "cost": 35,
+          "compliance": 82
+        },
+        "enterprise": {
+          "perf": 82,
+          "dx": 85,
+          "ecosystem": 72,
+          "maintain": 90,
+          "cost": 45,
+          "compliance": 90
+        }
+      }
+    },
+    "planetscale": {
+      "id": "planetscale",
+      "name": "Planetscale",
+      "category": "database",
+      "ecosystem": "universal",
+      "url": "https://planetscale.com",
+      "scores": {
+        "default": {
+          "perf": 75,
+          "dx": 95,
+          "ecosystem": 74,
+          "maintain": 50,
+          "cost": 73,
+          "compliance": 94
+        },
+        "mvp": {
+          "perf": 72,
+          "dx": 100,
+          "ecosystem": 77,
+          "maintain": 50,
+          "cost": 73,
+          "compliance": 94
+        },
+        "enterprise": {
+          "perf": 75,
+          "dx": 95,
+          "ecosystem": 69,
+          "maintain": 55,
+          "cost": 78,
+          "compliance": 100
+        }
+      }
+    },
+    "turso": {
+      "id": "turso",
+      "name": "Turso",
+      "category": "database",
+      "ecosystem": "universal",
+      "url": "https://turso.tech",
+      "scores": {
+        "default": {
+          "perf": 92,
+          "dx": 95,
+          "ecosystem": 67,
+          "maintain": 45,
+          "cost": 88,
+          "compliance": 88
+        },
+        "mvp": {
+          "perf": 89,
+          "dx": 100,
+          "ecosystem": 70,
+          "maintain": 45,
+          "cost": 88,
+          "compliance": 88
+        },
+        "enterprise": {
+          "perf": 92,
+          "dx": 95,
+          "ecosystem": 62,
+          "maintain": 50,
+          "cost": 93,
+          "compliance": 98
+        }
+      }
+    },
+    "convex": {
+      "id": "convex",
+      "name": "Convex",
+      "category": "database",
+      "ecosystem": "javascript",
+      "url": "https://convex.dev",
+      "scores": {
+        "default": {
+          "perf": 92,
+          "dx": 100,
+          "ecosystem": 41,
+          "maintain": 49,
+          "cost": 83,
+          "compliance": 83
+        },
+        "mvp": {
+          "perf": 89,
+          "dx": 100,
+          "ecosystem": 44,
+          "maintain": 49,
+          "cost": 83,
+          "compliance": 83
+        },
+        "enterprise": {
+          "perf": 92,
+          "dx": 100,
+          "ecosystem": 36,
+          "maintain": 54,
+          "cost": 88,
+          "compliance": 93
+        }
+      }
+    },
+    "timescaledb": {
+      "id": "timescaledb",
+      "name": "Timescaledb",
+      "category": "database",
+      "ecosystem": "universal",
+      "url": "https://timescale.com",
+      "scores": {
+        "default": {
+          "perf": 84,
+          "dx": 69,
+          "ecosystem": 50,
+          "maintain": 79,
+          "cost": 73,
+          "compliance": 90
+        },
+        "mvp": {
+          "perf": 81,
+          "dx": 74,
+          "ecosystem": 53,
+          "maintain": 79,
+          "cost": 73,
+          "compliance": 90
+        },
+        "enterprise": {
+          "perf": 84,
+          "dx": 69,
+          "ecosystem": 45,
+          "maintain": 84,
+          "cost": 78,
+          "compliance": 100
+        }
+      }
+    },
+    "clickhouse": {
+      "id": "clickhouse",
+      "name": "Clickhouse",
+      "category": "database",
+      "ecosystem": "universal",
+      "url": "https://clickhouse.com",
+      "scores": {
+        "default": {
+          "perf": 93,
+          "dx": 78,
+          "ecosystem": 56,
+          "maintain": 69,
+          "cost": 78,
+          "compliance": 89
+        },
+        "mvp": {
+          "perf": 90,
+          "dx": 83,
+          "ecosystem": 59,
+          "maintain": 69,
+          "cost": 78,
+          "compliance": 89
+        },
+        "enterprise": {
+          "perf": 93,
+          "dx": 78,
+          "ecosystem": 51,
+          "maintain": 74,
+          "cost": 83,
+          "compliance": 99
+        }
+      }
+    },
+    "neo4j": {
+      "id": "neo4j",
+      "name": "Neo4j",
+      "category": "database",
+      "ecosystem": "universal",
+      "url": "https://neo4j.com",
+      "scores": {
+        "default": {
+          "perf": 82,
+          "dx": 82,
+          "ecosystem": 76,
+          "maintain": 74,
+          "cost": 68,
+          "compliance": 91
+        },
+        "mvp": {
+          "perf": 79,
+          "dx": 87,
+          "ecosystem": 79,
+          "maintain": 74,
+          "cost": 68,
+          "compliance": 91
+        },
+        "enterprise": {
+          "perf": 82,
+          "dx": 82,
+          "ecosystem": 71,
+          "maintain": 79,
+          "cost": 73,
+          "compliance": 100
+        }
+      }
+    },
+    "auth0": {
+      "id": "auth0",
+      "name": "Auth0",
+      "category": "auth",
+      "ecosystem": "universal",
+      "url": "https://auth0.com",
+      "scores": {
+        "default": {
+          "perf": 97,
+          "dx": 88,
+          "ecosystem": 68,
+          "maintain": 84,
+          "cost": 54,
+          "compliance": 99
+        },
+        "mvp": {
+          "perf": 94,
+          "dx": 93,
+          "ecosystem": 71,
+          "maintain": 84,
+          "cost": 54,
+          "compliance": 99
+        },
+        "enterprise": {
+          "perf": 97,
+          "dx": 88,
+          "ecosystem": 63,
+          "maintain": 89,
+          "cost": 59,
+          "compliance": 100
+        }
+      }
+    },
+    "workos": {
+      "id": "workos",
+      "name": "WorkOS",
+      "category": "auth",
+      "ecosystem": "universal",
+      "url": "https://workos.com",
+      "scores": {
+        "default": {
+          "perf": 97,
+          "dx": 86,
+          "ecosystem": 43,
+          "maintain": 84,
+          "cost": 47,
+          "compliance": 99
+        },
+        "mvp": {
+          "perf": 94,
+          "dx": 91,
+          "ecosystem": 46,
+          "maintain": 84,
+          "cost": 47,
+          "compliance": 99
+        },
+        "enterprise": {
+          "perf": 97,
+          "dx": 86,
+          "ecosystem": 38,
+          "maintain": 89,
+          "cost": 52,
+          "compliance": 100
+        }
+      }
+    },
+    "hanko": {
+      "id": "hanko",
+      "name": "Hanko",
+      "category": "auth",
+      "ecosystem": "universal",
+      "url": "https://hanko.io",
+      "scores": {
+        "default": {
+          "perf": 85,
+          "dx": 81,
+          "ecosystem": 35,
+          "maintain": 87,
+          "cost": 87,
+          "compliance": 90
+        },
+        "mvp": {
+          "perf": 82,
+          "dx": 86,
+          "ecosystem": 38,
+          "maintain": 87,
+          "cost": 87,
+          "compliance": 90
+        },
+        "enterprise": {
+          "perf": 85,
+          "dx": 81,
+          "ecosystem": 30,
+          "maintain": 92,
+          "cost": 92,
+          "compliance": 100
+        }
+      }
+    },
+    "kinde": {
+      "id": "kinde",
+      "name": "Kinde",
+      "category": "auth",
+      "ecosystem": "universal",
+      "url": "https://kinde.com",
+      "scores": {
+        "default": {
+          "perf": 92,
+          "dx": 85,
+          "ecosystem": 38,
+          "maintain": 56,
+          "cost": 77,
+          "compliance": 92
+        },
+        "mvp": {
+          "perf": 89,
+          "dx": 90,
+          "ecosystem": 41,
+          "maintain": 56,
+          "cost": 77,
+          "compliance": 92
+        },
+        "enterprise": {
+          "perf": 92,
+          "dx": 85,
+          "ecosystem": 33,
+          "maintain": 61,
+          "cost": 82,
+          "compliance": 100
+        }
+      }
+    },
+    "solidstart": {
+      "id": "solidstart",
+      "name": "Solidstart",
+      "category": "meta-framework",
+      "ecosystem": "javascript",
+      "url": "https://start.solidjs.com",
+      "scores": {
+        "default": {
+          "perf": 50,
+          "dx": 73,
+          "ecosystem": 88,
+          "maintain": 52,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 47,
+          "dx": 78,
+          "ecosystem": 91,
+          "maintain": 52,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 50,
+          "dx": 73,
+          "ecosystem": 83,
+          "maintain": 57,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "typeorm": {
+      "id": "typeorm",
+      "name": "Typeorm",
+      "category": "orm",
+      "ecosystem": "javascript",
+      "url": "https://typeorm.io",
+      "scores": {
+        "default": {
+          "perf": 50,
+          "dx": 89,
+          "ecosystem": 100,
+          "maintain": 74,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 47,
+          "dx": 94,
+          "ecosystem": 100,
+          "maintain": 74,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 50,
+          "dx": 89,
+          "ecosystem": 95,
+          "maintain": 79,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "sequelize": {
+      "id": "sequelize",
+      "name": "Sequelize",
+      "category": "orm",
+      "ecosystem": "javascript",
+      "url": "https://sequelize.org",
+      "scores": {
+        "default": {
+          "perf": 48,
+          "dx": 67,
+          "ecosystem": 100,
+          "maintain": 49,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 45,
+          "dx": 72,
+          "ecosystem": 100,
+          "maintain": 49,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 48,
+          "dx": 67,
+          "ecosystem": 95,
+          "maintain": 54,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "netlify": {
+      "id": "netlify",
+      "name": "Netlify",
+      "category": "hosting",
+      "ecosystem": "universal",
+      "url": "https://netlify.com",
+      "scores": {
+        "default": {
+          "perf": 87,
+          "dx": 76,
+          "ecosystem": 63,
+          "maintain": 82,
+          "cost": 79,
+          "compliance": 90
+        },
+        "mvp": {
+          "perf": 84,
+          "dx": 81,
+          "ecosystem": 66,
+          "maintain": 82,
+          "cost": 79,
+          "compliance": 90
+        },
+        "enterprise": {
+          "perf": 87,
+          "dx": 76,
+          "ecosystem": 58,
+          "maintain": 87,
+          "cost": 84,
+          "compliance": 100
+        }
+      }
+    },
+    "deno-deploy": {
+      "id": "deno-deploy",
+      "name": "Deno Deploy",
+      "category": "hosting",
+      "ecosystem": "javascript",
+      "url": "https://deno.com/deploy",
+      "scores": {
+        "default": {
+          "perf": 86,
+          "dx": 73,
+          "ecosystem": 38,
+          "maintain": 77,
+          "cost": 87,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 83,
+          "dx": 78,
+          "ecosystem": 41,
+          "maintain": 77,
+          "cost": 87,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 86,
+          "dx": 73,
+          "ecosystem": 33,
+          "maintain": 82,
+          "cost": 92,
+          "compliance": 95
+        }
+      }
+    },
+    "coolify": {
+      "id": "coolify",
+      "name": "Coolify",
+      "category": "hosting",
+      "ecosystem": "universal",
+      "url": "https://coolify.io",
+      "scores": {
+        "default": {
+          "perf": 82,
+          "dx": 71,
+          "ecosystem": 33,
+          "maintain": 87,
+          "cost": 97,
+          "compliance": 90
+        },
+        "mvp": {
+          "perf": 79,
+          "dx": 76,
+          "ecosystem": 36,
+          "maintain": 87,
+          "cost": 97,
+          "compliance": 90
+        },
+        "enterprise": {
+          "perf": 82,
+          "dx": 71,
+          "ecosystem": 28,
+          "maintain": 92,
+          "cost": 100,
+          "compliance": 100
+        }
+      }
+    },
+    "rust": {
+      "id": "rust",
+      "name": "Rust",
+      "category": "backend",
+      "ecosystem": "rust",
+      "url": "https://www.rust-lang.org",
+      "scores": {
+        "default": {
+          "perf": 98,
+          "dx": 58,
+          "ecosystem": 55,
+          "maintain": 88,
+          "cost": 95,
+          "compliance": 92
+        },
+        "mvp": {
+          "perf": 95,
+          "dx": 48,
+          "ecosystem": 50,
+          "maintain": 83,
+          "cost": 95,
+          "compliance": 88
+        },
+        "enterprise": {
+          "perf": 98,
+          "dx": 62,
+          "ecosystem": 58,
+          "maintain": 92,
+          "cost": 92,
+          "compliance": 96
+        }
+      }
+    },
+    "axum": {
+      "id": "axum",
+      "name": "Axum",
+      "category": "meta-framework",
+      "ecosystem": "rust",
+      "stackType": "modular",
+      "preferredHosting": [
+        "shuttle",
+        "fly",
+        "railway"
+      ],
+      "url": "https://github.com/tokio-rs/axum",
+      "scores": {
+        "default": {
+          "perf": 96,
+          "dx": 72,
+          "ecosystem": 58,
+          "maintain": 78,
+          "cost": 95,
+          "compliance": 88
+        },
+        "mvp": {
+          "perf": 93,
+          "dx": 62,
+          "ecosystem": 52,
+          "maintain": 73,
+          "cost": 95,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 98,
+          "dx": 75,
+          "ecosystem": 62,
+          "maintain": 85,
+          "cost": 92,
+          "compliance": 95
+        }
+      }
+    },
+    "actix": {
+      "id": "actix",
+      "name": "Actix Web",
+      "category": "meta-framework",
+      "ecosystem": "rust",
+      "stackType": "modular",
+      "preferredHosting": [
+        "shuttle",
+        "fly",
+        "railway"
+      ],
+      "url": "https://actix.rs",
+      "scores": {
+        "default": {
+          "perf": 99,
+          "dx": 65,
+          "ecosystem": 62,
+          "maintain": 82,
+          "cost": 95,
+          "compliance": 88
+        },
+        "mvp": {
+          "perf": 96,
+          "dx": 55,
+          "ecosystem": 56,
+          "maintain": 77,
+          "cost": 95,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 99,
+          "dx": 68,
+          "ecosystem": 65,
+          "maintain": 88,
+          "cost": 92,
+          "compliance": 95
+        }
+      }
+    },
+    "rocket": {
+      "id": "rocket",
+      "name": "Rocket",
+      "category": "meta-framework",
+      "ecosystem": "rust",
+      "stackType": "modular",
+      "preferredHosting": [
+        "shuttle",
+        "fly",
+        "railway"
+      ],
+      "url": "https://rocket.rs",
+      "scores": {
+        "default": {
+          "perf": 92,
+          "dx": 78,
+          "ecosystem": 55,
+          "maintain": 75,
+          "cost": 95,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 89,
+          "dx": 72,
+          "ecosystem": 50,
+          "maintain": 70,
+          "cost": 95,
+          "compliance": 82
+        },
+        "enterprise": {
+          "perf": 92,
+          "dx": 80,
+          "ecosystem": 58,
+          "maintain": 82,
+          "cost": 92,
+          "compliance": 92
+        }
+      }
+    },
+    "loco": {
+      "id": "loco",
+      "name": "Loco",
+      "category": "meta-framework",
+      "ecosystem": "rust",
+      "stackType": "all-in-one",
+      "preferredHosting": [
+        "shuttle",
+        "fly",
+        "railway"
+      ],
+      "url": "https://loco.rs",
+      "provides": {
+        "orm": {
+          "techId": "sea-orm",
+          "type": "native",
+          "label": "SeaORM inclus",
+          "description": "Loco utilise SeaORM nativement pour l'acces aux donnees"
+        }
+      },
+      "scores": {
+        "default": {
+          "perf": 90,
+          "dx": 82,
+          "ecosystem": 42,
+          "maintain": 68,
+          "cost": 95,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 87,
+          "dx": 85,
+          "ecosystem": 38,
+          "maintain": 65,
+          "cost": 95,
+          "compliance": 82
+        },
+        "enterprise": {
+          "perf": 90,
+          "dx": 78,
+          "ecosystem": 45,
+          "maintain": 75,
+          "cost": 92,
+          "compliance": 92
+        }
+      }
+    },
+    "diesel": {
+      "id": "diesel",
+      "name": "Diesel",
+      "category": "orm",
+      "ecosystem": "rust",
+      "url": "https://diesel.rs",
+      "scores": {
+        "default": {
+          "perf": 98,
+          "dx": 58,
+          "ecosystem": 52,
+          "maintain": 85,
+          "cost": 100,
+          "compliance": 88
+        },
+        "mvp": {
+          "perf": 95,
+          "dx": 50,
+          "ecosystem": 48,
+          "maintain": 80,
+          "cost": 100,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 98,
+          "dx": 62,
+          "ecosystem": 55,
+          "maintain": 90,
+          "cost": 100,
+          "compliance": 95
+        }
+      }
+    },
+    "sea-orm": {
+      "id": "sea-orm",
+      "name": "SeaORM",
+      "category": "orm",
+      "ecosystem": "rust",
+      "nativeFor": [
+        "loco"
+      ],
+      "url": "https://www.sea-ql.org/SeaORM",
+      "scores": {
+        "default": {
+          "perf": 90,
+          "dx": 75,
+          "ecosystem": 48,
+          "maintain": 72,
+          "cost": 100,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 87,
+          "dx": 78,
+          "ecosystem": 45,
+          "maintain": 68,
+          "cost": 100,
+          "compliance": 82
+        },
+        "enterprise": {
+          "perf": 90,
+          "dx": 72,
+          "ecosystem": 52,
+          "maintain": 78,
+          "cost": 100,
+          "compliance": 92
+        }
+      }
+    },
+    "sqlx": {
+      "id": "sqlx",
+      "name": "SQLx",
+      "category": "orm",
+      "ecosystem": "rust",
+      "url": "https://github.com/launchbadge/sqlx",
+      "scores": {
+        "default": {
+          "perf": 95,
+          "dx": 68,
+          "ecosystem": 55,
+          "maintain": 78,
+          "cost": 100,
+          "compliance": 88
+        },
+        "mvp": {
+          "perf": 92,
+          "dx": 65,
+          "ecosystem": 50,
+          "maintain": 73,
+          "cost": 100,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 95,
+          "dx": 70,
+          "ecosystem": 58,
+          "maintain": 85,
+          "cost": 100,
+          "compliance": 95
+        }
+      }
+    },
+    "shuttle": {
+      "id": "shuttle",
+      "name": "Shuttle",
+      "category": "hosting",
+      "ecosystem": "rust",
+      "url": "https://www.shuttle.dev",
+      "scores": {
+        "default": {
+          "perf": 88,
+          "dx": 92,
+          "ecosystem": 45,
+          "maintain": 65,
+          "cost": 85,
+          "compliance": 82
+        },
+        "mvp": {
+          "perf": 85,
+          "dx": 95,
+          "ecosystem": 42,
+          "maintain": 62,
+          "cost": 88,
+          "compliance": 78
+        },
+        "enterprise": {
+          "perf": 88,
+          "dx": 88,
+          "ecosystem": 48,
+          "maintain": 72,
+          "cost": 80,
+          "compliance": 88
+        }
+      }
+    },
+    "trpc": {
+      "id": "trpc",
+      "name": "tRPC",
+      "category": "backend",
+      "ecosystem": "javascript",
+      "url": "https://trpc.io",
+      "scores": {
+        "default": {
+          "perf": 80,
+          "dx": 89,
+          "ecosystem": 99,
+          "maintain": 63,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 77,
+          "dx": 94,
+          "ecosystem": 100,
+          "maintain": 63,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 80,
+          "dx": 89,
+          "ecosystem": 94,
+          "maintain": 68,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "orpc": {
+      "id": "orpc",
+      "name": "oRPC",
+      "category": "backend",
+      "ecosystem": "javascript",
+      "url": "https://orpc.unnoq.com",
+      "scores": {
+        "default": {
+          "perf": 58,
+          "dx": 43,
+          "ecosystem": 58,
+          "maintain": 51,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 55,
+          "dx": 48,
+          "ecosystem": 61,
+          "maintain": 51,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 58,
+          "dx": 43,
+          "ecosystem": 53,
+          "maintain": 56,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "express": {
+      "id": "express",
+      "name": "Express",
+      "category": "backend",
+      "ecosystem": "javascript",
+      "url": "https://expressjs.com",
+      "scores": {
+        "default": {
+          "perf": 30,
+          "dx": 41,
+          "ecosystem": 100,
+          "maintain": 56,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 27,
+          "dx": 46,
+          "ecosystem": 100,
+          "maintain": 56,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 30,
+          "dx": 41,
+          "ecosystem": 95,
+          "maintain": 61,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "fastify": {
+      "id": "fastify",
+      "name": "Fastify",
+      "category": "backend",
+      "ecosystem": "javascript",
+      "url": "https://fastify.dev",
+      "scores": {
+        "default": {
+          "perf": 50,
+          "dx": 71,
+          "ecosystem": 100,
+          "maintain": 60,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 47,
+          "dx": 76,
+          "ecosystem": 100,
+          "maintain": 60,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 50,
+          "dx": 71,
+          "ecosystem": 95,
+          "maintain": 65,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "hono": {
+      "id": "hono",
+      "name": "Hono",
+      "category": "backend",
+      "ecosystem": "javascript",
+      "url": "https://hono.dev",
+      "scores": {
+        "default": {
+          "perf": 85,
+          "dx": 87,
+          "ecosystem": 98,
+          "maintain": 62,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 82,
+          "dx": 92,
+          "ecosystem": 100,
+          "maintain": 62,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 85,
+          "dx": 87,
+          "ecosystem": 93,
+          "maintain": 67,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "elysia": {
+      "id": "elysia",
+      "name": "Elysia",
+      "category": "backend",
+      "ecosystem": "javascript",
+      "url": "https://elysiajs.com",
+      "scores": {
+        "default": {
+          "perf": 72,
+          "dx": 97,
+          "ecosystem": 96,
+          "maintain": 76,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 69,
+          "dx": 100,
+          "ecosystem": 99,
+          "maintain": 76,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 72,
+          "dx": 97,
+          "ecosystem": 91,
+          "maintain": 81,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "tanstack-router": {
+      "id": "tanstack-router",
+      "name": "TanStack Router",
+      "category": "frontend",
+      "ecosystem": "javascript",
+      "url": "https://tanstack.com/router",
+      "scores": {
+        "default": {
+          "perf": 68,
+          "dx": 100,
+          "ecosystem": 99,
+          "maintain": 83,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 65,
+          "dx": 100,
+          "ecosystem": 100,
+          "maintain": 83,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 68,
+          "dx": 100,
+          "ecosystem": 94,
+          "maintain": 88,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "tanstack-start": {
+      "id": "tanstack-start",
+      "name": "TanStack Start",
+      "category": "meta-framework",
+      "ecosystem": "javascript",
+      "stackType": "modular",
+      "preferredHosting": [
+        "vercel",
+        "cloudflare",
+        "netlify"
+      ],
+      "url": "https://tanstack.com/start",
+      "scores": {
+        "default": {
+          "perf": 64,
+          "dx": 100,
+          "ecosystem": 99,
+          "maintain": 83,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 61,
+          "dx": 100,
+          "ecosystem": 100,
+          "maintain": 83,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 64,
+          "dx": 100,
+          "ecosystem": 94,
+          "maintain": 88,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "react-router": {
+      "id": "react-router",
+      "name": "React Router",
+      "category": "frontend",
+      "ecosystem": "javascript",
+      "url": "https://reactrouter.com",
+      "scores": {
+        "default": {
+          "perf": 77,
+          "dx": 99,
+          "ecosystem": 100,
+          "maintain": 84,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 74,
+          "dx": 100,
+          "ecosystem": 100,
+          "maintain": 84,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 77,
+          "dx": 99,
+          "ecosystem": 95,
+          "maintain": 89,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "mongoose": {
+      "id": "mongoose",
+      "name": "Mongoose",
+      "category": "orm",
+      "ecosystem": "javascript",
+      "url": "https://mongoosejs.com",
+      "scores": {
+        "default": {
+          "perf": 68,
+          "dx": 90,
+          "ecosystem": 100,
+          "maintain": 80,
+          "cost": 90,
+          "compliance": 85
+        },
+        "mvp": {
+          "perf": 65,
+          "dx": 95,
+          "ecosystem": 100,
+          "maintain": 80,
+          "cost": 90,
+          "compliance": 85
+        },
+        "enterprise": {
+          "perf": 68,
+          "dx": 90,
+          "ecosystem": 95,
+          "maintain": 85,
+          "cost": 95,
+          "compliance": 95
+        }
+      }
+    },
+    "polar": {
+      "id": "polar",
+      "name": "Polar",
+      "category": "payments",
+      "ecosystem": "universal",
+      "url": "https://polar.sh",
+      "scores": {
+        "default": {
+          "perf": 93,
+          "dx": 84,
+          "ecosystem": 49,
+          "maintain": 87,
+          "cost": 72,
+          "compliance": 83
+        },
+        "mvp": {
+          "perf": 90,
+          "dx": 89,
+          "ecosystem": 52,
+          "maintain": 87,
+          "cost": 72,
+          "compliance": 83
+        },
+        "enterprise": {
+          "perf": 93,
+          "dx": 84,
+          "ecosystem": 44,
+          "maintain": 92,
+          "cost": 77,
+          "compliance": 93
+        }
+      }
+    },
+    "cloudflare-d1": {
+      "id": "cloudflare-d1",
+      "name": "Cloudflare D1",
+      "category": "database",
+      "ecosystem": "javascript",
+      "url": "https://developers.cloudflare.com/d1",
+      "scores": {
+        "default": {
+          "perf": 84,
+          "dx": 76,
+          "ecosystem": 41,
+          "maintain": 72,
+          "cost": 93,
+          "compliance": 91
+        },
+        "mvp": {
+          "perf": 81,
+          "dx": 81,
+          "ecosystem": 44,
+          "maintain": 72,
+          "cost": 93,
+          "compliance": 91
+        },
+        "enterprise": {
+          "perf": 84,
+          "dx": 76,
+          "ecosystem": 36,
+          "maintain": 77,
+          "cost": 98,
+          "compliance": 100
+        }
+      }
+    }
+  }
 }

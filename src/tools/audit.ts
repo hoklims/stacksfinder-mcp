@@ -1054,7 +1054,7 @@ export async function executeImportBetterTStack(
     return { text };
   } catch (err) {
     if (err instanceof McpError) {
-      if (err.code === ErrorCode.VALIDATION_ERROR) {
+      if (err.code === ErrorCode.INVALID_INPUT) {
         err.suggestions = [
           "For GitHub: Use format https://github.com/owner/repo",
           "For package.json: Make sure the content is valid JSON",
