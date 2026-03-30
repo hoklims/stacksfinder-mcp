@@ -169,6 +169,10 @@ StacksFinder is compatible with **ChatGPT Developer Mode** (available on Pro, Pl
 | Streaming HTTP | ✅ Supported |
 | SSE | ❌ Not supported |
 
+## Hosted deployment
+
+A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/hoklims-stacksfinder-mcp).
+
 ## Available Tools
 
 ### Free Tools (no account required)
