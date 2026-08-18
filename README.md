@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/hoklims-stacksfinder-mcp-badge.png)](https://mseep.ai/app/hoklims-stacksfinder-mcp)
+
 # @stacksfinder/mcp-server
 
 [![npm version](https://img.shields.io/npm/v/@stacksfinder/mcp-server.svg)](https://www.npmjs.com/package/@stacksfinder/mcp-server)
